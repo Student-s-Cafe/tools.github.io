@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,18 @@
     <style>
         /* Custom CSS */
         :root {
-            --primary: #3b82f6; /* blue-500 */
-            --primary-hover: #2563eb; /* blue-600 */
-            --secondary: #10b981; /* emerald-500 */
-            --accent: #6366f1; /* indigo-500 */
-            --dark: #1e293b; /* slate-800 */
-            --light: #f8fafc; /* slate-50 */
+            --primary: #3b82f6;
+            /* blue-500 */
+            --primary-hover: #2563eb;
+            /* blue-600 */
+            --secondary: #10b981;
+            /* emerald-500 */
+            --accent: #6366f1;
+            /* indigo-500 */
+            --dark: #1e293b;
+            /* slate-800 */
+            --light: #f8fafc;
+            /* slate-50 */
         }
 
         body {
@@ -28,7 +35,8 @@
             transition: all 0.3s ease;
             transform: translateY(0);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            overflow: hidden; /* Prevent content overflow on transform */
+            overflow: hidden;
+            /* Prevent content overflow on transform */
         }
 
         .tool-card:hover {
@@ -38,7 +46,8 @@
 
         .tab-button {
             position: relative;
-            border-bottom: 3px solid transparent; /* Add transparent border for layout consistency */
+            border-bottom: 3px solid transparent;
+            /* Add transparent border for layout consistency */
         }
 
         .tab-active {
@@ -48,27 +57,44 @@
         }
 
         .text-output {
-            min-height: 150px; /* Adjusted min height */
-            background-color: #f1f5f9; /* slate-100 */
+            min-height: 150px;
+            /* Adjusted min height */
+            background-color: #f1f5f9;
+            /* slate-100 */
             border-radius: 0.375rem;
             padding: 0.75rem;
             font-family: monospace;
-            white-space: pre-wrap; /* Wrap text */
-            word-wrap: break-word; /* Break long words */
-            border: 1px solid #e2e8f0; /* slate-200 */
+            white-space: pre-wrap;
+            /* Wrap text */
+            word-wrap: break-word;
+            /* Break long words - legacy */
+            overflow-wrap: break-word;
+            /* Break long words - standard */
+            word-break: break-all;
+            /* Force break any sequence of characters */
+            border: 1px solid #e2e8f0;
+            /* slate-200 */
         }
 
         .color-preview {
             width: 100%;
             height: 40px;
             border-radius: 0.375rem;
-            border: 1px solid #e2e8f0; /* slate-200 */
+            border: 1px solid #e2e8f0;
+            /* slate-200 */
         }
 
         /* Animation for tool switching */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .fade-in {
@@ -80,30 +106,40 @@
             width: 8px;
             height: 8px;
         }
+
         ::-webkit-scrollbar-track {
-            background: #f1f5f9; /* slate-100 */
+            background: #f1f5f9;
+            /* slate-100 */
         }
+
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; /* slate-300 */
+            background: #cbd5e1;
+            /* slate-300 */
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; /* slate-400 */
+            background: #94a3b8;
+            /* slate-400 */
         }
 
         /* Utility class for simpler scrollbar hiding */
         .scrollbar-hidden::-webkit-scrollbar {
             display: none;
         }
+
         .scrollbar-hidden {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
         }
 
         /* Style for file input */
         input[type="file"] {
             display: none;
         }
+
         .file-input-label {
             cursor: pointer;
             display: inline-block;
@@ -113,29 +149,55 @@
             border-radius: 0.375rem;
             transition: background-color 0.2s ease;
         }
+
         .file-input-label:hover {
             background-color: var(--primary-hover);
         }
+
         .file-drop-zone {
-             border: 2px dashed #cbd5e1; /* slate-300 */
-             border-radius: 0.5rem;
-             padding: 2rem;
-             text-align: center;
-             margin-bottom: 1rem;
-             transition: border-color 0.2s ease, background-color 0.2s ease;
+            border: 2px dashed #cbd5e1;
+            /* slate-300 */
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
+
         .file-drop-zone.dragover {
             border-color: var(--primary);
-            background-color: #eff6ff; /* blue-50 */
+            background-color: #eff6ff;
+            /* blue-50 */
         }
 
         /* Diff styles */
-        .diff-output { font-family: monospace; white-space: pre; }
-        .diff-add { background-color: #dcfce7; color: #166534; } /* green-100 / green-800 */
-        .diff-remove { background-color: #fee2e2; color: #991b1b; text-decoration: line-through; } /* red-100 / red-800 */
+        .diff-output {
+            font-family: monospace;
+            white-space: pre-wrap; /* Allow text to wrap */
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 150px; /* Limit height to ensure scrolling */
+            background-color: #f1f5f9; /* slate-100 */
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0; /* slate-200 */
+        }
 
+        .diff-add {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        /* green-100 / green-800 */
+        .diff-remove {
+            background-color: #fee2e2;
+            color: #991b1b;
+            text-decoration: line-through;
+        }
+
+        /* red-100 / red-800 */
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -160,20 +222,25 @@
         <!-- Tool Selector Tabs -->
         <div class="mb-8 border-b border-gray-200">
             <div class="flex space-x-6 md:space-x-8 overflow-x-auto pb-0 scrollbar-hidden">
-                 <!-- Added IDs for easier selection -->
-                <button id="tab-text" onclick="switchTool('text')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center active">
+                <!-- Added IDs for easier selection -->
+                <button id="tab-text" onclick="switchTool('text')"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center active">
                     <i class="far fa-file-alt mr-2"></i> Text Tools
                 </button>
-                <button id="tab-image" onclick="switchTool('image')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-image" onclick="switchTool('image')"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="far fa-image mr-2"></i> Image Tools
                 </button>
-                <button id="tab-data" onclick="switchTool('data')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-data" onclick="switchTool('data')"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="fas fa-database mr-2"></i> Data Converters
                 </button>
-                <button id="tab-security" onclick="switchTool('security')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-security" onclick="switchTool('security')"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="fas fa-lock mr-2"></i> Security
                 </button>
-                <button id="tab-pdf" onclick="switchTool('pdf')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-pdf" onclick="switchTool('pdf')"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="far fa-file-pdf mr-2"></i> PDF Tools
                 </button>
             </div>
@@ -188,19 +255,33 @@
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Text Case Converter</h3>
-                            <button onclick="copyToClipboard(document.getElementById('case-converter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button
+                                onclick="copyToClipboard(document.getElementById('case-converter-input').value, this)"
+                                class="text-blue-500 hover:text-blue-700" title="Copy text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
-                        <textarea id="case-converter-input" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your text here..." rows="4"></textarea>
+                        <textarea id="case-converter-input"
+                            class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your text here..." rows="4"></textarea>
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <button onclick="convertCase('upper')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">UPPERCASE</button>
-                            <button onclick="convertCase('lower')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">lowercase</button>
-                            <button onclick="convertCase('title')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Title Case</button>
-                            <button onclick="convertCase('sentence')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Sentence case</button>
-                            <button onclick="convertCase('camel')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">camelCase</button>
-                            <button onclick="convertCase('pascal')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">PascalCase</button>
-                            <button onclick="convertCase('clear')" class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200 transition">Clear</button>
+                            <button onclick="convertCase('upper')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">UPPERCASE</button>
+                            <button onclick="convertCase('lower')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">lowercase</button>
+                            <button onclick="convertCase('title')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Title
+                                Case</button>
+                            <button onclick="convertCase('sentence')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Sentence
+                                case</button>
+                            <button onclick="convertCase('camel')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">camelCase</button>
+                            <button onclick="convertCase('pascal')"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">PascalCase</button>
+                            <button onclick="convertCase('clear')"
+                                class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200 transition">Clear</button>
                         </div>
                     </div>
 
@@ -208,11 +289,15 @@
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Character & Word Counter</h3>
-                             <button onclick="copyToClipboard(document.getElementById('counter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button onclick="copyToClipboard(document.getElementById('counter-input').value, this)"
+                                class="text-blue-500 hover:text-blue-700" title="Copy text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
-                        <textarea id="counter-input" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Type or paste your text here..." rows="4"></textarea>
+                        <textarea id="counter-input"
+                            class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Type or paste your text here..." rows="4"></textarea>
                         <div class="grid grid-cols-3 gap-4 text-center">
                             <div class="bg-gray-50 p-3 rounded-md">
                                 <div class="text-2xl font-bold text-blue-600" id="char-count">0</div>
@@ -233,29 +318,39 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Lorem Ipsum Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                         <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Lorem Ipsum Generator</h3>
-                            <button onclick="copyToClipboard(document.getElementById('lorem-output').textContent, this)" class="text-blue-500 hover:text-blue-700" title="Copy generated text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button onclick="copyToClipboard(document.getElementById('lorem-output').textContent, this)"
+                                class="text-blue-500 hover:text-blue-700" title="Copy generated text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label for="lorem-paragraphs" class="block text-sm font-medium text-gray-700 mb-1">Paragraphs</label>
-                                <input id="lorem-paragraphs" type="number" min="1" max="50" value="3" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                <label for="lorem-paragraphs"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Paragraphs</label>
+                                <input id="lorem-paragraphs" type="number" min="1" max="50" value="3"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
-                                <label for="lorem-sentences" class="block text-sm font-medium text-gray-700 mb-1">Sentences/Para</label>
-                                <input id="lorem-sentences" type="number" min="1" max="20" value="5" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                <label for="lorem-sentences"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Sentences/Para</label>
+                                <input id="lorem-sentences" type="number" min="1" max="20" value="5"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                             </div>
                         </div>
                         <div class="mb-4">
                             <label class="flex items-center">
-                                <input id="lorem-start" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Start with "Lorem ipsum dolor sit amet..."</span>
+                                <input id="lorem-start" type="checkbox"
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">Start with "Lorem ipsum dolor sit
+                                    amet..."</span>
                             </label>
                         </div>
-                        <button onclick="generateLoremIpsum()" class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Generate Text</button>
+                        <button onclick="generateLoremIpsum()"
+                            class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Generate
+                            Text</button>
                         <div id="lorem-output" class="text-output text-sm">Generated text will appear here...</div>
                     </div>
 
@@ -264,27 +359,37 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Text Diff Checker (Line by Line)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label for="diff-original" class="block text-sm font-medium text-gray-700 mb-1">Original Text</label>
-                                <textarea id="diff-original" class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4"></textarea>
+                                <label for="diff-original" class="block text-sm font-medium text-gray-700 mb-1">Original
+                                    Text</label>
+                                <textarea id="diff-original"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    rows="4"></textarea>
                             </div>
                             <div>
-                                <label for="diff-changed" class="block text-sm font-medium text-gray-700 mb-1">Changed Text</label>
-                                <textarea id="diff-changed" class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4"></textarea>
+                                <label for="diff-changed" class="block text-sm font-medium text-gray-700 mb-1">Changed
+                                    Text</label>
+                                <textarea id="diff-changed"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    rows="4"></textarea>
                             </div>
                         </div>
-                        <button onclick="findTextDifferences()" class="py-2 px-4 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Find Differences</button>
-                        <div id="diff-output" class="text-output text-sm diff-output">Differences will be highlighted here...</div>
+                        <button onclick="findTextDifferences()"
+                            class="py-2 px-4 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Find
+                            Differences</button>
+                        <div id="diff-output" class="text-output text-sm diff-output">Differences will be highlighted
+                            here...</div>
                     </div>
                 </div>
             </div>
 
             <!-- Image Tools (Hidden by default) -->
             <div id="image-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Image Compressor -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-compress-alt text-purple-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Image Compressor (JPG/WEBP)</h3>
@@ -298,26 +403,33 @@
                             <input type="file" id="compressor-file-input" accept="image/jpeg,image/png,image/webp">
                             <p id="compressor-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
-                         <div class="mb-4">
+                        <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
                             <div class="flex space-x-2">
                                 <label class="flex items-center">
-                                     <input type="radio" name="compressFormat" value="image/jpeg" checked class="mr-1 text-blue-600 focus:ring-blue-500"> JPG
+                                    <input type="radio" name="compressFormat" value="image/jpeg" checked
+                                        class="mr-1 text-blue-600 focus:ring-blue-500"> JPG
                                 </label>
                                 <label class="flex items-center">
-                                     <input type="radio" name="compressFormat" value="image/webp" class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP
+                                    <input type="radio" name="compressFormat" value="image/webp"
+                                        class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP
                                 </label>
                             </div>
-                         </div>
+                        </div>
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Quality: <span id="quality-value" class="font-semibold">75</span>%</label>
-                            <input type="range" min="10" max="95" value="75" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="quality-slider">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quality: <span
+                                    id="quality-value" class="font-semibold">75</span>%</label>
+                            <input type="range" min="10" max="95" value="75"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                id="quality-slider">
                             <div class="flex justify-between text-xs text-gray-500 mt-1">
                                 <span>Lower Quality</span>
                                 <span>Higher Quality</span>
                             </div>
                         </div>
-                        <button id="compress-button" onclick="compressImage()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <button id="compress-button" onclick="compressImage()"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled>
                             <i class="fas fa-compress-alt mr-2"></i> Compress Image
                         </button>
                         <div id="compressor-output" class="mt-4 text-sm"></div>
@@ -326,67 +438,83 @@
                     <!-- Image Converter -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                           <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-exchange-alt text-green-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Image Format Converter</h3>
                         </div>
-                         <div id="converter-drop-zone" class="file-drop-zone">
+                        <div id="converter-drop-zone" class="file-drop-zone">
                             <i class="far fa-image text-4xl text-green-500 mb-3"></i>
                             <p class="text-gray-600 mb-3">Drag & drop image here or</p>
-                             <label for="converter-file-input" class="file-input-label">
+                            <label for="converter-file-input" class="file-input-label">
                                 <i class="fas fa-plus mr-2"></i> Select Image
                             </label>
                             <input type="file" id="converter-file-input" accept="image/*">
-                             <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
+                            <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <button onclick="setConversionFormat('image/jpeg', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">JPG</button>
-                                <button onclick="setConversionFormat('image/png', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 active">PNG</button>
-                                <button onclick="setConversionFormat('image/webp', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">WEBP</button>
-                                <button onclick="setConversionFormat('image/gif', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">GIF</button>
+                                <button onclick="setConversionFormat('image/jpeg', this)"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">JPG</button>
+                                <button onclick="setConversionFormat('image/png', this)"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 active">PNG</button>
+                                <button onclick="setConversionFormat('image/webp', this)"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">WEBP</button>
+                                <button onclick="setConversionFormat('image/gif', this)"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">GIF</button>
                             </div>
-                            <input type="hidden" id="converter-target-format" value="image/png"> <!-- Store selected format -->
+                            <input type="hidden" id="converter-target-format" value="image/png">
+                            <!-- Store selected format -->
                         </div>
-                        <button id="convert-button" onclick="convertImage()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <button id="convert-button" onclick="convertImage()"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled>
                             <i class="fas fa-exchange-alt mr-2"></i> Convert Image
                         </button>
-                         <div id="converter-output" class="mt-4 text-sm"></div>
+                        <div id="converter-output" class="mt-4 text-sm"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Data Tools (Hidden by default) -->
             <div id="data-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- JSON to CSV -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6 flex flex-col">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-code text-yellow-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">JSON to CSV Converter</h3>
                         </div>
-                        <textarea id="json-input" class="flex-grow w-full p-3 border border-gray-300 rounded-md mb-4 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder='Paste JSON array of objects here, e.g., [{"name":"John", "age":30}, {"name":"Jane", "age":25}]' rows="6"></textarea>
+                        <textarea id="json-input"
+                            class="flex-grow w-full p-3 border border-gray-300 rounded-md mb-4 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder='Paste JSON array of objects here, e.g., [{"name":"John", "age":30}, {"name":"Jane", "age":25}]'
+                            rows="6"></textarea>
                         <div class="flex justify-between items-center mb-4 text-xs">
                             <div class="text-gray-500 flex items-center">
                                 <i class="fas fa-info-circle mr-1"></i> Accepts an array of flat objects.
                             </div>
-                             <button onclick="loadSampleJson()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs">
+                            <button onclick="loadSampleJson()"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs">
                                 <i class="fas fa-random mr-1"></i> Sample
                             </button>
                         </div>
-                        <button onclick="convertJsonToCsv()" class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        <button onclick="convertJsonToCsv()"
+                            class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                             Convert to CSV
                         </button>
                         <div class="flex items-center justify-between mb-2">
                             <label class="block text-sm font-medium text-gray-700">CSV Output</label>
-                            <button onclick="copyToClipboard(document.getElementById('csv-output').textContent, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy CSV">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button onclick="copyToClipboard(document.getElementById('csv-output').textContent, this)"
+                                class="text-blue-500 hover:text-blue-700 text-xs" title="Copy CSV">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
-                         </div>
+                        </div>
                         <div id="csv-output" class="text-output text-sm">CSV output will appear here...</div>
                         <div id="json-csv-error" class="text-red-600 text-xs mt-2"></div>
                     </div>
@@ -394,34 +522,47 @@
                     <!-- Base64 Encoder/Decoder -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-sync-alt text-indigo-600 text-xl"></i> <!-- Changed Icon -->
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Base64 Encoder/Decoder</h3>
                         </div>
                         <div class="mb-3">
-                            <label for="base64-input" class="block text-sm font-medium text-gray-700 mb-1">Input Text</label>
-                            <textarea id="base64-input" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter text to encode or Base64 to decode" rows="4"></textarea>
+                            <label for="base64-input" class="block text-sm font-medium text-gray-700 mb-1">Input
+                                Text</label>
+                            <textarea id="base64-input"
+                                class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter text to encode or Base64 to decode" rows="4"></textarea>
                         </div>
                         <div class="flex items-center justify-center mb-3">
-                             <button onclick="swapBase64()" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-600" title="Swap Input/Output">
+                            <button onclick="swapBase64()"
+                                class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-600"
+                                title="Swap Input/Output">
                                 <i class="fas fa-exchange-alt"></i>
                             </button>
                         </div>
                         <div class="mb-4">
-                             <div class="flex items-center justify-between mb-1">
-                                <label for="base64-output" class="block text-sm font-medium text-gray-700">Output</label>
-                                <button onclick="copyToClipboard(document.getElementById('base64-output').value, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy Output">
-                                    <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <div class="flex items-center justify-between mb-1">
+                                <label for="base64-output"
+                                    class="block text-sm font-medium text-gray-700">Output</label>
+                                <button onclick="copyToClipboard(document.getElementById('base64-output').value, this)"
+                                    class="text-blue-500 hover:text-blue-700 text-xs" title="Copy Output">
+                                    <i class="far fa-copy"></i> <span
+                                        class="copy-feedback hidden text-xs ml-1">Copied!</span>
                                 </button>
-                             </div>
-                            <textarea id="base64-output" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4" readonly></textarea>
+                            </div>
+                            <textarea id="base64-output"
+                                class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                rows="4" readonly></textarea>
                         </div>
-                         <div class="grid grid-cols-2 gap-3">
-                            <button onclick="base64Encode()" class="py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="base64Encode()"
+                                class="py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                 <i class="fas fa-lock mr-2"></i> Encode
                             </button>
-                            <button onclick="base64Decode()" class="py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">
+                            <button onclick="base64Decode()"
+                                class="py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">
                                 <i class="fas fa-lock-open mr-2"></i> Decode
                             </button>
                         </div>
@@ -432,24 +573,31 @@
 
             <!-- Security Tools (Hidden by default) -->
             <div id="security-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Password Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-key text-amber-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Password Generator</h3>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-center justify-between bg-gray-100 p-3 rounded-md mb-3 border border-gray-200">
-                                <span id="generated-password" class="font-mono text-sm sm:text-base break-all mr-2">Click Generate...</span>
-                                <button onclick="copyToClipboard(document.getElementById('generated-password').textContent, this)" class="text-blue-500 hover:text-blue-700 shrink-0" title="Copy Password">
-                                    <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <div
+                                class="flex items-center justify-between bg-gray-100 p-3 rounded-md mb-3 border border-gray-200">
+                                <span id="generated-password"
+                                    class="font-mono text-sm sm:text-base break-all mr-2">Click Generate...</span>
+                                <button
+                                    onclick="copyToClipboard(document.getElementById('generated-password').textContent, this)"
+                                    class="text-blue-500 hover:text-blue-700 shrink-0" title="Copy Password">
+                                    <i class="far fa-copy"></i> <span
+                                        class="copy-feedback hidden text-xs ml-1">Copied!</span>
                                 </button>
                             </div>
                             <div class="flex justify-between items-center mb-2">
-                                <label for="length-slider" class="text-sm font-medium text-gray-700">Length: <span id="password-length-display">16</span></label>
+                                <label for="length-slider" class="text-sm font-medium text-gray-700">Length: <span
+                                        id="password-length-display">16</span></label>
                                 <div id="password-strength-indicator" class="flex items-center">
                                     <span class="text-sm font-medium mr-1">Strength</span>
                                     <div class="flex">
@@ -460,7 +608,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="range" min="8" max="48" value="16" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="length-slider">
+                            <input type="range" min="8" max="48" value="16"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                id="length-slider">
                             <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
                                 <span>8</span>
                                 <span>48</span>
@@ -468,69 +618,81 @@
                         </div>
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2 mb-4">
                             <label class="flex items-center">
-                                <input id="pw-opt-upper" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <input id="pw-opt-upper" type="checkbox" checked
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <span class="ml-2 text-sm text-gray-700">Uppercase (A-Z)</span>
                             </label>
                             <label class="flex items-center">
-                                <input id="pw-opt-lower" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <input id="pw-opt-lower" type="checkbox" checked
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <span class="ml-2 text-sm text-gray-700">Lowercase (a-z)</span>
                             </label>
                             <label class="flex items-center">
-                                <input id="pw-opt-numbers" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <input id="pw-opt-numbers" type="checkbox" checked
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <span class="ml-2 text-sm text-gray-700">Numbers (0-9)</span>
                             </label>
                             <label class="flex items-center">
-                                <input id="pw-opt-symbols" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <input id="pw-opt-symbols" type="checkbox" checked
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <span class="ml-2 text-sm text-gray-700">Symbols (!@#$)</span>
                             </label>
                         </div>
-                        <button onclick="generateAndDisplayPassword()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        <button onclick="generateAndDisplayPassword()"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                             <i class="fas fa-redo mr-2"></i> Generate Password
                         </button>
                     </div>
 
                     <!-- Password Strength Checker -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                         <div class="flex items-center mb-4">
+                        <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-shield-alt text-red-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Password Strength Checker</h3>
                         </div>
                         <div class="mb-4 relative">
-                            <label for="strength-check-input" class="block text-sm font-medium text-gray-700 mb-1">Enter password to check</label>
-                            <input type="password" id="strength-check-input" class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your password...">
-                            <button type="button" onclick="togglePasswordVisibility('strength-check-input', this)" class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600">
+                            <label for="strength-check-input" class="block text-sm font-medium text-gray-700 mb-1">Enter
+                                password to check</label>
+                            <input type="password" id="strength-check-input"
+                                class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Your password...">
+                            <button type="button" onclick="togglePasswordVisibility('strength-check-input', this)"
+                                class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600">
                                 <i class="far fa-eye"></i>
                             </button>
                         </div>
                         <div id="strength-results" class="space-y-3 mb-4 hidden">
-                             <!-- Strength Bar -->
+                            <!-- Strength Bar -->
                             <div>
                                 <div class="flex justify-between items-center mb-1">
-                                     <span class="text-sm font-medium text-gray-700">Overall Strength</span>
-                                     <span id="strength-text" class="text-sm font-semibold"></span>
+                                    <span class="text-sm font-medium text-gray-700">Overall Strength</span>
+                                    <span id="strength-text" class="text-sm font-semibold"></span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div id="strength-bar-overall" class="h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                                    <div id="strength-bar-overall"
+                                        class="h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%">
+                                    </div>
                                 </div>
                             </div>
-                             <!-- Feedback -->
+                            <!-- Feedback -->
                             <div id="strength-feedback" class="text-xs text-gray-600 space-y-1">
                                 <!-- Feedback messages appear here -->
                             </div>
                         </div>
                         <div id="strength-initial-message" class="text-sm text-gray-500 mb-4">
-                           Enter a password to see its strength analysis.
+                            Enter a password to see its strength analysis.
                         </div>
-                         <button onclick="checkPasswordStrength()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        <button onclick="checkPasswordStrength()"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                             Check Strength
                         </button>
                     </div>
                 </div>
             </div>
 
-             <!-- PDF Tools (Hidden by default - Placeholders) -->
+            <!-- PDF Tools (Hidden by default - Placeholders) -->
             <div id="pdf-tool" class="tool-section hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- PDF to Word -->
@@ -544,34 +706,41 @@
                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="far fa-file-pdf text-4xl text-red-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">PDF to Word conversion requires complex processing typically done on a server.</p>
-                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
+                            <p class="text-sm text-gray-500 mb-4">PDF to Word conversion requires complex processing
+                                typically done on a server.</p>
+                            <button
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
                                 <i class="fas fa-cogs mr-2"></i> Under Development
                             </button>
                         </div>
-                         <div class="text-xs text-center text-gray-500">
-                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of PDF parsing and DOCX generation.
+                        <div class="text-xs text-center text-gray-500">
+                            This tool cannot be fully implemented using only client-side JavaScript due to the
+                            complexity of PDF parsing and DOCX generation.
                         </div>
                     </div>
 
                     <!-- PDF Merge -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mr-4 shrink-0">
+                            <div
+                                class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-object-ungroup text-blue-600 text-xl"></i> <!-- Changed icon -->
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">PDF Merger</h3>
                         </div>
-                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="far fa-file-pdf text-4xl text-blue-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">Merging PDF files accurately requires server-side processing or specialized libraries.</p>
-                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
+                            <p class="text-sm text-gray-500 mb-4">Merging PDF files accurately requires server-side
+                                processing or specialized libraries.</p>
+                            <button
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
                                 <i class="fas fa-cogs mr-2"></i> Under Development
                             </button>
                         </div>
                         <div class="text-xs text-center text-gray-500">
-                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of manipulating PDF structures.
+                            This tool cannot be fully implemented using only client-side JavaScript due to the
+                            complexity of manipulating PDF structures.
                         </div>
                     </div>
                 </div>
@@ -584,7 +753,8 @@
     <footer class="bg-slate-100 border-t border-gray-200 mt-12 py-6">
         <div class="container mx-auto px-4 text-center text-sm text-gray-600">
             © 2023 MultiTool. All rights reserved. A simple utility platform.
-            <p class="text-xs mt-1">Note: Some features like PDF manipulation are limited in this client-side-only version.</p>
+            <p class="text-xs mt-1">Note: Some features like PDF manipulation are limited in this client-side-only
+                version.</p>
         </div>
     </footer>
 
@@ -616,7 +786,7 @@
             });
         }
 
-         function togglePasswordVisibility(inputId, buttonElement) {
+        function togglePasswordVisibility(inputId, buttonElement) {
             const input = document.getElementById(inputId);
             const icon = buttonElement.querySelector('i');
             if (input.type === "password") {
@@ -653,7 +823,7 @@
             // Update active tab
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('tab-active', 'text-blue-600', 'font-semibold'); // Ensure removal of active styles
-                 button.classList.add('text-gray-500');
+                button.classList.add('text-gray-500');
             });
             const activeTabButton = document.getElementById(`tab-${toolName}`);
             if (activeTabButton) {
@@ -682,18 +852,18 @@
                     text = text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                     break;
                 case 'sentence':
-                     text = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+                    text = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
                     break;
                 case 'camel':
                     text = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-                     text = text.charAt(0).toLowerCase() + text.slice(1); // Ensure first char is lower
+                    text = text.charAt(0).toLowerCase() + text.slice(1); // Ensure first char is lower
                     break;
                 case 'pascal':
                     text = text.toLowerCase().split(/[^a-zA-Z0-9]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
                     break;
                 case 'clear':
-                     text = '';
-                     break;
+                    text = '';
+                    break;
             }
             caseConverterInput.value = text;
         }
@@ -704,7 +874,7 @@
         const lineCountEl = document.getElementById('line-count');
 
         if (counterInput) {
-            counterInput.addEventListener('input', function() {
+            counterInput.addEventListener('input', function () {
                 const text = this.value;
                 charCountEl.textContent = text.length;
                 wordCountEl.textContent = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
@@ -729,16 +899,16 @@
                 let paragraph = '';
                 if (p === 0 && startWithLorem) {
                     paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-                     // Generate remaining sentences for the first paragraph
-                     for (let s = 1; s < numSentences; s++) {
-                         paragraph += generateSentence() + " ";
-                     }
+                    // Generate remaining sentences for the first paragraph
+                    for (let s = 1; s < numSentences; s++) {
+                        paragraph += generateSentence() + " ";
+                    }
                 } else {
                     for (let s = 0; s < numSentences; s++) {
-                         paragraph += generateSentence() + " ";
-                     }
+                        paragraph += generateSentence() + " ";
+                    }
                 }
-                 result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); // Add paragraph break
+                result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); // Add paragraph break
             }
             loremOutput.textContent = result;
         }
@@ -763,10 +933,10 @@
             const text2 = diffChangedInput.value.split('\n');
             diffOutput.innerHTML = ''; // Clear previous diff
 
-             if (!diffOriginalInput.value && !diffChangedInput.value) {
-                 diffOutput.textContent = "Please enter text in both fields.";
-                 return;
-             }
+            if (!diffOriginalInput.value && !diffChangedInput.value) {
+                diffOutput.textContent = "Please enter text in both fields.";
+                return;
+            }
 
             // Basic line-by-line comparison (not a true diff algorithm)
             const maxLength = Math.max(text1.length, text2.length);
@@ -791,7 +961,7 @@
                     diffOutput.appendChild(div);
                     hasDifferences = true;
                 } else if (line1 !== line2) {
-                     // Line changed (show both)
+                    // Line changed (show both)
                     const divRemove = document.createElement('div');
                     divRemove.className = 'diff-remove';
                     divRemove.textContent = `- ${line1}`;
@@ -801,7 +971,7 @@
                     divAdd.className = 'diff-add';
                     divAdd.textContent = `+ ${line2}`;
                     diffOutput.appendChild(divAdd);
-                     hasDifferences = true;
+                    hasDifferences = true;
                 } else {
                     // Line unchanged
                     const div = document.createElement('div');
@@ -809,9 +979,9 @@
                     diffOutput.appendChild(div);
                 }
             }
-             if (!hasDifferences && (diffOriginalInput.value || diffChangedInput.value)) {
-                 diffOutput.textContent = "No differences found.";
-             }
+            if (!hasDifferences && (diffOriginalInput.value || diffChangedInput.value)) {
+                diffOutput.textContent = "No differences found.";
+            }
         }
 
 
@@ -831,7 +1001,7 @@
         const convertButton = document.getElementById('convert-button');
         const converterTargetFormatInput = document.getElementById('converter-target-format');
 
-         // Drag and Drop Setup
+        // Drag and Drop Setup
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             compressorDropZone?.addEventListener(eventName, preventDefaults, false);
             converterDropZone?.addEventListener(eventName, preventDefaults, false);
@@ -861,15 +1031,15 @@
                 handleFileSelect(files[0], 'compressor');
             }
         }
-         function handleDropConverter(e) {
+        function handleDropConverter(e) {
             let dt = e.dataTransfer;
             let files = dt.files;
-             if (files.length > 0) {
+            if (files.length > 0) {
                 handleFileSelect(files[0], 'converter');
             }
         }
 
-         // Handle file selection (both input and drop)
+        // Handle file selection (both input and drop)
         compressorFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'compressor'));
         converterFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'converter'));
 
@@ -887,7 +1057,7 @@
                 compressButton.disabled = false;
                 compressorOutput.innerHTML = ''; // Clear previous output
             } else if (type === 'converter') {
-                 if (!file.type.startsWith('image/')) {
+                if (!file.type.startsWith('image/')) {
                     alert('Please select a valid image file.');
                     converterFileInput.value = ''; // Reset input
                     return;
@@ -899,7 +1069,7 @@
             }
         }
 
-        qualitySlider?.addEventListener('input', function() {
+        qualitySlider?.addEventListener('input', function () {
             qualityValue.textContent = this.value;
         });
 
@@ -945,85 +1115,85 @@
 
 
         async function compressImage() {
-             if (!imageCompressorFile) {
-                 alert("Please select an image first.");
-                 return;
-             }
-             compressButton.disabled = true;
-             compressorOutput.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...';
+            if (!imageCompressorFile) {
+                alert("Please select an image first.");
+                return;
+            }
+            compressButton.disabled = true;
+            compressorOutput.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...';
 
-             const quality = parseInt(qualitySlider.value) / 100;
-             const format = document.querySelector('input[name="compressFormat"]:checked').value;
+            const quality = parseInt(qualitySlider.value) / 100;
+            const format = document.querySelector('input[name="compressFormat"]:checked').value;
 
-             try {
+            try {
                 const { blob } = await processImage(imageCompressorFile, { format, quality });
 
-                 const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2);
-                 const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
-                 const reduction = ((1 - blob.size / imageCompressorFile.size) * 100).toFixed(1);
-                 const downloadUrl = URL.createObjectURL(blob);
-                 const extension = format.split('/')[1]; // e.g., 'jpeg' or 'webp'
+                const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2);
+                const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
+                const reduction = ((1 - blob.size / imageCompressorFile.size) * 100).toFixed(1);
+                const downloadUrl = URL.createObjectURL(blob);
+                const extension = format.split('/')[1]; // e.g., 'jpeg' or 'webp'
 
-                 compressorOutput.innerHTML = `
+                compressorOutput.innerHTML = `
                      Original Size: ${originalSizeMB} MB<br>
                      Compressed Size: ${compressedSizeMB} MB (${reduction}% reduction)<br>
                      <a href="${downloadUrl}" download="compressed_${Date.now()}.${extension}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
                          <i class="fas fa-download mr-2"></i> Download Compressed Image
                      </a>`;
 
-             } catch (error) {
-                  console.error("Compression error:", error);
-                  compressorOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-             } finally {
-                 compressButton.disabled = false;
-             }
+            } catch (error) {
+                console.error("Compression error:", error);
+                compressorOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
+            } finally {
+                compressButton.disabled = false;
+            }
         }
 
         function setConversionFormat(format, buttonElement) {
             imageConverterFormat = format;
             converterTargetFormatInput.value = format; // Update hidden input if needed
             // Update button styles
-             document.querySelectorAll('.convert-format-btn').forEach(btn => {
-                 btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
-                 btn.classList.add('border-gray-300');
+            document.querySelectorAll('.convert-format-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
+                btn.classList.add('border-gray-300');
             });
-             buttonElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
-             buttonElement.classList.remove('border-gray-300');
+            buttonElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
+            buttonElement.classList.remove('border-gray-300');
         }
 
         async function convertImage() {
             if (!imageConverterFile) {
-                 alert("Please select an image first.");
-                 return;
-             }
-             convertButton.disabled = true;
-             converterOutput.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...';
+                alert("Please select an image first.");
+                return;
+            }
+            convertButton.disabled = true;
+            converterOutput.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...';
 
-             const targetFormat = imageConverterFormat;
-             // Quality setting is not typically used for simple format conversion unless targeting lossy formats like jpg/webp
-             const quality = (targetFormat === 'image/jpeg' || targetFormat === 'image/webp') ? 0.92 : undefined; // Use high quality default for lossy
+            const targetFormat = imageConverterFormat;
+            // Quality setting is not typically used for simple format conversion unless targeting lossy formats like jpg/webp
+            const quality = (targetFormat === 'image/jpeg' || targetFormat === 'image/webp') ? 0.92 : undefined; // Use high quality default for lossy
 
-             try {
+            try {
                 const { blob } = await processImage(imageConverterFile, { format: targetFormat, quality });
 
-                 const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
-                 const downloadUrl = URL.createObjectURL(blob);
-                 let extension = targetFormat.split('/')[1];
-                  if (extension === 'jpeg') extension = 'jpg'; // Common convention
+                const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
+                const downloadUrl = URL.createObjectURL(blob);
+                let extension = targetFormat.split('/')[1];
+                if (extension === 'jpeg') extension = 'jpg'; // Common convention
 
-                 converterOutput.innerHTML = `
+                converterOutput.innerHTML = `
                      Converted Size: ${convertedSizeMB} MB<br>
                      Format: ${extension.toUpperCase()}<br>
                      <a href="${downloadUrl}" download="converted_${Date.now()}.${extension}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
                          <i class="fas fa-download mr-2"></i> Download Converted Image
                      </a>`;
 
-             } catch (error) {
-                  console.error("Conversion error:", error);
-                  converterOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-             } finally {
-                 convertButton.disabled = false;
-             }
+            } catch (error) {
+                console.error("Conversion error:", error);
+                converterOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
+            } finally {
+                convertButton.disabled = false;
+            }
         }
 
 
@@ -1034,28 +1204,28 @@
 
         function loadSampleJson() {
             jsonInput.value = JSON.stringify([
-                {"id": 1, "name": "Alice", "email": "alice@example.com", "city": "New York"},
-                {"id": 2, "name": "Bob", "email": "bob@sample.net", "city": "London"},
-                {"id": 3, "name": "Charlie", "email": "charlie@domain.org", "city": "Paris"}
+                { "id": 1, "name": "Alice", "email": "alice@example.com", "city": "New York" },
+                { "id": 2, "name": "Bob", "email": "bob@sample.net", "city": "London" },
+                { "id": 3, "name": "Charlie", "email": "charlie@domain.org", "city": "Paris" }
             ], null, 2);
-             jsonCsvError.textContent = '';
-             csvOutput.textContent = 'CSV output will appear here...';
+            jsonCsvError.textContent = '';
+            csvOutput.textContent = 'CSV output will appear here...';
         }
 
         function convertJsonToCsv() {
-             jsonCsvError.textContent = '';
-             csvOutput.textContent = '';
+            jsonCsvError.textContent = '';
+            csvOutput.textContent = '';
             try {
                 const jsonString = jsonInput.value.trim();
                 if (!jsonString) {
-                     jsonCsvError.textContent = 'JSON input is empty.';
-                     return;
+                    jsonCsvError.textContent = 'JSON input is empty.';
+                    return;
                 }
                 const data = JSON.parse(jsonString);
 
                 if (!Array.isArray(data)) {
-                     jsonCsvError.textContent = 'Input must be a JSON array of objects.';
-                     return;
+                    jsonCsvError.textContent = 'Input must be a JSON array of objects.';
+                    return;
                 }
                 if (data.length === 0) {
                     csvOutput.textContent = 'JSON array is empty. No CSV generated.';
@@ -1069,13 +1239,13 @@
                 // Add rows
                 data.forEach(row => {
                     const values = headers.map(header => {
-                         let value = row[header];
-                         // Handle null/undefined and potential commas/newlines in values
-                         if (value === null || value === undefined) {
+                        let value = row[header];
+                        // Handle null/undefined and potential commas/newlines in values
+                        if (value === null || value === undefined) {
                             value = '';
                         } else {
-                             value = String(value);
-                             // Quote the value if it contains comma, newline, or double quote
+                            value = String(value);
+                            // Quote the value if it contains comma, newline, or double quote
                             if (value.includes(',') || value.includes('\n') || value.includes('"')) {
                                 value = `"${value.replace(/"/g, '""')}"`; // Escape double quotes
                             }
@@ -1089,7 +1259,7 @@
 
             } catch (error) {
                 console.error("JSON to CSV Error:", error);
-                 jsonCsvError.textContent = `Invalid JSON: ${error.message}`;
+                jsonCsvError.textContent = `Invalid JSON: ${error.message}`;
                 csvOutput.textContent = 'Error generating CSV.';
             }
         }
@@ -1099,34 +1269,34 @@
         const base64Error = document.getElementById('base64-error');
 
         function base64Encode() {
-             base64Error.textContent = '';
+            base64Error.textContent = '';
             try {
                 const text = base64Input.value;
                 base64Output.value = btoa(unescape(encodeURIComponent(text))); // Handle UTF-8 correctly
             } catch (error) {
-                 console.error("Base64 Encode Error:", error);
-                 base64Error.textContent = `Encoding error: ${error.message}`;
-                 base64Output.value = '';
+                console.error("Base64 Encode Error:", error);
+                base64Error.textContent = `Encoding error: ${error.message}`;
+                base64Output.value = '';
             }
         }
 
         function base64Decode() {
-             base64Error.textContent = '';
+            base64Error.textContent = '';
             try {
                 const base64 = base64Input.value.trim();
                 if (!base64) {
-                     base64Output.value = '';
-                     return;
-                 }
-                 // Basic check for valid Base64 characters - refine if needed
-                 if (!/^[A-Za-z0-9+/=]*$/.test(base64) || base64.length % 4 !== 0) {
+                    base64Output.value = '';
+                    return;
+                }
+                // Basic check for valid Base64 characters - refine if needed
+                if (!/^[A-Za-z0-9+/=]*$/.test(base64) || base64.length % 4 !== 0) {
                     throw new Error("Input is not valid Base64");
-                 }
+                }
                 base64Output.value = decodeURIComponent(escape(atob(base64))); // Handle UTF-8 correctly
             } catch (error) {
-                 console.error("Base64 Decode Error:", error);
-                 base64Error.textContent = `Decoding error: ${error.message}. Ensure input is valid Base64.`;
-                 base64Output.value = '';
+                console.error("Base64 Decode Error:", error);
+                base64Error.textContent = `Decoding error: ${error.message}. Ensure input is valid Base64.`;
+                base64Output.value = '';
             }
         }
 
@@ -1135,7 +1305,7 @@
             const outputVal = base64Output.value;
             base64Input.value = outputVal;
             base64Output.value = inputVal;
-             base64Error.textContent = ''; // Clear error on swap
+            base64Error.textContent = ''; // Clear error on swap
         }
 
 
@@ -1164,39 +1334,39 @@
         };
 
         function generatePassword(length, options) {
-             let charset = '';
-             if (options.upper) charset += charSets.upper;
-             if (options.lower) charset += charSets.lower;
-             if (options.numbers) charset += charSets.numbers;
-             if (options.symbols) charset += charSets.symbols;
+            let charset = '';
+            if (options.upper) charset += charSets.upper;
+            if (options.lower) charset += charSets.lower;
+            if (options.numbers) charset += charSets.numbers;
+            if (options.symbols) charset += charSets.symbols;
 
-             if (charset === '') {
-                 return 'Select at least one character type!';
-             }
+            if (charset === '') {
+                return 'Select at least one character type!';
+            }
 
             let password = '';
-             // Ensure at least one char from each selected set if possible and length allows
-             let guaranteedChars = '';
-             if (options.upper) guaranteedChars += charSets.upper[Math.floor(Math.random() * charSets.upper.length)];
-             if (options.lower) guaranteedChars += charSets.lower[Math.floor(Math.random() * charSets.lower.length)];
-             if (options.numbers) guaranteedChars += charSets.numbers[Math.floor(Math.random() * charSets.numbers.length)];
-             if (options.symbols) guaranteedChars += charSets.symbols[Math.floor(Math.random() * charSets.symbols.length)];
+            // Ensure at least one char from each selected set if possible and length allows
+            let guaranteedChars = '';
+            if (options.upper) guaranteedChars += charSets.upper[Math.floor(Math.random() * charSets.upper.length)];
+            if (options.lower) guaranteedChars += charSets.lower[Math.floor(Math.random() * charSets.lower.length)];
+            if (options.numbers) guaranteedChars += charSets.numbers[Math.floor(Math.random() * charSets.numbers.length)];
+            if (options.symbols) guaranteedChars += charSets.symbols[Math.floor(Math.random() * charSets.symbols.length)];
 
-             // Shuffle guaranteed characters
-             guaranteedChars = guaranteedChars.split('').sort(() => 0.5 - Math.random()).join('');
+            // Shuffle guaranteed characters
+            guaranteedChars = guaranteedChars.split('').sort(() => 0.5 - Math.random()).join('');
 
 
-             // Fill remaining length
-             const remainingLength = length - guaranteedChars.length;
-              for (let i = 0; i < remainingLength; i++) {
+            // Fill remaining length
+            const remainingLength = length - guaranteedChars.length;
+            for (let i = 0; i < remainingLength; i++) {
                 password += charset.charAt(Math.floor(Math.random() * charset.length));
             }
 
-             // Combine and shuffle guaranteed with random
-             password = (guaranteedChars + password).split('').sort(() => 0.5 - Math.random()).join('');
+            // Combine and shuffle guaranteed with random
+            password = (guaranteedChars + password).split('').sort(() => 0.5 - Math.random()).join('');
 
-             // Truncate to exact length if guaranteed chars made it longer
-             return password.slice(0, length);
+            // Truncate to exact length if guaranteed chars made it longer
+            return password.slice(0, length);
         }
 
         function updatePasswordStrengthIndicator(password) {
@@ -1212,16 +1382,16 @@
             else { strengthClass = 'bg-gray-300'; text = 'Very Weak'; }
 
 
-             // Update bars based on score
+            // Update bars based on score
             bars.forEach((bar, index) => {
-                 bar.className = 'strength-bar w-3 h-1 mx-px rounded-full '; // Reset
+                bar.className = 'strength-bar w-3 h-1 mx-px rounded-full '; // Reset
                 if (score >= (index + 1) * 25) { // 25, 50, 75, 100
                     bar.classList.add(strengthClass);
                 } else {
-                     bar.classList.add('bg-gray-300');
+                    bar.classList.add('bg-gray-300');
                 }
-             });
-             // Could add a text label next to bars if desired:
+            });
+            // Could add a text label next to bars if desired:
             // passwordStrengthIndicatorEl.querySelector('span').textContent = text;
         }
 
@@ -1235,11 +1405,11 @@
                 symbols: pwOptSymbols.checked
             };
 
-             if (!options.upper && !options.lower && !options.numbers && !options.symbols) {
-                 generatedPasswordEl.textContent = 'Select options!';
-                  updatePasswordStrengthIndicator('');
-                 return;
-             }
+            if (!options.upper && !options.lower && !options.numbers && !options.symbols) {
+                generatedPasswordEl.textContent = 'Select options!';
+                updatePasswordStrengthIndicator('');
+                return;
+            }
 
             const newPassword = generatePassword(length, options);
             generatedPasswordEl.textContent = newPassword;
@@ -1247,15 +1417,15 @@
         }
 
         if (lengthSliderEl) {
-            lengthSliderEl.addEventListener('input', function() {
+            lengthSliderEl.addEventListener('input', function () {
                 passwordLengthDisplayEl.textContent = this.value;
-                 // Optionally regenerate on slider move, or wait for button click
-                 generateAndDisplayPassword(); // Regenerate on slide
+                // Optionally regenerate on slider move, or wait for button click
+                generateAndDisplayPassword(); // Regenerate on slide
             });
-             // Add event listeners to checkboxes to regenerate password
-             [pwOptUpper, pwOptLower, pwOptNumbers, pwOptSymbols].forEach(el => {
-                 el?.addEventListener('change', generateAndDisplayPassword);
-             });
+            // Add event listeners to checkboxes to regenerate password
+            [pwOptUpper, pwOptLower, pwOptNumbers, pwOptSymbols].forEach(el => {
+                el?.addEventListener('change', generateAndDisplayPassword);
+            });
         }
 
         // Simple Password Strength Scoring Heuristic
@@ -1263,8 +1433,8 @@
             let score = 0;
             if (!password) return 0;
 
-             // Length bonus
-             score += Math.min(password.length * 3, 40); // Max 40 points for length (e.g., up to ~13 chars)
+            // Length bonus
+            score += Math.min(password.length * 3, 40); // Max 40 points for length (e.g., up to ~13 chars)
 
             // Character type bonus
             let types = 0;
@@ -1273,19 +1443,19 @@
             if (/[0-9]/.test(password)) { types++; score += 10; }
             if (/[^A-Za-z0-9]/.test(password)) { types++; score += 15; } // Symbols more bonus
 
-             // Bonus for multiple types
+            // Bonus for multiple types
             if (types > 2) score += types * 5; // Extra points for complexity
 
-             // Penalty for only one type (simple passwords)
-             if (types === 1 && password.length < 12) score -= 10;
+            // Penalty for only one type (simple passwords)
+            if (types === 1 && password.length < 12) score -= 10;
 
-             // Penalty for very short passwords regardless of complexity
-             if (password.length < 8) score = Math.max(0, score - 20);
+            // Penalty for very short passwords regardless of complexity
+            if (password.length < 8) score = Math.max(0, score - 20);
 
             return Math.max(0, Math.min(100, Math.round(score))); // Clamp score between 0 and 100
         }
 
-         function getPasswordFeedback(password, score) {
+        function getPasswordFeedback(password, score) {
             const feedback = [];
             const length = password.length;
 
@@ -1316,7 +1486,7 @@
             if (/(.)\1{2,}/.test(password)) feedback.push({ text: "⚠️ Avoid easily guessable repeating characters.", type: 'warn' });
 
             // Simple sequential check (e.g., 'abc', '123') - very simple
-             if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/.test(password.toLowerCase())) feedback.push({ text: "⚠️ Avoid sequential letters.", type: 'warn' });
+            if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/.test(password.toLowerCase())) feedback.push({ text: "⚠️ Avoid sequential letters.", type: 'warn' });
             if (/123|234|345|456|567|678|789|890/.test(password)) feedback.push({ text: "⚠️ Avoid sequential numbers.", type: 'warn' });
 
             return feedback;
@@ -1328,57 +1498,57 @@
             strengthInitialMessageEl.classList.add('hidden');
 
             if (!password) {
-                 strengthInitialMessageEl.textContent = "Please enter a password to check.";
-                 strengthInitialMessageEl.classList.remove('hidden');
-                 return;
-             }
+                strengthInitialMessageEl.textContent = "Please enter a password to check.";
+                strengthInitialMessageEl.classList.remove('hidden');
+                return;
+            }
 
-             const score = calculatePasswordScore(password);
-             const feedbackItems = getPasswordFeedback(password, score);
+            const score = calculatePasswordScore(password);
+            const feedbackItems = getPasswordFeedback(password, score);
 
-             // Update Bar
-             let strengthClass = 'bg-red-500'; // Default weak
-             let strengthText = 'Very Weak';
-             if (score >= 80) { strengthClass = 'bg-green-500'; strengthText = 'Very Strong'; }
-             else if (score >= 60) { strengthClass = 'bg-emerald-500'; strengthText = 'Strong'; }
-             else if (score >= 40) { strengthClass = 'bg-yellow-500'; strengthText = 'Medium'; }
-             else if (score > 0) { strengthClass = 'bg-red-500'; strengthText = 'Weak'; }
+            // Update Bar
+            let strengthClass = 'bg-red-500'; // Default weak
+            let strengthText = 'Very Weak';
+            if (score >= 80) { strengthClass = 'bg-green-500'; strengthText = 'Very Strong'; }
+            else if (score >= 60) { strengthClass = 'bg-emerald-500'; strengthText = 'Strong'; }
+            else if (score >= 40) { strengthClass = 'bg-yellow-500'; strengthText = 'Medium'; }
+            else if (score > 0) { strengthClass = 'bg-red-500'; strengthText = 'Weak'; }
 
-             strengthBarOverallEl.style.width = `${score}%`;
-             strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; // Apply color class
-             strengthTextEl.textContent = strengthText;
-             strengthTextEl.className = `text-sm font-semibold ${strengthClass.replace('bg-', 'text-').replace('-500', '-600')}`; // Match text color roughly
+            strengthBarOverallEl.style.width = `${score}%`;
+            strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; // Apply color class
+            strengthTextEl.textContent = strengthText;
+            strengthTextEl.className = `text-sm font-semibold ${strengthClass.replace('bg-', 'text-').replace('-500', '-600')}`; // Match text color roughly
 
-             // Update Feedback List
-             strengthFeedbackEl.innerHTML = ''; // Clear previous feedback
-             feedbackItems.forEach(item => {
-                 const p = document.createElement('p');
-                 p.textContent = item.text;
-                 if (item.type === 'bad') p.classList.add('text-red-600');
-                 else if (item.type === 'warn') p.classList.add('text-amber-600');
-                 else if (item.type === 'good') p.classList.add('text-green-600');
-                 else p.classList.add('text-gray-600');
-                 strengthFeedbackEl.appendChild(p);
-             });
+            // Update Feedback List
+            strengthFeedbackEl.innerHTML = ''; // Clear previous feedback
+            feedbackItems.forEach(item => {
+                const p = document.createElement('p');
+                p.textContent = item.text;
+                if (item.type === 'bad') p.classList.add('text-red-600');
+                else if (item.type === 'warn') p.classList.add('text-amber-600');
+                else if (item.type === 'good') p.classList.add('text-green-600');
+                else p.classList.add('text-gray-600');
+                strengthFeedbackEl.appendChild(p);
+            });
 
-             strengthResultsEl.classList.remove('hidden'); // Show the results section
+            strengthResultsEl.classList.remove('hidden'); // Show the results section
         }
 
         // --- Initial Setup ---
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Set text tool as active by default if no hash exists
-             if (!window.location.hash) {
-                 switchTool('text'); // Ensure text is default
+            if (!window.location.hash) {
+                switchTool('text'); // Ensure text is default
             } else {
-                 // Allow linking directly to a tool, e.g., index.html#image
-                 const toolFromHash = window.location.hash.substring(1);
-                 const validTools = ['text', 'image', 'data', 'security', 'pdf'];
-                 if (validTools.includes(toolFromHash)) {
-                     switchTool(toolFromHash);
-                 } else {
-                      switchTool('text'); // Fallback to default
-                 }
-             }
+                // Allow linking directly to a tool, e.g., index.html#image
+                const toolFromHash = window.location.hash.substring(1);
+                const validTools = ['text', 'image', 'data', 'security', 'pdf'];
+                if (validTools.includes(toolFromHash)) {
+                    switchTool(toolFromHash);
+                } else {
+                    switchTool('text'); // Fallback to default
+                }
+            }
 
             // Initialize counter if text is already present (e.g., from browser cache)
             if (counterInput && counterInput.value) {
@@ -1386,28 +1556,29 @@
             }
 
             // Initialize password generator display
-             if (lengthSliderEl) {
-                 passwordLengthDisplayEl.textContent = lengthSliderEl.value;
-                 generateAndDisplayPassword(); // Generate initial password
-             }
-             // Set initial active button style for converter
-             setConversionFormat('image/png', document.querySelector('.convert-format-btn.active')); // Select PNG default visually
+            if (lengthSliderEl) {
+                passwordLengthDisplayEl.textContent = lengthSliderEl.value;
+                generateAndDisplayPassword(); // Generate initial password
+            }
+            // Set initial active button style for converter
+            setConversionFormat('image/png', document.querySelector('.convert-format-btn.active')); // Select PNG default visually
 
-             // Add listener to password strength input
-             strengthCheckInput?.addEventListener('input', checkPasswordStrength);
+            // Add listener to password strength input
+            strengthCheckInput?.addEventListener('input', checkPasswordStrength);
 
         });
 
-         // Update tool based on hash changes
-         window.addEventListener('hashchange', () => {
+        // Update tool based on hash changes
+        window.addEventListener('hashchange', () => {
             const toolFromHash = window.location.hash.substring(1);
             const validTools = ['text', 'image', 'data', 'security', 'pdf'];
-             if (validTools.includes(toolFromHash)) {
-                 switchTool(toolFromHash);
-             }
-         });
+            if (validTools.includes(toolFromHash)) {
+                switchTool(toolFromHash);
+            }
+        });
 
 
     </script>
 </body>
+
 </html>
