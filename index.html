@@ -125,7 +125,7 @@
         <!-- Tool Selector Tabs -->
         <div class="mb-8 border-b border-gray-200">
             <div class="flex space-x-6 md:space-x-8 overflow-x-auto pb-0 scrollbar-hidden">
-                <!-- Added IDs for easier selection -->
+                 <!-- Added IDs for easier selection -->
                 <button id="tab-text" onclick="switchTool('text')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center active">
                     <i class="far fa-file-alt mr-2"></i> Text Tools
                 </button>
@@ -176,7 +176,7 @@
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Character, Word & Reading Time</h3>
-                            <button onclick="copyToClipboard(document.getElementById('counter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
+                             <button onclick="copyToClipboard(document.getElementById('counter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
                                 <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
@@ -199,7 +199,7 @@
                             <div class="bg-gray-50 p-3 rounded-md">
                                 <div class="text-lg sm:text-xl font-bold text-blue-600" id="reading-time">0m 0s</div>
                                 <div class="text-sm text-gray-500">Reading Time</div>
-                            </div>
+                        </div>
                         </div>
                         <p class="text-xs text-gray-500 mt-2 text-center">Reading time based on an average of 200 WPM.</p>
                     </div>
@@ -208,7 +208,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Lorem Ipsum Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center justify-between mb-4">
+                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Lorem Ipsum Generator</h3>
                             <button onclick="copyToClipboard(document.getElementById('lorem-output').textContent, this)" class="text-blue-500 hover:text-blue-700" title="Copy generated text">
                                 <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
@@ -273,20 +273,20 @@
                             <input type="file" id="compressor-file-input" accept="image/jpeg,image/png,image/webp">
                             <p id="compressor-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
-                        <div class="mb-4">
+                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
                             <div class="flex space-x-2">
                                 <label class="flex items-center">
-                                    <input type="radio" name="compressFormat" value="image/jpeg" checked class="mr-1 text-blue-600 focus:ring-blue-500"> JPG
+                                     <input type="radio" name="compressFormat" value="image/jpeg" checked class="mr-1 text-blue-600 focus:ring-blue-500"> JPG
                                 </label>
                                  <label class="flex items-center">
                                     <input type="radio" name="compressFormat" value="image/png" class="mr-1 text-blue-600 focus:ring-blue-500"> PNG
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="radio" name="compressFormat" value="image/webp" class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP
+                                     <input type="radio" name="compressFormat" value="image/webp" class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP
                                 </label>
                             </div>
-                        </div>
+                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Quality (JPG/WEBP only): <span id="quality-value" class="font-semibold">75</span>%</label>
                             <input type="range" min="10" max="95" value="75" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="quality-slider">
@@ -304,19 +304,19 @@
                     <!-- Image Converter -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
+                           <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-exchange-alt text-green-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Image Format Converter</h3>
                         </div>
-                        <div id="converter-drop-zone" class="file-drop-zone">
+                         <div id="converter-drop-zone" class="file-drop-zone">
                             <i class="far fa-image text-4xl text-green-500 mb-3"></i>
                             <p class="text-gray-600 mb-3">Drag & drop image here or</p>
-                            <label for="converter-file-input" class="file-input-label">
+                             <label for="converter-file-input" class="file-input-label">
                                 <i class="fas fa-plus mr-2"></i> Select Image
                             </label>
                             <input type="file" id="converter-file-input" accept="image/*">
-                            <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
+                             <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
@@ -332,7 +332,7 @@
                         <button id="convert-button" onclick="convertImage()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             <i class="fas fa-exchange-alt mr-2"></i> Convert Image
                         </button>
-                        <div id="converter-output" class="mt-4 text-sm"></div>
+                         <div id="converter-output" class="mt-4 text-sm"></div>
                     </div>
                 </div>
             </div>
@@ -400,7 +400,7 @@
                             <div class="text-gray-500 flex items-center">
                                 <i class="fas fa-info-circle mr-1"></i> Accepts an array of flat objects.
                             </div>
-                            <button onclick="loadSampleJson()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs">
+                             <button onclick="loadSampleJson()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs">
                                 <i class="fas fa-random mr-1"></i> Sample
                             </button>
                         </div>
@@ -408,22 +408,22 @@
                             Convert to CSV
                         </button>
                         <div class="flex items-center justify-between mb-2">
-                             <label class="block text-sm font-medium text-gray-700">CSV Output</label>
+                            <label class="block text-sm font-medium text-gray-700">CSV Output</label>
                             <button onclick="copyToClipboard(document.getElementById('csv-output').textContent, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy CSV">
                                 <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
-                        </div>
+                         </div>
                         <div id="csv-output" class="text-output text-sm">CSV output will appear here...</div>
                         <div id="json-csv-error" class="text-red-600 text-xs mt-2"></div>
                     </div>
 
                     <!-- Base64 Encoder/Decoder -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
+                        <div class="flex items-center mb-4">
+                             <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-sync-alt text-indigo-600 text-xl"></i> <!-- Changed Icon -->
                             </div>
-                             <h3 class="text-lg font-semibold text-gray-800">Base64 Encoder/Decoder</h3>
+                            <h3 class="text-lg font-semibold text-gray-800">Base64 Encoder/Decoder</h3>
                         </div>
                         <div class="mb-3">
                             <label for="base64-input" class="block text-sm font-medium text-gray-700 mb-1">Input Text</label>
@@ -435,15 +435,15 @@
                             </button>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-center justify-between mb-1">
+                             <div class="flex items-center justify-between mb-1">
                                 <label for="base64-output" class="block text-sm font-medium text-gray-700">Output</label>
                                 <button onclick="copyToClipboard(document.getElementById('base64-output').value, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy Output">
-                                     <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                                    <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
                                 </button>
-                            </div>
+                             </div>
                             <textarea id="base64-output" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4" readonly></textarea>
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
+                         <div class="grid grid-cols-2 gap-3">
                             <button onclick="base64Encode()" class="py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                 <i class="fas fa-lock mr-2"></i> Encode
                             </button>
@@ -458,11 +458,11 @@
 
             <!-- Security Tools (Hidden by default) -->
             <div id="security-tool" class="tool-section hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <!-- Password Generator -->
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Password Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
+                             <div class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-key text-amber-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Password Generator</h3>
@@ -477,7 +477,7 @@
                             <div class="flex justify-between items-center mb-2">
                                 <label for="length-slider" class="text-sm font-medium text-gray-700">Length: <span id="password-length-display">16</span></label>
                                 <div id="password-strength-indicator" class="flex items-center">
-                                     <span class="text-sm font-medium mr-1">Strength</span>
+                                    <span class="text-sm font-medium mr-1">Strength</span>
                                     <div class="flex">
                                         <div class="strength-bar w-3 h-1 bg-gray-300 mx-px rounded-full"></div>
                                         <div class="strength-bar w-3 h-1 bg-gray-300 mx-px rounded-full"></div>
@@ -487,7 +487,7 @@
                                 </div>
                             </div>
                             <input type="range" min="8" max="48" value="16" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="length-slider">
-                             <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
                                 <span>8</span>
                                 <span>48</span>
                             </div>
@@ -510,44 +510,44 @@
                                 <span class="ml-2 text-sm text-gray-700">Symbols (!@#$)</span>
                             </label>
                         </div>
-                         <button onclick="generateAndDisplayPassword()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        <button onclick="generateAndDisplayPassword()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                             <i class="fas fa-redo mr-2"></i> Generate Password
                         </button>
                     </div>
 
-                     <!-- Password Strength Checker -->
-                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                        <div class="flex items-center mb-4">
+                    <!-- Password Strength Checker -->
+                    <div class="tool-card bg-white rounded-xl shadow-sm p-6">
+                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="fas fa-shield-alt text-red-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Password Strength Checker</h3>
                         </div>
-                         <div class="mb-4 relative">
+                        <div class="mb-4 relative">
                             <label for="strength-check-input" class="block text-sm font-medium text-gray-700 mb-1">Enter password to check</label>
                             <input type="password" id="strength-check-input" class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your password...">
-                             <button type="button" onclick="togglePasswordVisibility('strength-check-input', this)" class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600">
+                            <button type="button" onclick="togglePasswordVisibility('strength-check-input', this)" class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600">
                                 <i class="far fa-eye"></i>
                             </button>
                         </div>
                         <div id="strength-results" class="space-y-3 mb-4 hidden">
-                            <!-- Strength Bar -->
+                             <!-- Strength Bar -->
                             <div>
                                 <div class="flex justify-between items-center mb-1">
-                                    <span class="text-sm font-medium text-gray-700">Overall Strength</span>
-                                    <span id="strength-text" class="text-sm font-semibold"></span>
+                                     <span class="text-sm font-medium text-gray-700">Overall Strength</span>
+                                     <span id="strength-text" class="text-sm font-semibold"></span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2">
                                     <div id="strength-bar-overall" class="h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
                                 </div>
                             </div>
-                            <!-- Feedback -->
+                             <!-- Feedback -->
                             <div id="strength-feedback" class="text-xs text-gray-600 space-y-1">
                                 <!-- Feedback messages appear here -->
                             </div>
                         </div>
                         <div id="strength-initial-message" class="text-sm text-gray-500 mb-4">
-                            Enter a password to see its strength analysis.
+                           Enter a password to see its strength analysis.
                         </div>
                          <button onclick="checkPasswordStrength()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                             Check Strength
@@ -556,13 +556,13 @@
                 </div>
             </div>
 
-            <!-- PDF Tools (Hidden by default - Placeholders) -->
+             <!-- PDF Tools (Hidden by default - Placeholders) -->
             <div id="pdf-tool" class="tool-section hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- PDF to Word -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
+                            <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
                                 <i class="far fa-file-word text-red-600 text-xl"></i>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">PDF to Word Converter</h3>
@@ -571,12 +571,12 @@
                             <i class="far fa-file-pdf text-4xl text-red-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
                             <p class="text-sm text-gray-500 mb-4">PDF to Word conversion requires complex processing typically done on a server.</p>
-                            <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
+                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
                                 <i class="fas fa-cogs mr-2"></i> Under Development
                             </button>
                         </div>
                          <div class="text-xs text-center text-gray-500">
-                            This tool cannot be fully implemented using only client-side JavaScript due to the complexity of PDF parsing and DOCX generation.
+                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of PDF parsing and DOCX generation.
                         </div>
                     </div>
 
@@ -588,7 +588,7 @@
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">PDF Merger</h3>
                         </div>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
+                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="far fa-file-pdf text-4xl text-blue-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
                             <p class="text-sm text-gray-500 mb-4">Merging PDF files accurately requires server-side processing or specialized libraries.</p>
@@ -597,7 +597,7 @@
                             </button>
                         </div>
                         <div class="text-xs text-center text-gray-500">
-                            This tool cannot be fully implemented using only client-side JavaScript due to the complexity of manipulating PDF structures.
+                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of manipulating PDF structures.
                         </div>
                     </div>
                 </div>
@@ -644,7 +644,7 @@
             });
         }
 
-        function togglePasswordVisibility(inputId, buttonElement) {
+         function togglePasswordVisibility(inputId, buttonElement) {
             const input = document.getElementById(inputId);
             const icon = buttonElement.querySelector('i');
             if (input.type === "password") {
@@ -681,7 +681,7 @@
             // Update active tab
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('tab-active', 'text-blue-600', 'font-semibold'); // Ensure removal of active styles
-                button.classList.add('text-gray-500');
+                 button.classList.add('text-gray-500');
                 button.classList.remove('active'); // Remove generic active class if present
             });
             const activeTabButton = document.getElementById(`tab-${toolName}`);
@@ -732,8 +732,8 @@
                                .join('');
                     break;
                 case 'clear':
-                    text = '';
-                    break;
+                     text = '';
+                     break;
             }
             caseConverterInput.value = text;
         }
@@ -747,11 +747,15 @@
         if (counterInput) {
             counterInput.addEventListener('input', function () {
                 const text = this.value;
-                const words = text.trim() === '' ? [] : text.trim().split(/\s+/);
-                const wordCount = words.length;
-
+                
+                // Count characters (including Chinese characters)
                 charCountEl.textContent = text.length;
+
+                // Count words (supports both space-separated and non-space-separated languages like Chinese)
+                const wordCount = countWords(text);
                 wordCountEl.textContent = wordCount;
+
+                // Count lines
                 lineCountEl.textContent = text === '' ? 0 : (text.match(/\n/g) || []).length + 1;
 
                 // Calculate Reading Time
@@ -764,6 +768,23 @@
                     readingTimeEl.textContent = `${minutes}m ${seconds}s`;
                 }
             });
+        }
+
+        // New helper function to count words (supports Chinese and other languages)
+        function countWords(text) {
+            if (!text.trim()) return 0;
+
+            // For Chinese/Japanese/Korean (CJK) characters, count each non-punctuation character as a word
+            // Exclude punctuation ranges: \u3000-\u303f (CJK symbols and punctuation), \uff00-\uffef (Halfwidth and Fullwidth Forms)
+            const cjkRegex = /[\u4e00-\u9fff\u3400-\u4dbf\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g;
+            const cjkMatches = text.match(cjkRegex) || [];
+            const cjkWordCount = cjkMatches.length;
+
+            // For other languages, split by whitespace and count non-empty segments
+            const otherWords = text.replace(cjkRegex, '').trim().split(/\s+/).filter(word => word.length > 0);
+            const otherWordCount = otherWords.length;
+
+            return cjkWordCount + otherWordCount;
         }
 
         const loremOutput = document.getElementById('lorem-output');
@@ -785,13 +806,13 @@
                 if (p === 0 && startWithLorem) {
                     paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
                     sentenceCount -= 1; // Account for the first fixed sentence
-                }
+                     }
 
                 for (let s = 0; s < sentenceCount; s++) {
-                     paragraph += generateSentence() + " ";
-                 }
+                         paragraph += generateSentence() + " ";
+                     }
 
-                result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); // Add paragraph break
+                 result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); // Add paragraph break
             }
             loremOutput.textContent = result;
         }
@@ -816,10 +837,10 @@
             const text2 = diffChangedInput.value.split('\n');
             diffOutput.innerHTML = ''; // Clear previous diff
 
-            if (!diffOriginalInput.value && !diffChangedInput.value) {
-                diffOutput.textContent = "Please enter text in both fields.";
-                return;
-            }
+             if (!diffOriginalInput.value && !diffChangedInput.value) {
+                 diffOutput.textContent = "Please enter text in both fields.";
+                 return;
+             }
 
             // Basic line-by-line comparison (not a true diff algorithm)
             // Simple implementation: uses Myers diff algorithm concept (longest common subsequence)
@@ -920,7 +941,7 @@
             // Render the diff
             let hasDifferences = false;
             diffResult.forEach(item => {
-                const div = document.createElement('div');
+                    const div = document.createElement('div');
                 if (item.type === 'add') {
                     div.className = 'diff-add';
                     div.textContent = `+ ${item.line}`;
@@ -928,18 +949,18 @@
                 } else if (item.type === 'remove') {
                     div.className = 'diff-remove';
                     div.textContent = `- ${item.line}`;
-                    hasDifferences = true;
+                     hasDifferences = true;
                 } else { // common
                     div.textContent = `  ${item.line}`;
                 }
                 diffOutput.appendChild(div);
             });
 
-            if (!hasDifferences && (diffOriginalInput.value || diffChangedInput.value)) {
-                diffOutput.textContent = "No differences found.";
+             if (!hasDifferences && (diffOriginalInput.value || diffChangedInput.value)) {
+                 diffOutput.textContent = "No differences found.";
             } else if (diffResult.length === 0 && (!diffOriginalInput.value && !diffChangedInput.value)) {
                  diffOutput.textContent = "Differences will be highlighted here..."; // Reset placeholder if empty
-            }
+             }
         }
 
 
@@ -959,7 +980,7 @@
         const convertButton = document.getElementById('convert-button');
         const converterTargetFormatInput = document.getElementById('converter-target-format');
 
-        // Drag and Drop Setup
+         // Drag and Drop Setup
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             compressorDropZone?.addEventListener(eventName, preventDefaults, false);
             converterDropZone?.addEventListener(eventName, preventDefaults, false);
@@ -989,15 +1010,15 @@
                 handleFileSelect(files[0], 'compressor');
             }
         }
-        function handleDropConverter(e) {
+         function handleDropConverter(e) {
             let dt = e.dataTransfer;
             let files = dt.files;
-            if (files.length > 0) {
+             if (files.length > 0) {
                 handleFileSelect(files[0], 'converter');
             }
         }
 
-        // Handle file selection (both input and drop)
+         // Handle file selection (both input and drop)
         compressorFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'compressor'));
         converterFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'converter'));
 
@@ -1018,12 +1039,12 @@
                 compressorOutput.innerHTML = ''; // Clear previous output
             } else if (type === 'converter') {
                  if (!file.type.startsWith('image/')) {
-                     alert('Please select a valid image file.');
-                     converterFileInput.value = ''; // Reset input
+                    alert('Please select a valid image file.');
+                    converterFileInput.value = ''; // Reset input
                      converterFileName.textContent = '';
                      convertButton.disabled = true;
-                     return;
-                 }
+                    return;
+                }
                 imageConverterFile = file;
                 converterFileName.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
                 convertButton.disabled = false;
@@ -1111,14 +1132,14 @@
                         } catch (error) {
                             console.error("Canvas toDataURL error:", error);
                              // Fallback for formats canvas might not support directly
-                             if (options.format === 'image/gif' && file.type === 'image/gif') {
-                                 console.warn("GIF conversion might lose animation. Returning original blob.");
+                            if (options.format === 'image/gif' && file.type === 'image/gif') {
+                                console.warn("GIF conversion might lose animation. Returning original blob.");
                                  resolve({ dataUrl: event.target.result, blob: file, actualFormat: file.type }); // return original if converting TO gif from gif
                              } else if (options.format === 'image/bmp' ) {
                                   console.warn("BMP conversion via canvas might not be supported. Returning original blob if input is BMP.");
                                    if(file.type === 'image/bmp'){
                                        resolve({ dataUrl: event.target.result, blob: file, actualFormat: file.type });
-                                   } else {
+                            } else {
                                        reject(`Error converting image to ${options.format}: ${error.message}. Format may not be supported by browser canvas.`);
                                    }
                              }
@@ -1137,32 +1158,32 @@
 
 
         async function compressImage() {
-            if (!imageCompressorFile) {
-                alert("Please select an image first.");
-                return;
-            }
-            compressButton.disabled = true;
+             if (!imageCompressorFile) {
+                 alert("Please select an image first.");
+                 return;
+             }
+             compressButton.disabled = true;
             compressButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...';
             compressorOutput.innerHTML = '';
 
-            const format = document.querySelector('input[name="compressFormat"]:checked').value;
+             const format = document.querySelector('input[name="compressFormat"]:checked').value;
             // Quality only applies to JPEG/WEBP
             const quality = (format === 'image/jpeg' || format === 'image/webp') ? parseInt(qualitySlider.value) / 100 : undefined;
 
 
-            try {
+             try {
                 const { blob, actualFormat } = await processImage(imageCompressorFile, { format, quality });
 
-                const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2);
-                const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
+                 const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2);
+                 const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
                 const reduction = imageCompressorFile.size > 0 ? ((1 - blob.size / imageCompressorFile.size) * 100).toFixed(1) : 0;
-                const downloadUrl = URL.createObjectURL(blob);
+                 const downloadUrl = URL.createObjectURL(blob);
                  // Determine extension based on the *actual* blob type returned
                  let extension = actualFormat.split('/')[1];
                  if (extension === 'jpeg') extension = 'jpg';
 
 
-                compressorOutput.innerHTML = `
+                 compressorOutput.innerHTML = `
                      Original Size: ${originalSizeMB} MB (${imageCompressorFile.type})<br>
                      Compressed Size: ${compressedSizeMB} MB (${actualFormat})<br>
                      ${reduction >= 0 ? `Reduction: ${reduction}%<br>` : `Increase: ${Math.abs(reduction)}%<br>`}
@@ -1170,52 +1191,52 @@
                          <i class="fas fa-download mr-2"></i> Download Compressed Image
                      </a>`;
 
-            } catch (error) {
-                console.error("Compression error:", error);
-                compressorOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-            } finally {
-                compressButton.disabled = false;
+             } catch (error) {
+                  console.error("Compression error:", error);
+                  compressorOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
+             } finally {
+                 compressButton.disabled = false;
                 compressButton.innerHTML = '<i class="fas fa-compress-alt mr-2"></i> Compress Image';
-            }
+             }
         }
 
         function setConversionFormat(format, buttonElement) {
             imageConverterFormat = format;
             converterTargetFormatInput.value = format; // Update hidden input if needed
             // Update button styles
-            document.querySelectorAll('.convert-format-btn').forEach(btn => {
-                btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
+             document.querySelectorAll('.convert-format-btn').forEach(btn => {
+                 btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
                 btn.classList.add('border-gray-300', 'hover:bg-gray-50'); // Ensure hover state is re-added
             });
-            buttonElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
+             buttonElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
             buttonElement.classList.remove('border-gray-300', 'hover:bg-gray-50');
         }
 
         async function convertImage() {
             if (!imageConverterFile) {
-                alert("Please select an image first.");
-                return;
-            }
-            convertButton.disabled = true;
+                 alert("Please select an image first.");
+                 return;
+             }
+             convertButton.disabled = true;
             convertButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...';
             converterOutput.innerHTML = '';
 
-            const targetFormat = imageConverterFormat;
+             const targetFormat = imageConverterFormat;
             // Quality setting is optional, use a high default for lossy formats if needed
             const quality = (targetFormat === 'image/jpeg' || targetFormat === 'image/webp') ? 0.92 : undefined;
 
-            try {
+             try {
                 const { blob, actualFormat } = await processImage(imageConverterFile, { format: targetFormat, quality });
 
-                const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
-                const downloadUrl = URL.createObjectURL(blob);
+                 const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
+                 const downloadUrl = URL.createObjectURL(blob);
                 // Determine extension based on the *actual* blob type returned
                 let extension = actualFormat.split('/')[1];
                 if (extension === 'jpeg') extension = 'jpg';
                 if (extension === 'svg+xml') extension = 'svg';
 
 
-                converterOutput.innerHTML = `
+                 converterOutput.innerHTML = `
                      Converted Size: ${convertedSizeMB} MB<br>
                      Format: ${extension.toUpperCase()}<br>
                      ${actualFormat !== targetFormat ? `<span class="text-orange-600 text-xs">Note: Browser converted to ${actualFormat} instead of requested ${targetFormat}.</span><br>` : ''}
@@ -1223,13 +1244,13 @@
                          <i class="fas fa-download mr-2"></i> Download Converted Image
                      </a>`;
 
-            } catch (error) {
-                console.error("Conversion error:", error);
-                converterOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-            } finally {
-                convertButton.disabled = false;
+             } catch (error) {
+                  console.error("Conversion error:", error);
+                  converterOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
+             } finally {
+                 convertButton.disabled = false;
                 convertButton.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Convert Image';
-            }
+             }
         }
 
 
@@ -1244,26 +1265,26 @@
                 { "id": 2, "name": "Bob", "email": "bob@sample.net", "city": "London" },
                 { "id": 3, "name": "Charlie", "email": "charlie@domain.org", "city": "Paris", "notes": "Has comma, needs quoting" }
             ], null, 2);
-            jsonCsvError.textContent = '';
-            csvOutput.textContent = 'CSV output will appear here...';
+             jsonCsvError.textContent = '';
+             csvOutput.textContent = 'CSV output will appear here...';
         }
 
         function convertJsonToCsv() {
-            jsonCsvError.textContent = '';
+             jsonCsvError.textContent = '';
             csvOutput.textContent = ''; // Clear previous output
             try {
                 const jsonString = jsonInput.value.trim();
                 if (!jsonString) {
-                    jsonCsvError.textContent = 'JSON input is empty.';
+                     jsonCsvError.textContent = 'JSON input is empty.';
                      csvOutput.textContent = 'CSV output will appear here...'; // Reset placeholder
-                    return;
+                     return;
                 }
                 const data = JSON.parse(jsonString);
 
                 if (!Array.isArray(data)) {
-                    jsonCsvError.textContent = 'Input must be a JSON array of objects.';
+                     jsonCsvError.textContent = 'Input must be a JSON array of objects.';
                      csvOutput.textContent = 'Error generating CSV.';
-                    return;
+                     return;
                 }
                 if (data.length === 0) {
                     csvOutput.textContent = 'JSON array is empty. No CSV generated.';
@@ -1299,11 +1320,11 @@
                     const values = headers.map(header => {
                         let value = row.hasOwnProperty(header) ? row[header] : ''; // Handle missing properties
                         // Handle null/undefined and potential commas/newlines/quotes in values
-                        if (value === null || value === undefined) {
+                         if (value === null || value === undefined) {
                             value = '';
                         } else {
-                            value = String(value);
-                            // Quote the value if it contains comma, newline, or double quote
+                             value = String(value);
+                             // Quote the value if it contains comma, newline, or double quote
                             if (value.includes(',') || value.includes('\n') || value.includes('"')) {
                                 value = `"${value.replace(/"/g, '""')}"`; // Escape double quotes
                             }
@@ -1327,7 +1348,7 @@
         const base64Error = document.getElementById('base64-error');
 
         function base64Encode() {
-            base64Error.textContent = '';
+             base64Error.textContent = '';
             try {
                 const text = base64Input.value;
                 // Correctly handle UTF-8 characters before encoding
@@ -1335,20 +1356,20 @@
                 const binaryString = String.fromCharCode(...utf8Bytes);
                 base64Output.value = btoa(binaryString);
             } catch (error) {
-                console.error("Base64 Encode Error:", error);
-                base64Error.textContent = `Encoding error: ${error.message}`;
-                base64Output.value = '';
+                 console.error("Base64 Encode Error:", error);
+                 base64Error.textContent = `Encoding error: ${error.message}`;
+                 base64Output.value = '';
             }
         }
 
         function base64Decode() {
-            base64Error.textContent = '';
+             base64Error.textContent = '';
             try {
                 const base64 = base64Input.value.trim().replace(/\s/g, ''); // Remove whitespace
                 if (!base64) {
-                    base64Output.value = '';
-                    return;
-                }
+                     base64Output.value = '';
+                     return;
+                 }
                 // Basic check for valid Base64 characters + padding check
                  if (!/^[A-Za-z0-9+/]*=?=?$/.test(base64) || base64.length % 4 !== 0) {
                     throw new Error("Input is not valid Base64 encoding.");
@@ -1360,14 +1381,14 @@
                 base64Output.value = new TextDecoder().decode(bytes);
 
             } catch (error) {
-                console.error("Base64 Decode Error:", error);
+                 console.error("Base64 Decode Error:", error);
                 // Check for specific DOMException for invalid characters
                  if (error instanceof DOMException && error.name === 'InvalidCharacterError') {
                      base64Error.textContent = `Decoding error: Input contains invalid Base64 characters.`;
                  } else {
-                    base64Error.textContent = `Decoding error: ${error.message}. Ensure input is valid Base64.`;
+                 base64Error.textContent = `Decoding error: ${error.message}. Ensure input is valid Base64.`;
                  }
-                base64Output.value = '';
+                 base64Output.value = '';
             }
         }
 
@@ -1376,7 +1397,7 @@
             const outputVal = base64Output.value;
             base64Input.value = outputVal;
             base64Output.value = inputVal;
-            base64Error.textContent = ''; // Clear error on swap
+             base64Error.textContent = ''; // Clear error on swap
         }
 
 
@@ -1405,16 +1426,16 @@
         };
 
         function generatePassword(length, options) {
-            let charset = '';
+             let charset = '';
             const includedSets = [];
             if (options.upper) { charset += charSets.upper; includedSets.push(charSets.upper); }
             if (options.lower) { charset += charSets.lower; includedSets.push(charSets.lower); }
             if (options.numbers) { charset += charSets.numbers; includedSets.push(charSets.numbers); }
             if (options.symbols) { charset += charSets.symbols; includedSets.push(charSets.symbols); }
 
-            if (charset === '') {
-                return 'Select at least one character type!';
-            }
+             if (charset === '') {
+                 return 'Select at least one character type!';
+             }
 
             let password = '';
             // Ensure at least one char from each selected set if length allows
@@ -1428,9 +1449,9 @@
             }
 
 
-            // Fill remaining length
+             // Fill remaining length
             const remainingLength = length - password.length;
-            for (let i = 0; i < remainingLength; i++) {
+              for (let i = 0; i < remainingLength; i++) {
                 password += charset.charAt(Math.floor(Math.random() * charset.length));
             }
 
@@ -1456,10 +1477,10 @@
                  bar.className = 'strength-bar w-3 h-1 mx-px rounded-full '; // Reset
                  if (score >= (index + 1) * 25) {
                      bar.classList.add(strengthClass); // Use the determined class
-                 } else {
+                } else {
                      bar.classList.add('bg-gray-300');
-                 }
-            });
+                }
+             });
         }
 
 
@@ -1472,11 +1493,11 @@
                 symbols: pwOptSymbols.checked
             };
 
-            if (!options.upper && !options.lower && !options.numbers && !options.symbols) {
-                generatedPasswordEl.textContent = 'Select options!';
-                updatePasswordStrengthIndicator('');
-                return;
-            }
+             if (!options.upper && !options.lower && !options.numbers && !options.symbols) {
+                 generatedPasswordEl.textContent = 'Select options!';
+                  updatePasswordStrengthIndicator('');
+                 return;
+             }
 
             const newPassword = generatePassword(length, options);
             generatedPasswordEl.textContent = newPassword;
@@ -1486,13 +1507,13 @@
         if (lengthSliderEl) {
             lengthSliderEl.addEventListener('input', function () {
                 passwordLengthDisplayEl.textContent = this.value;
-                // Optionally regenerate on slider move, or wait for button click
-                generateAndDisplayPassword(); // Regenerate on slide
+                 // Optionally regenerate on slider move, or wait for button click
+                 generateAndDisplayPassword(); // Regenerate on slide
             });
-            // Add event listeners to checkboxes to regenerate password
-            [pwOptUpper, pwOptLower, pwOptNumbers, pwOptSymbols].forEach(el => {
-                el?.addEventListener('change', generateAndDisplayPassword);
-            });
+             // Add event listeners to checkboxes to regenerate password
+             [pwOptUpper, pwOptLower, pwOptNumbers, pwOptSymbols].forEach(el => {
+                 el?.addEventListener('change', generateAndDisplayPassword);
+             });
         }
 
         // Simple Password Strength Scoring Heuristic
@@ -1509,10 +1530,10 @@
 
 
              // Bonus for character types
-             let types = 0;
-             if (/[A-Z]/.test(password)) { types++; score += 10; }
+            let types = 0;
+            if (/[A-Z]/.test(password)) { types++; score += 10; }
              if (/[a-z]/.test(password)) { types++; score += 5; } // slightly less bonus
-             if (/[0-9]/.test(password)) { types++; score += 10; }
+            if (/[0-9]/.test(password)) { types++; score += 10; }
              if (/[^A-Za-z0-9]/.test(password)) { types++; score += 15; } // symbols highest bonus
 
 
@@ -1535,7 +1556,7 @@
             return Math.max(0, Math.min(100, Math.round(score))); // Clamp score between 0 and 100
         }
 
-        function getPasswordFeedback(password, score) {
+         function getPasswordFeedback(password, score) {
             const feedback = [];
             const length = password.length;
 
@@ -1580,20 +1601,20 @@
 
             if (!password) {
                 strengthInitialMessageEl.textContent = "Enter a password to see its strength analysis.";
-                strengthInitialMessageEl.classList.remove('hidden');
+                 strengthInitialMessageEl.classList.remove('hidden');
                 // Reset strength bar and text if input is cleared
                  strengthBarOverallEl.style.width = `0%`;
                  strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out bg-gray-200`;
                  strengthTextEl.textContent = '';
-                return;
-            }
+                 return;
+             }
 
-            const score = calculatePasswordScore(password);
-            const feedbackItems = getPasswordFeedback(password, score);
+             const score = calculatePasswordScore(password);
+             const feedbackItems = getPasswordFeedback(password, score);
 
-            // Update Bar
-            let strengthClass = 'bg-red-500'; // Default weak
-            let strengthText = 'Very Weak';
+             // Update Bar
+             let strengthClass = 'bg-red-500'; // Default weak
+             let strengthText = 'Very Weak';
              if (score >= 80) { strengthClass = 'bg-green-500'; strengthText = 'Very Strong'; }
              else if (score >= 60) { strengthClass = 'bg-emerald-500'; strengthText = 'Strong'; }
              else if (score >= 40) { strengthClass = 'bg-yellow-500'; strengthText = 'Medium'; }
@@ -1601,44 +1622,44 @@
              else { strengthClass = 'bg-red-500'; } // Score of 0 is still very weak
 
 
-            strengthBarOverallEl.style.width = `${score}%`;
-            strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; // Apply color class
-            strengthTextEl.textContent = strengthText;
+             strengthBarOverallEl.style.width = `${score}%`;
+             strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; // Apply color class
+             strengthTextEl.textContent = strengthText;
             // Match text color roughly - ensure fallback if class structure changes
             const textColorClass = strengthClass.replace('bg-', 'text-') + (strengthClass.includes('500') ? '-600' : ''); //e.g. bg-red-500 -> text-red-600
             strengthTextEl.className = `text-sm font-semibold ${textColorClass}`;
 
 
-            // Update Feedback List
-            strengthFeedbackEl.innerHTML = ''; // Clear previous feedback
+             // Update Feedback List
+             strengthFeedbackEl.innerHTML = ''; // Clear previous feedback
             const feedbackTypeOrder = { 'bad': 1, 'warn': 2, 'good': 3 }; // Sort feedback: bad first
             feedbackItems.sort((a, b) => (feedbackTypeOrder[a.type] || 99) - (feedbackTypeOrder[b.type] || 99));
 
-            feedbackItems.forEach(item => {
-                const p = document.createElement('p');
-                p.textContent = item.text;
-                if (item.type === 'bad') p.classList.add('text-red-600');
-                else if (item.type === 'warn') p.classList.add('text-amber-600');
-                else if (item.type === 'good') p.classList.add('text-green-600');
-                else p.classList.add('text-gray-600');
-                strengthFeedbackEl.appendChild(p);
-            });
+             feedbackItems.forEach(item => {
+                 const p = document.createElement('p');
+                 p.textContent = item.text;
+                 if (item.type === 'bad') p.classList.add('text-red-600');
+                 else if (item.type === 'warn') p.classList.add('text-amber-600');
+                 else if (item.type === 'good') p.classList.add('text-green-600');
+                 else p.classList.add('text-gray-600');
+                 strengthFeedbackEl.appendChild(p);
+             });
 
-            strengthResultsEl.classList.remove('hidden'); // Show the results section
+             strengthResultsEl.classList.remove('hidden'); // Show the results section
         }
 
         // --- Initial Setup ---
         document.addEventListener('DOMContentLoaded', function () {
              const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf']; // Added 'audio'
-             const toolFromHash = window.location.hash.substring(1);
+                 const toolFromHash = window.location.hash.substring(1);
 
             // Set initial tool based on hash or default to 'text'
-            if (validTools.includes(toolFromHash)) {
-                 switchTool(toolFromHash);
-            } else {
+                 if (validTools.includes(toolFromHash)) {
+                     switchTool(toolFromHash);
+                 } else {
                 switchTool('text'); // Ensure text is default visually and functionally
                 window.location.hash = 'text'; // Set hash to default if invalid or missing
-            }
+             }
 
 
             // Initialize counter if text is already present (e.g., from browser cache)
@@ -1647,10 +1668,10 @@
             }
 
             // Initialize password generator display
-            if (lengthSliderEl) {
-                passwordLengthDisplayEl.textContent = lengthSliderEl.value;
-                generateAndDisplayPassword(); // Generate initial password
-            }
+             if (lengthSliderEl) {
+                 passwordLengthDisplayEl.textContent = lengthSliderEl.value;
+                 generateAndDisplayPassword(); // Generate initial password
+             }
              // Set initial active button style for image converter
              const activeFormatButton = document.querySelector('.convert-format-btn.active') || document.querySelector('.convert-format-btn'); // Fallback to first button
             if(activeFormatButton) {
@@ -1659,7 +1680,7 @@
 
 
             // Add listener to password strength input for real-time feedback
-            strengthCheckInput?.addEventListener('input', checkPasswordStrength);
+             strengthCheckInput?.addEventListener('input', checkPasswordStrength);
              // Trigger check once on load if there's existing input (e.g. browser autofill)
              if (strengthCheckInput && strengthCheckInput.value) {
                   checkPasswordStrength();
@@ -1669,17 +1690,17 @@
         });
 
         // Update tool based on hash changes (e.g., back/forward buttons)
-        window.addEventListener('hashchange', () => {
+         window.addEventListener('hashchange', () => {
              const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf']; // Added 'audio'
             const toolFromHash = window.location.hash.substring(1);
             if (validTools.includes(toolFromHash) && toolFromHash !== currentTool) {
-                switchTool(toolFromHash);
+                 switchTool(toolFromHash);
             } else if (!validTools.includes(toolFromHash)){
                  // If hash is invalid, switch to default and update hash
                 switchTool('text');
                 window.location.hash = 'text';
-            }
-        });
+             }
+         });
 
     </script>
 </body>
