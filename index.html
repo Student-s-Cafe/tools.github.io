@@ -6,17 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MultiTool | All-in-One Web Utility Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="./icon.ico" type="image/x-icon">
+    <link rel="icon" href="./icon.ico" type="image/x-icon"> <!-- Assuming you have an icon.ico file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Custom CSS */
         :root {
-            --primary: #3b82f6; /* blue-500 */
-            --primary-hover: #2563eb; /* blue-600 */
-            --secondary: #10b981; /* emerald-500 */
-            --accent: #6366f1; /* indigo-500 */
-            --dark: #1e293b; /* slate-800 */
-            --light: #f8fafc; /* slate-50 */
+            --primary: #3b82f6;
+            /* blue-500 */
+            --primary-hover: #2563eb;
+            /* blue-600 */
+            --secondary: #10b981;
+            /* emerald-500 */
+            --accent: #6366f1;
+            /* indigo-500 */
+            --dark: #1e293b;
+            /* slate-800 */
+            --light: #f8fafc;
+            /* slate-50 */
         }
 
         body {
@@ -29,7 +35,8 @@
             transition: all 0.3s ease;
             transform: translateY(0);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            overflow: hidden; /* Prevent content overflow on transform */
+            overflow: hidden;
+            /* Prevent content overflow on transform */
         }
 
         .tool-card:hover {
@@ -39,7 +46,8 @@
 
         .tab-button {
             position: relative;
-            border-bottom: 3px solid transparent; /* Add transparent border for layout consistency */
+            border-bottom: 3px solid transparent;
+            /* Add transparent border for layout consistency */
         }
 
         .tab-active {
@@ -49,55 +57,202 @@
         }
 
         .text-output {
-            min-height: 150px; /* Adjusted min height */
-            background-color: #f1f5f9; /* slate-100 */
+            min-height: 150px;
+            /* Adjusted min height */
+            background-color: #f1f5f9;
+            /* slate-100 */
             border-radius: 0.375rem;
             padding: 0.75rem;
             font-family: monospace;
-            white-space: pre-wrap; /* Wrap text */
-            word-wrap: break-word; /* Break long words - legacy */
-            overflow-wrap: break-word; /* Break long words - standard */
-            word-break: break-all; /* Force break any sequence of characters */
-            border: 1px solid #e2e8f0; /* slate-200 */
-            overflow-y: auto; /* Added scroll for long content */
-            max-height: 300px; /* Added max-height */
+            white-space: pre-wrap;
+            /* Wrap text */
+            word-wrap: break-word;
+            /* Break long words - legacy */
+            overflow-wrap: break-word;
+            /* Break long words - standard */
+            word-break: break-all;
+            /* Force break any sequence of characters */
+            border: 1px solid #e2e8f0;
+            /* slate-200 */
+            overflow-y: auto;
+            /* Added scroll for long content */
+            max-height: 300px;
+            /* Added max-height */
         }
 
         .color-preview {
             width: 100%;
             height: 40px;
             border-radius: 0.375rem;
-            border: 1px solid #e2e8f0; /* slate-200 */
+            border: 1px solid #e2e8f0;
+            /* slate-200 */
         }
 
         /* Animation for tool switching */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
 
         /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; /* slate-100 */ }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; /* slate-300 */ }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; /* slate-400 */ }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-        .scrollbar-hidden::-webkit-scrollbar { display: none; }
-        .scrollbar-hidden { -ms-overflow-style: none; scrollbar-width: none; /* Firefox */ }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            /* slate-100 */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+            /* slate-300 */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+            /* slate-400 */
+        }
+
+        .scrollbar-hidden::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hidden {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            /* Firefox */
+        }
 
         /* Style for file input */
-        input[type="file"] { display: none; }
-        .file-input-label { cursor: pointer; display: inline-block; padding: 0.5rem 1rem; background-color: var(--primary); color: white; border-radius: 0.375rem; transition: background-color 0.2s ease; }
-        .file-input-label:hover { background-color: var(--primary-hover); }
+        input[type="file"] {
+            display: none;
+        }
 
-        .file-drop-zone { border: 2px dashed #cbd5e1; border-radius: 0.5rem; padding: 2rem; text-align: center; margin-bottom: 1rem; transition: border-color 0.2s ease, background-color 0.2s ease; /* slate-300 */ }
-        .file-drop-zone.dragover { border-color: var(--primary); background-color: #eff6ff; /* blue-50 */ }
+        .file-input-label {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .file-input-label:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .file-drop-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            /* slate-300 */
+        }
+
+        .file-drop-zone.dragover {
+            border-color: var(--primary);
+            background-color: #eff6ff;
+            /* blue-50 */
+        }
 
         /* Diff styles */
-        .diff-output { font-family: monospace; white-space: pre-wrap; /* Allow text to wrap */ overflow-y: auto; /* Enable vertical scrolling */ max-height: 150px; /* Limit height to ensure scrolling */ background-color: #f1f5f9; /* slate-100 */ border-radius: 0.375rem; padding: 0.75rem; border: 1px solid #e2e8f0; /* slate-200 */ }
-        .diff-add { background-color: #dcfce7; color: #166534; } /* green-100 / green-800 */
-        .diff-remove { background-color: #fee2e2; color: #991b1b; text-decoration: line-through; } /* red-100 / red-800 */
+        .diff-output {
+            font-family: monospace;
+            white-space: pre-wrap;
+            /* Allow text to wrap */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+            max-height: 150px;
+            /* Limit height to ensure scrolling */
+            background-color: #f1f5f9;
+            /* slate-100 */
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            /* slate-200 */
+        }
+
+        .diff-add {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        /* green-100 / green-800 */
+        .diff-remove {
+            background-color: #fee2e2;
+            color: #991b1b;
+            text-decoration: line-through;
+        }
+
+        /* red-100 / red-800 */
+
+        /* Range slider styles */
+        input[type=range].audio-slider {
+            height: 6px;
+            cursor: pointer;
+            appearance: none;
+            width: 100%;
+            background: #d1d5db;
+            border-radius: 9999px;
+            outline: none;
+            transition: background 0.2s ease;
+        }
+
+        input[type=range].audio-slider:hover {
+            background: #9ca3af;
+        }
+
+        input[type=range].audio-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        input[type=range].audio-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s ease;
+        }
+
+        input[type=range].audio-slider:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        input[type=range].audio-slider:disabled::-webkit-slider-thumb {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        input[type=range].audio-slider:disabled::-moz-range-thumb {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -112,7 +267,6 @@
                     </div>
                     <h1 class="text-2xl font-bold text-blue-600">MultiTool</h1>
                 </div>
-                <!-- Mobile Menu Button (optional functionality) -->
                 <button class="md:hidden text-gray-700">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
@@ -125,50 +279,68 @@
         <!-- Tool Selector Tabs -->
         <div class="mb-8 border-b border-gray-200">
             <div class="flex space-x-6 md:space-x-8 overflow-x-auto pb-0 scrollbar-hidden">
-                 <!-- Added IDs for easier selection -->
-                <button id="tab-text" onclick="switchTool('text')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center active">
+                <button id="tab-text" data-tool="text"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center active">
                     <i class="far fa-file-alt mr-2"></i> Text Tools
                 </button>
-                <button id="tab-image" onclick="switchTool('image')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-image" data-tool="image"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="far fa-image mr-2"></i> Image Tools
                 </button>
-                <button id="tab-audio" onclick="switchTool('audio')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-audio" data-tool="audio"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="fas fa-volume-up mr-2"></i> Audio Tools
                 </button>
-                <button id="tab-data" onclick="switchTool('data')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-data" data-tool="data"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="fas fa-database mr-2"></i> Data Converters
                 </button>
-                <button id="tab-security" onclick="switchTool('security')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-security" data-tool="security"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="fas fa-lock mr-2"></i> Security
                 </button>
-                <button id="tab-pdf" onclick="switchTool('pdf')" class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
+                <button id="tab-pdf" data-tool="pdf"
+                    class="tab-button px-1 py-3 font-medium text-gray-500 hover:text-blue-600 whitespace-nowrap transition flex items-center">
                     <i class="far fa-file-pdf mr-2"></i> PDF Tools
                 </button>
             </div>
         </div>
 
         <!-- Tool Content -->
-        <div id="tool-content" class="fade-in">
-            <!-- Text Tools (Default) -->
+        <div id="tool-content"> <!-- Removed fade-in here, apply in JS -->
+            <!-- Text Tools -->
             <div id="text-tool" class="tool-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <!-- Text Case Converter -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Text Case Converter</h3>
-                            <button onclick="copyToClipboard(document.getElementById('case-converter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button class="text-blue-500 hover:text-blue-700 copy-button"
+                                data-target="case-converter-input" title="Copy text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
-                        <textarea id="case-converter-input" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter your text here..." rows="4"></textarea>
+                        <textarea id="case-converter-input"
+                            class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your text here..." rows="4"></textarea>
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <button onclick="convertCase('upper')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">UPPERCASE</button>
-                            <button onclick="convertCase('lower')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">lowercase</button>
-                            <button onclick="convertCase('title')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Title Case</button>
-                            <button onclick="convertCase('sentence')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Sentence case</button>
-                            <button onclick="convertCase('camel')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">camelCase</button>
-                            <button onclick="convertCase('pascal')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">PascalCase</button>
-                            <button onclick="convertCase('clear')" class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200 transition">Clear</button>
+                            <button data-case-type="upper"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">UPPERCASE</button>
+                            <button data-case-type="lower"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">lowercase</button>
+                            <button data-case-type="title"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Title
+                                Case</button>
+                            <button data-case-type="sentence"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">Sentence
+                                case</button>
+                            <button data-case-type="camel"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">camelCase</button>
+                            <button data-case-type="pascal"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm hover:bg-blue-200 transition">PascalCase</button>
+                            <button data-case-type="clear"
+                                class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200 transition">Clear</button>
                         </div>
                     </div>
 
@@ -176,12 +348,15 @@
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Character, Word & Reading Time</h3>
-                             <button onclick="copyToClipboard(document.getElementById('counter-input').value, this)" class="text-blue-500 hover:text-blue-700" title="Copy text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button class="text-blue-500 hover:text-blue-700 copy-button" data-target="counter-input"
+                                title="Copy text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
-                        <textarea id="counter-input" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Type or paste your text here..." rows="4"></textarea>
-                        <!-- Updated Grid -->
+                        <textarea id="counter-input"
+                            class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Type or paste your text here..." rows="4"></textarea>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                             <div class="bg-gray-50 p-3 rounded-md">
                                 <div class="text-2xl font-bold text-blue-600" id="char-count">0</div>
@@ -195,42 +370,44 @@
                                 <div class="text-2xl font-bold text-blue-600" id="line-count">0</div>
                                 <div class="text-sm text-gray-500">Lines</div>
                             </div>
-                            <!-- New Reading Time Element -->
                             <div class="bg-gray-50 p-3 rounded-md">
                                 <div class="text-lg sm:text-xl font-bold text-blue-600" id="reading-time">0m 0s</div>
                                 <div class="text-sm text-gray-500">Reading Time</div>
+                            </div>
                         </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2 text-center">Reading time based on an average of 200 WPM.</p>
+                        <p class="text-xs text-gray-500 mt-2 text-center">Reading time based on an average of 200 WPM.
+                        </p>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Lorem Ipsum Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                         <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Lorem Ipsum Generator</h3>
-                            <button onclick="copyToClipboard(document.getElementById('lorem-output').textContent, this)" class="text-blue-500 hover:text-blue-700" title="Copy generated text">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            <button class="text-blue-500 hover:text-blue-700 copy-button" data-target="lorem-output"
+                                title="Copy generated text">
+                                <i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span>
                             </button>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label for="lorem-paragraphs" class="block text-sm font-medium text-gray-700 mb-1">Paragraphs</label>
-                                <input id="lorem-paragraphs" type="number" min="1" max="50" value="3" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                            <div><label for="lorem-paragraphs"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Paragraphs</label><input
+                                    id="lorem-paragraphs" type="number" min="1" max="50" value="3"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                             </div>
-                            <div>
-                                <label for="lorem-sentences" class="block text-sm font-medium text-gray-700 mb-1">Sentences/Para</label>
-                                <input id="lorem-sentences" type="number" min="1" max="20" value="5" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                            <div><label for="lorem-sentences"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Sentences/Para</label><input
+                                    id="lorem-sentences" type="number" min="1" max="20" value="5"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="flex items-center">
-                                <input id="lorem-start" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Start with "Lorem ipsum dolor sit amet..."</span>
-                            </label>
-                        </div>
-                        <button onclick="generateLoremIpsum()" class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Generate Text</button>
+                        <div class="mb-4"><label class="flex items-center"><input id="lorem-start" type="checkbox"
+                                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span
+                                    class="ml-2 text-sm text-gray-700">Start with "Lorem ipsum..."</span></label></div>
+                        <button id="generate-lorem-button"
+                            class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Generate
+                            Text</button>
                         <div id="lorem-output" class="text-output text-sm">Generated text will appear here...</div>
                     </div>
 
@@ -238,246 +415,265 @@
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Text Diff Checker (Line by Line)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label for="diff-original" class="block text-sm font-medium text-gray-700 mb-1">Original Text</label>
-                                <textarea id="diff-original" class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4"></textarea>
-                            </div>
-                            <div>
-                                <label for="diff-changed" class="block text-sm font-medium text-gray-700 mb-1">Changed Text</label>
-                                <textarea id="diff-changed" class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4"></textarea>
-                            </div>
+                            <div><label for="diff-original"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Original Text</label><textarea
+                                    id="diff-original"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    rows="4"></textarea></div>
+                            <div><label for="diff-changed" class="block text-sm font-medium text-gray-700 mb-1">Changed
+                                    Text</label><textarea id="diff-changed"
+                                    class="w-full p-2 border border-gray-300 rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    rows="4"></textarea></div>
                         </div>
-                        <button onclick="findTextDifferences()" class="py-2 px-4 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Find Differences</button>
-                        <div id="diff-output" class="text-output text-sm diff-output">Differences will be highlighted here...</div>
+                        <button id="find-diff-button"
+                            class="py-2 px-4 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Find
+                            Differences</button>
+                        <div id="diff-output" class="text-output text-sm diff-output">Differences will be highlighted
+                            here...</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Image Tools (Hidden by default) -->
+            <!-- Image Tools -->
             <div id="image-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Image Compressor -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-compress-alt text-purple-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800">Image Compressor (JPG/WEBP/PNG)</h3>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-compress-alt text-purple-600 text-xl"></i></div>
+                            <h3 class="text-lg font-semibold text-gray-800">Image Compressor</h3>
                         </div>
-                        <div id="compressor-drop-zone" class="file-drop-zone">
-                            <i class="far fa-image text-4xl text-purple-500 mb-3"></i>
-                            <p class="text-gray-600 mb-3">Drag & drop JPG/PNG/WEBP here or</p>
-                            <label for="compressor-file-input" class="file-input-label">
-                                <i class="fas fa-plus mr-2"></i> Select Image
-                            </label>
-                            <input type="file" id="compressor-file-input" accept="image/jpeg,image/png,image/webp">
+                        <div id="compressor-drop-zone" class="file-drop-zone"><i
+                                class="far fa-image text-4xl text-purple-500 mb-3"></i>
+                            <p class="text-gray-600 mb-3">Drag & drop JPG/PNG/WEBP here or</p><label
+                                for="compressor-file-input" class="file-input-label"><i class="fas fa-plus mr-2"></i>
+                                Select Image</label><input type="file" id="compressor-file-input"
+                                accept="image/jpeg,image/png,image/webp">
                             <p id="compressor-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
-                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
-                            <div class="flex space-x-2">
-                                <label class="flex items-center">
-                                     <input type="radio" name="compressFormat" value="image/jpeg" checked class="mr-1 text-blue-600 focus:ring-blue-500"> JPG
-                                </label>
-                                 <label class="flex items-center">
-                                    <input type="radio" name="compressFormat" value="image/png" class="mr-1 text-blue-600 focus:ring-blue-500"> PNG
-                                </label>
-                                <label class="flex items-center">
-                                     <input type="radio" name="compressFormat" value="image/webp" class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP
-                                </label>
-                            </div>
-                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Quality (JPG/WEBP only): <span id="quality-value" class="font-semibold">75</span>%</label>
-                            <input type="range" min="10" max="95" value="75" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="quality-slider">
-                            <div class="flex justify-between text-xs text-gray-500 mt-1">
-                                <span>Lower Quality</span>
-                                <span>Higher Quality</span>
-                            </div>
+                        <div class="mb-4"><label class="block text-sm font-medium text-gray-700 mb-2">Convert
+                                to:</label>
+                            <div class="flex space-x-2"><label class="flex items-center"><input type="radio"
+                                        name="compressFormat" value="image/jpeg" checked
+                                        class="mr-1 text-blue-600 focus:ring-blue-500"> JPG</label><label
+                                    class="flex items-center"><input type="radio" name="compressFormat"
+                                        value="image/png" class="mr-1 text-blue-600 focus:ring-blue-500">
+                                    PNG</label><label class="flex items-center"><input type="radio"
+                                        name="compressFormat" value="image/webp"
+                                        class="mr-1 text-blue-600 focus:ring-blue-500"> WEBP</label></div>
                         </div>
-                        <button id="compress-button" onclick="compressImage()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            <i class="fas fa-compress-alt mr-2"></i> Compress Image
-                        </button>
+                        <div class="mb-4"><label class="block text-sm font-medium text-gray-700 mb-2">Quality (JPG/WEBP
+                                only): <span id="quality-value" class="font-semibold">75</span>%</label><input
+                                type="range" min="10" max="95" value="75"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                id="quality-slider">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1"><span>Lower
+                                    Quality</span><span>Higher Quality</span></div>
+                        </div>
+                        <button id="compress-button"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled><i class="fas fa-compress-alt mr-2"></i> Compress Image</button>
                         <div id="compressor-output" class="mt-4 text-sm"></div>
                     </div>
 
                     <!-- Image Converter -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                           <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-exchange-alt text-green-600 text-xl"></i>
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-exchange-alt text-green-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">Image Format Converter</h3>
                         </div>
-                         <div id="converter-drop-zone" class="file-drop-zone">
-                            <i class="far fa-image text-4xl text-green-500 mb-3"></i>
-                            <p class="text-gray-600 mb-3">Drag & drop image here or</p>
-                             <label for="converter-file-input" class="file-input-label">
-                                <i class="fas fa-plus mr-2"></i> Select Image
-                            </label>
-                            <input type="file" id="converter-file-input" accept="image/*">
-                             <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
+                        <div id="converter-drop-zone" class="file-drop-zone"><i
+                                class="far fa-image text-4xl text-green-500 mb-3"></i>
+                            <p class="text-gray-600 mb-3">Drag & drop image here or</p><label for="converter-file-input"
+                                class="file-input-label"><i class="fas fa-plus mr-2"></i> Select Image</label><input
+                                type="file" id="converter-file-input" accept="image/*">
+                            <p id="converter-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Convert to:</label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <button onclick="setConversionFormat('image/jpeg', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">JPG</button>
-                                <button onclick="setConversionFormat('image/png', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 active">PNG</button>
-                                <button onclick="setConversionFormat('image/webp', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">WEBP</button>
-                                <button onclick="setConversionFormat('image/gif', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">GIF</button>
-                                <button onclick="setConversionFormat('image/bmp', this)" class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">BMP</button> <!-- Added BMP -->
+                                <button data-format="image/jpeg"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">JPG</button>
+                                <button data-format="image/png"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 active">PNG</button>
+                                <!-- Default active -->
+                                <button data-format="image/webp"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">WEBP</button>
+                                <button data-format="image/png+favicon"
+                                    class="convert-format-btn py-2 px-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                    title="Generates a 32x32 PNG suitable for conversion to ICO">Favicon (PNG)</button>
                             </div>
-                            <input type="hidden" id="converter-target-format" value="image/png"> <!-- Store selected format -->
                         </div>
-                        <button id="convert-button" onclick="convertImage()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            <i class="fas fa-exchange-alt mr-2"></i> Convert Image
-                        </button>
-                         <div id="converter-output" class="mt-4 text-sm"></div>
+                        <button id="convert-button"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled><i class="fas fa-exchange-alt mr-2"></i> Convert Image</button>
+                        <div id="converter-output" class="mt-4 text-sm"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Audio Tools (Placeholder) -->
+            <!-- Audio Tools -->
             <div id="audio-tool" class="tool-section hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Audio Format Converter -->
+                    <!-- Audio Format Converter (Placeholder) -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-teal-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-exchange-alt text-teal-600 text-xl"></i>
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-teal-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-exchange-alt text-teal-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">Audio Format Converter</h3>
                         </div>
                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="fas fa-music text-4xl text-teal-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">Converting between various audio formats (MP3, AAC, OGG, etc.) requires complex encoding/decoding libraries often run on a server or via large WebAssembly modules.</p>
-                            <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
-                                <i class="fas fa-cogs mr-2"></i> Under Development
-                            </button>
+                            <p class="text-sm text-gray-500 mb-4">Converting requires complex libraries often run on a
+                                server or via large WebAssembly modules.</p><button
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto"><i
+                                    class="fas fa-cogs mr-2"></i> Under Development</button>
                         </div>
-                        <div class="text-xs text-center text-gray-500">
-                            This tool is difficult to implement reliably and efficiently using only basic client-side JavaScript due to codec complexities.
-                        </div>
+                        <div class="text-xs text-center text-gray-500">Not feasible with only basic client-side
+                            JavaScript.</div>
                     </div>
-
-                    <!-- Audio Trimmer (Placeholder) -->
+                    <!-- Audio Trimmer -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-cyan-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-cut text-cyan-600 text-xl"></i>
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-cyan-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-cut text-cyan-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">Audio Trimmer</h3>
                         </div>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
-                           <i class="fas fa-volume-up text-4xl text-cyan-500 mb-3"></i>
-                            <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">Precise audio trimming and re-encoding often benefit from server-side processing or specialized libraries.</p>
-                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
-                                <i class="fas fa-cogs mr-2"></i> Under Development
-                            </button>
+                        <div id="trimmer-drop-zone" class="file-drop-zone"><i
+                                class="fas fa-volume-up text-4xl text-cyan-500 mb-3"></i>
+                            <p class="text-gray-600 mb-3">Drag & drop audio file here or</p><label
+                                for="audio-trimmer-file-input" class="file-input-label"><i class="fas fa-plus mr-2"></i>
+                                Select Audio</label><input type="file" id="audio-trimmer-file-input" accept="audio/*">
+                            <p id="audio-trimmer-file-name" class="text-sm text-gray-500 mt-3 break-all"></p>
                         </div>
-                         <div class="text-xs text-center text-gray-500">
-                           Client-side audio manipulation is possible to some extent but can be complex for broad format support and performance.
+                        <div id="trimmer-status" class="text-sm text-gray-600 mb-4 text-center h-5">Select an audio file
+                            to begin.</div>
+                        <div class="mb-4 space-y-4" id="trimmer-controls">
+                            <div>
+                                <div class="flex justify-between items-center mb-1 text-sm"><label
+                                        for="trim-start-slider" class="font-medium text-gray-700">Start
+                                        Time</label><span id="trim-start-display"
+                                        class="font-mono text-blue-600">00:00.000</span></div><input type="range"
+                                    id="trim-start-slider" min="0" max="100" value="0" step="0.01" class="audio-slider"
+                                    disabled>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1 text-sm"><label for="trim-end-slider"
+                                        class="font-medium text-gray-700">End Time</label><span id="trim-end-display"
+                                        class="font-mono text-blue-600">00:00.000</span></div><input type="range"
+                                    id="trim-end-slider" min="0" max="100" value="100" step="0.01" class="audio-slider"
+                                    disabled>
+                            </div>
                         </div>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-5 mb-3"><button
+                                id="play-trim-button"
+                                class="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                                disabled><i id="play-trim-icon" class="fas fa-play mr-2"></i><span
+                                    id="play-trim-text">Play Segment</span></button><button id="download-trimmed-button"
+                                class="px-5 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                                disabled><i id="download-trim-icon" class="fas fa-download mr-2"></i><span
+                                    id="download-trim-text">Download WAV</span></button></div>
+                        <p class="text-xs text-center text-gray-500 mt-1">Download creates an uncompressed WAV file (may
+                            be large).</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Data Tools (Hidden by default) -->
+            <!-- Data Tools -->
             <div id="data-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- JSON to CSV -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6 flex flex-col">
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-code text-yellow-600 text-xl"></i>
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-code text-yellow-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">JSON to CSV Converter</h3>
-                        </div>
-                        <textarea id="json-input" class="flex-grow w-full p-3 border border-gray-300 rounded-md mb-4 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder='Paste JSON array of objects here, e.g., [{"name":"John", "age":30}, {"name":"Jane", "age":25}]' rows="6"></textarea>
+                        </div><textarea id="json-input"
+                            class="flex-grow w-full p-3 border border-gray-300 rounded-md mb-4 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder='[{"name":"John"}, {"name":"Jane"}]' rows="6"></textarea>
                         <div class="flex justify-between items-center mb-4 text-xs">
-                            <div class="text-gray-500 flex items-center">
-                                <i class="fas fa-info-circle mr-1"></i> Accepts an array of flat objects.
-                            </div>
-                             <button onclick="loadSampleJson()" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs">
-                                <i class="fas fa-random mr-1"></i> Sample
-                            </button>
-                        </div>
-                        <button onclick="convertJsonToCsv()" class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                            Convert to CSV
-                        </button>
-                        <div class="flex items-center justify-between mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CSV Output</label>
-                            <button onclick="copyToClipboard(document.getElementById('csv-output').textContent, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy CSV">
-                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
-                            </button>
-                         </div>
+                            <div class="text-gray-500 flex items-center"><i class="fas fa-info-circle mr-1"></i> Accepts
+                                array of flat objects.</div><button id="load-sample-json"
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-xs"><i
+                                    class="fas fa-random mr-1"></i> Sample</button>
+                        </div><button id="convert-json-csv"
+                            class="w-full py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Convert
+                            to CSV</button>
+                        <div class="flex items-center justify-between mb-2"><label
+                                class="block text-sm font-medium text-gray-700">CSV Output</label><button
+                                class="text-blue-500 hover:text-blue-700 text-xs copy-button" data-target="csv-output"
+                                title="Copy CSV"><i class="far fa-copy"></i> <span
+                                    class="copy-feedback hidden text-xs ml-1">Copied!</span></button></div>
                         <div id="csv-output" class="text-output text-sm">CSV output will appear here...</div>
                         <div id="json-csv-error" class="text-red-600 text-xs mt-2"></div>
                     </div>
-
                     <!-- Base64 Encoder/Decoder -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-sync-alt text-indigo-600 text-xl"></i> <!-- Changed Icon -->
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-sync-alt text-indigo-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">Base64 Encoder/Decoder</h3>
                         </div>
-                        <div class="mb-3">
-                            <label for="base64-input" class="block text-sm font-medium text-gray-700 mb-1">Input Text</label>
-                            <textarea id="base64-input" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter text to encode or Base64 to decode" rows="4"></textarea>
-                        </div>
-                        <div class="flex items-center justify-center mb-3">
-                             <button onclick="swapBase64()" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-600" title="Swap Input/Output">
-                                <i class="fas fa-exchange-alt"></i>
-                            </button>
-                        </div>
+                        <div class="mb-3"><label for="base64-input"
+                                class="block text-sm font-medium text-gray-700 mb-1">Input</label><textarea
+                                id="base64-input"
+                                class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                rows="4"></textarea></div>
+                        <div class="flex items-center justify-center mb-3"><button id="swap-base64"
+                                class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition text-gray-600"
+                                title="Swap Input/Output"><i class="fas fa-exchange-alt"></i></button></div>
                         <div class="mb-4">
-                             <div class="flex items-center justify-between mb-1">
-                                <label for="base64-output" class="block text-sm font-medium text-gray-700">Output</label>
-                                <button onclick="copyToClipboard(document.getElementById('base64-output').value, this)" class="text-blue-500 hover:text-blue-700 text-xs" title="Copy Output">
-                                    <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
-                                </button>
-                             </div>
-                            <textarea id="base64-output" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" rows="4" readonly></textarea>
+                            <div class="flex items-center justify-between mb-1"><label for="base64-output"
+                                    class="block text-sm font-medium text-gray-700">Output</label><button
+                                    class="text-blue-500 hover:text-blue-700 text-xs copy-button"
+                                    data-target="base64-output" title="Copy Output"><i class="far fa-copy"></i> <span
+                                        class="copy-feedback hidden text-xs ml-1">Copied!</span></button></div><textarea
+                                id="base64-output"
+                                class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                rows="4" readonly></textarea>
                         </div>
-                         <div class="grid grid-cols-2 gap-3">
-                            <button onclick="base64Encode()" class="py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                                <i class="fas fa-lock mr-2"></i> Encode
-                            </button>
-                            <button onclick="base64Decode()" class="py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition">
-                                <i class="fas fa-lock-open mr-2"></i> Decode
-                            </button>
-                        </div>
+                        <div class="grid grid-cols-2 gap-3"><button id="base64-encode"
+                                class="py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"><i
+                                    class="fas fa-lock mr-2"></i> Encode</button><button id="base64-decode"
+                                class="py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"><i
+                                    class="fas fa-lock-open mr-2"></i> Decode</button></div>
                         <div id="base64-error" class="text-red-600 text-xs mt-2"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Security Tools (Hidden by default) -->
+            <!-- Security Tools -->
             <div id="security-tool" class="tool-section hidden">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Password Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-key text-amber-600 text-xl"></i>
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-key text-amber-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">Password Generator</h3>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-center justify-between bg-gray-100 p-3 rounded-md mb-3 border border-gray-200">
-                                <span id="generated-password" class="font-mono text-sm sm:text-base break-all mr-2">Click Generate...</span>
-                                <button onclick="copyToClipboard(document.getElementById('generated-password').textContent, this)" class="text-blue-500 hover:text-blue-700 shrink-0" title="Copy Password">
-                                    <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
-                                </button>
-                            </div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label for="length-slider" class="text-sm font-medium text-gray-700">Length: <span id="password-length-display">16</span></label>
-                                <div id="password-strength-indicator" class="flex items-center">
-                                    <span class="text-sm font-medium mr-1">Strength</span>
+                            <div
+                                class="flex items-center justify-between bg-gray-100 p-3 rounded-md mb-3 border border-gray-200">
+                                <span id="generated-password"
+                                    class="font-mono text-sm sm:text-base break-all mr-2">Click
+                                    Generate...</span><button
+                                    class="text-blue-500 hover:text-blue-700 shrink-0 copy-button"
+                                    data-target="generated-password" title="Copy Password"><i class="far fa-copy"></i>
+                                    <span class="copy-feedback hidden text-xs ml-1">Copied!</span></button></div>
+                            <div class="flex justify-between items-center mb-2"><label for="length-slider"
+                                    class="text-sm font-medium text-gray-700">Length: <span
+                                        id="password-length-display">16</span></label>
+                                <div id="password-strength-indicator" class="flex items-center"><span
+                                        class="text-sm font-medium mr-1">Strength</span>
                                     <div class="flex">
                                         <div class="strength-bar w-3 h-1 bg-gray-300 mx-px rounded-full"></div>
                                         <div class="strength-bar w-3 h-1 bg-gray-300 mx-px rounded-full"></div>
@@ -485,119 +681,98 @@
                                         <div class="strength-bar w-3 h-1 bg-gray-300 mx-px rounded-full"></div>
                                     </div>
                                 </div>
-                            </div>
-                            <input type="range" min="8" max="48" value="16" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500" id="length-slider">
+                            </div><input type="range" min="8" max="48" value="16"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                id="length-slider">
                             <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
-                                <span>8</span>
-                                <span>48</span>
-                            </div>
+                                <span>8</span><span>48</span></div>
                         </div>
-                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 mb-4">
-                            <label class="flex items-center">
-                                <input id="pw-opt-upper" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Uppercase (A-Z)</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input id="pw-opt-lower" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Lowercase (a-z)</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input id="pw-opt-numbers" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Numbers (0-9)</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input id="pw-opt-symbols" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">Symbols (!@#$)</span>
-                            </label>
-                        </div>
-                        <button onclick="generateAndDisplayPassword()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                            <i class="fas fa-redo mr-2"></i> Generate Password
-                        </button>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 mb-4"><label class="flex items-center"><input
+                                    id="pw-opt-upper" type="checkbox" checked
+                                    class="pw-gen-option rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span
+                                    class="ml-2 text-sm text-gray-700">Uppercase (A-Z)</span></label><label
+                                class="flex items-center"><input id="pw-opt-lower" type="checkbox" checked
+                                    class="pw-gen-option rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span
+                                    class="ml-2 text-sm text-gray-700">Lowercase (a-z)</span></label><label
+                                class="flex items-center"><input id="pw-opt-numbers" type="checkbox" checked
+                                    class="pw-gen-option rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span
+                                    class="ml-2 text-sm text-gray-700">Numbers (0-9)</span></label><label
+                                class="flex items-center"><input id="pw-opt-symbols" type="checkbox" checked
+                                    class="pw-gen-option rounded border-gray-300 text-blue-600 focus:ring-blue-500"><span
+                                    class="ml-2 text-sm text-gray-700">Symbols (!@#$)</span></label></div><button
+                            id="generate-password-button"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"><i
+                                class="fas fa-redo mr-2"></i> Generate Password</button>
                     </div>
-
                     <!-- Password Strength Checker -->
-                    <div class="tool-card bg-white rounded-xl shadow-sm p-6">
-                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-shield-alt text-red-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800">Password Strength Checker</h3>
-                        </div>
-                        <div class="mb-4 relative">
-                            <label for="strength-check-input" class="block text-sm font-medium text-gray-700 mb-1">Enter password to check</label>
-                            <input type="password" id="strength-check-input" class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your password...">
-                            <button type="button" onclick="togglePasswordVisibility('strength-check-input', this)" class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600">
-                                <i class="far fa-eye"></i>
-                            </button>
-                        </div>
-                        <div id="strength-results" class="space-y-3 mb-4 hidden">
-                             <!-- Strength Bar -->
-                            <div>
-                                <div class="flex justify-between items-center mb-1">
-                                     <span class="text-sm font-medium text-gray-700">Overall Strength</span>
-                                     <span id="strength-text" class="text-sm font-semibold"></span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div id="strength-bar-overall" class="h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
-                                </div>
-                            </div>
-                             <!-- Feedback -->
-                            <div id="strength-feedback" class="text-xs text-gray-600 space-y-1">
-                                <!-- Feedback messages appear here -->
-                            </div>
-                        </div>
-                        <div id="strength-initial-message" class="text-sm text-gray-500 mb-4">
-                           Enter a password to see its strength analysis.
-                        </div>
-                         <button onclick="checkPasswordStrength()" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                            Check Strength
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-             <!-- PDF Tools (Hidden by default - Placeholders) -->
-            <div id="pdf-tool" class="tool-section hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- PDF to Word -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="far fa-file-word text-red-600 text-xl"></i>
+                                <i class="fas fa-shield-alt text-red-600 text-xl"></i></div>
+                            <h3 class="text-lg font-semibold text-gray-800">Password Strength Checker</h3>
+                        </div>
+                        <div class="mb-4 relative"><label for="strength-check-input"
+                                class="block text-sm font-medium text-gray-700 mb-1">Enter password</label><input
+                                type="password" id="strength-check-input"
+                                class="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Your password..."><button type="button" id="toggle-pw-visibility"
+                                class="absolute inset-y-0 right-0 top-6 px-3 flex items-center text-gray-500 hover:text-blue-600"><i
+                                    class="far fa-eye"></i></button></div>
+                        <div id="strength-results" class="space-y-3 mb-4 hidden">
+                            <div>
+                                <div class="flex justify-between items-center mb-1"><span
+                                        class="text-sm font-medium text-gray-700">Overall Strength</span><span
+                                        id="strength-text" class="text-sm font-semibold"></span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div id="strength-bar-overall"
+                                        class="h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%">
+                                    </div>
+                                </div>
                             </div>
+                            <div id="strength-feedback" class="text-xs text-gray-600 space-y-1"></div>
+                        </div>
+                        <div id="strength-initial-message" class="text-sm text-gray-500 mb-4">Enter a password to see
+                            its strength analysis.</div><button id="check-strength-button"
+                            class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Check
+                            Strength</button>
+                    </div>
+                </div>
+            </div>
+            <!-- PDF Tools -->
+            <div id="pdf-tool" class="tool-section hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="tool-card bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="far fa-file-word text-red-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">PDF to Word Converter</h3>
                         </div>
                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="far fa-file-pdf text-4xl text-red-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">PDF to Word conversion requires complex processing typically done on a server.</p>
-                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
-                                <i class="fas fa-cogs mr-2"></i> Under Development
-                            </button>
+                            <p class="text-sm text-gray-500 mb-4">Requires complex server-side processing.</p><button
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto"><i
+                                    class="fas fa-cogs mr-2"></i> Under Development</button>
                         </div>
-                         <div class="text-xs text-center text-gray-500">
-                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of PDF parsing and DOCX generation.
+                        <div class="text-xs text-center text-gray-500">Not feasible with only client-side JavaScript.
                         </div>
                     </div>
-
-                    <!-- PDF Merge -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center mb-4">
-                             <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mr-4 shrink-0">
-                                <i class="fas fa-object-ungroup text-blue-600 text-xl"></i> <!-- Changed icon -->
-                            </div>
+                            <div
+                                class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mr-4 shrink-0">
+                                <i class="fas fa-object-ungroup text-blue-600 text-xl"></i></div>
                             <h3 class="text-lg font-semibold text-gray-800">PDF Merger</h3>
                         </div>
-                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-4 bg-gray-50">
                             <i class="far fa-file-pdf text-4xl text-blue-500 mb-3"></i>
                             <p class="text-gray-600 mb-3 font-semibold">Feature Coming Soon!</p>
-                            <p class="text-sm text-gray-500 mb-4">Merging PDF files accurately requires server-side processing or specialized libraries.</p>
-                             <button class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto">
-                                <i class="fas fa-cogs mr-2"></i> Under Development
-                            </button>
+                            <p class="text-sm text-gray-500 mb-4">Requires server-side processing or specialized
+                                libraries.</p><button
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md opacity-50 cursor-not-allowed flex items-center justify-center mx-auto"><i
+                                    class="fas fa-cogs mr-2"></i> Under Development</button>
                         </div>
-                        <div class="text-xs text-center text-gray-500">
-                           This tool cannot be fully implemented using only client-side JavaScript due to the complexity of manipulating PDF structures.
+                        <div class="text-xs text-center text-gray-500">Not feasible with only client-side JavaScript.
                         </div>
                     </div>
                 </div>
@@ -610,814 +785,20 @@
     <footer class="bg-slate-100 border-t border-gray-200 mt-12 py-6">
         <div class="container mx-auto px-4 text-center text-sm text-gray-600">
             © 2023 MultiTool. All rights reserved. A simple utility platform.
-            <p class="text-xs mt-1">Note: Some features like PDF/Audio manipulation are limited in this client-side-only version.</p>
+            <p class="text-xs mt-1">Note: Some features like PDF/Audio manipulation are limited in this client-side-only
+                version.</p>
         </div>
     </footer>
 
 
     <script>
-        // --- Global Variables ---
+        // --- Global Variables (Non-DOM related OK here) ---
         let currentTool = 'text';
         let imageConverterFile = null;
         let imageCompressorFile = null;
-        let imageConverterFormat = 'image/png'; // Default conversion format
-        const AVG_WPM = 200; // Average Words Per Minute for reading time calculation
-
-        // --- Utility Functions ---
-        function copyToClipboard(text, buttonElement) {
-            if (!text || text === 'Click Generate...' || text === 'Generated text will appear here...' || text === 'CSV output will appear here...' || text === 'Differences will be highlighted here...' || text === 'Error generating CSV.') {
-                // Added check for CSV error message
-                alert('Nothing to copy yet!');
-                return;
-            }
-            navigator.clipboard.writeText(text).then(() => {
-                const feedback = buttonElement.querySelector('.copy-feedback');
-                if (feedback) {
-                    feedback.classList.remove('hidden');
-                    setTimeout(() => {
-                        feedback.classList.add('hidden');
-                    }, 1500);
-                }
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                alert('Failed to copy text.');
-            });
-        }
-
-         function togglePasswordVisibility(inputId, buttonElement) {
-            const input = document.getElementById(inputId);
-            const icon = buttonElement.querySelector('i');
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                input.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            }
-        }
-
-        // --- Tool Switching ---
-        function switchTool(toolName) {
-            if (currentTool === toolName) return; // No need to switch if already active
-
-            // Hide current tool section
-            const currentSection = document.getElementById(`${currentTool}-tool`);
-            if (currentSection) {
-                currentSection.classList.add('hidden');
-            }
-
-            // Show selected tool section
-            const newSection = document.getElementById(`${toolName}-tool`);
-            if (newSection) {
-                newSection.classList.remove('hidden');
-                // Add fade-in animation
-                newSection.classList.remove('fade-in'); // Remove class first to reset animation
-                void newSection.offsetWidth; // Trigger reflow
-                newSection.classList.add('fade-in');
-            }
-
-            // Update active tab
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('tab-active', 'text-blue-600', 'font-semibold'); // Ensure removal of active styles
-                 button.classList.add('text-gray-500');
-                button.classList.remove('active'); // Remove generic active class if present
-            });
-            const activeTabButton = document.getElementById(`tab-${toolName}`);
-            if (activeTabButton) {
-                activeTabButton.classList.add('tab-active', 'text-blue-600', 'font-semibold', 'active');
-                activeTabButton.classList.remove('text-gray-500');
-            }
-
-            currentTool = toolName;
-            // Update URL hash
-            window.location.hash = toolName;
-        }
-
-
-        // --- Text Tool Functions ---
-        const caseConverterInput = document.getElementById('case-converter-input');
-        function convertCase(type) {
-            let text = caseConverterInput.value;
-            if (!text && type !== 'clear') return; // Allow clear even if empty
-
-            switch (type) {
-                case 'upper':
-                    text = text.toUpperCase();
-                    break;
-                case 'lower':
-                    text = text.toLowerCase();
-                    break;
-                case 'title':
-                    // More robust title case (handles hyphens, etc. better if needed, but simple version here)
-                    text = text.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
-                    break;
-                case 'sentence':
-                    // Simple sentence case: uppercase first letter of input and after . ! ? followed by space.
-                    text = text.toLowerCase();
-                    text = text.charAt(0).toUpperCase() + text.slice(1);
-                    text = text.replace(/([.!?]\s+)([a-z])/g, (match, p1, p2) => p1 + p2.toUpperCase());
-                    break;
-                case 'camel':
-                     // Remove non-alphanumeric, uppercase next char, lowercase first char
-                    text = text.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-                    text = text.replace(/[^a-zA-Z0-9]/g, ''); // Remove any remaining non-alphanumeric chars
-                    text = text.charAt(0).toLowerCase() + text.slice(1);
-                    break;
-                case 'pascal':
-                     // Remove non-alphanumeric, uppercase first char of each 'word'
-                    text = text.toLowerCase().split(/[^a-zA-Z0-9]/)
-                               .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '')
-                               .join('');
-                    break;
-                case 'clear':
-                     text = '';
-                     break;
-            }
-            caseConverterInput.value = text;
-        }
-
-        const counterInput = document.getElementById('counter-input');
-        const charCountEl = document.getElementById('char-count');
-        const wordCountEl = document.getElementById('word-count');
-        const lineCountEl = document.getElementById('line-count');
-        const readingTimeEl = document.getElementById('reading-time'); // Get reading time element
-
-        if (counterInput) {
-            counterInput.addEventListener('input', function () {
-                const text = this.value;
-                
-                // Count characters (including Chinese characters)
-                charCountEl.textContent = text.length;
-
-                // Count words (supports both space-separated and non-space-separated languages like Chinese)
-                const wordCount = countWords(text);
-                wordCountEl.textContent = wordCount;
-
-                // Count lines
-                lineCountEl.textContent = text === '' ? 0 : (text.match(/\n/g) || []).length + 1;
-
-                // Calculate Reading Time
-                if (wordCount === 0) {
-                    readingTimeEl.textContent = "0m 0s";
-                } else {
-                    const totalMinutes = wordCount / AVG_WPM;
-                    const minutes = Math.floor(totalMinutes);
-                    const seconds = Math.round((totalMinutes - minutes) * 60);
-                    readingTimeEl.textContent = `${minutes}m ${seconds}s`;
-                }
-            });
-        }
-
-        // New helper function to count words (supports Chinese and other languages)
-        function countWords(text) {
-            if (!text.trim()) return 0;
-
-            // For Chinese/Japanese/Korean (CJK) characters, count each non-punctuation character as a word
-            // Exclude punctuation ranges: \u3000-\u303f (CJK symbols and punctuation), \uff00-\uffef (Halfwidth and Fullwidth Forms)
-            const cjkRegex = /[\u4e00-\u9fff\u3400-\u4dbf\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g;
-            const cjkMatches = text.match(cjkRegex) || [];
-            const cjkWordCount = cjkMatches.length;
-
-            // For other languages, split by whitespace and count non-empty segments
-            const otherWords = text.replace(cjkRegex, '').trim().split(/\s+/).filter(word => word.length > 0);
-            const otherWordCount = otherWords.length;
-
-            return cjkWordCount + otherWordCount;
-        }
-
-        const loremOutput = document.getElementById('lorem-output');
-        const loremParagraphsInput = document.getElementById('lorem-paragraphs');
-        const loremSentencesInput = document.getElementById('lorem-sentences');
-        const loremStartCheckbox = document.getElementById('lorem-start');
-        const loremIpsumBase = "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?".split(' ');
-
-        function generateLoremIpsum() {
-            const numParagraphs = Math.max(1, parseInt(loremParagraphsInput.value) || 3);
-            const numSentences = Math.max(1, parseInt(loremSentencesInput.value) || 5);
-            const startWithLorem = loremStartCheckbox.checked;
-            let result = '';
-
-            for (let p = 0; p < numParagraphs; p++) {
-                let paragraph = '';
-                let sentenceCount = numSentences;
-
-                if (p === 0 && startWithLorem) {
-                    paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
-                    sentenceCount -= 1; // Account for the first fixed sentence
-                     }
-
-                for (let s = 0; s < sentenceCount; s++) {
-                         paragraph += generateSentence() + " ";
-                     }
-
-                 result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); // Add paragraph break
-            }
-            loremOutput.textContent = result;
-        }
-
-        function generateSentence() {
-            const sentenceLength = Math.floor(Math.random() * 10) + 8; // Random sentence length (8-17 words)
-            let sentence = '';
-            for (let i = 0; i < sentenceLength; i++) {
-                sentence += loremIpsumBase[Math.floor(Math.random() * loremIpsumBase.length)] + " ";
-            }
-            // Capitalize first letter and add punctuation
-            sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '.';
-            return sentence;
-        }
-
-        const diffOriginalInput = document.getElementById('diff-original');
-        const diffChangedInput = document.getElementById('diff-changed');
-        const diffOutput = document.getElementById('diff-output');
-
-        function findTextDifferences() {
-            const text1 = diffOriginalInput.value.split('\n');
-            const text2 = diffChangedInput.value.split('\n');
-            diffOutput.innerHTML = ''; // Clear previous diff
-
-             if (!diffOriginalInput.value && !diffChangedInput.value) {
-                 diffOutput.textContent = "Please enter text in both fields.";
-                 return;
-             }
-
-            // Basic line-by-line comparison (not a true diff algorithm)
-            // Simple implementation: uses Myers diff algorithm concept (longest common subsequence)
-            // This is a simplified version for line diffs, not character diffs within lines.
-
-            const d = []; // d[k] stores the row index of the endpoint of the best path of length d with diagonal k
-            const n = text1.length;
-            const m = text2.length;
-            const max = n + m;
-            const v = { 1: 0 }; // Stores the endpoint row for the furthest reaching D-path ending on diagonal k
-            const trace = []; // Stores the history of v for backtracking
-
-            outer: for (let d = 0; d <= max; d++) {
-                trace.push({ ...v });
-                for (let k = -d; k <= d; k += 2) {
-                    let x;
-                    // Decide whether to move down (from k+1) or right (from k-1)
-                    if (k === -d || (k !== d && v[k - 1] < v[k + 1])) {
-                        x = v[k + 1]; // Move down
-                    } else {
-                        x = v[k - 1] + 1; // Move right
-                    }
-                    let y = x - k;
-
-                    // Follow diagonal as far as possible
-                    while (x < n && y < m && text1[x] === text2[y]) {
-                        x++;
-                        y++;
-                    }
-                    v[k] = x;
-
-                    // Check if we've reached the end
-                    if (x >= n && y >= m) {
-                        trace.push({ ...v }); // Record final state
-                        break outer;
-                    }
-                }
-            }
-
-            // Backtrack to find the diff path
-            let x = n;
-            let y = m;
-            const diffResult = [];
-
-            for (let d = trace.length - 1; d > 0 && (x > 0 || y > 0); d--) {
-                const v_prev = trace[d - 1];
-                const k = x - y;
-                let prev_k;
-
-                // Decide if the last step was diagonal, down, or right
-                if (k === -d + 1 || (k !== d - 1 && v_prev[k - 1] < v_prev[k + 1])) {
-                    prev_k = k + 1; // Came from above (insertion in text2 or deletion in text1)
-                } else {
-                    prev_k = k - 1; // Came from left (deletion in text2 or insertion in text1)
-                }
-
-                const prev_x = v_prev[prev_k];
-                const prev_y = prev_x - prev_k;
-
-                // Follow the diagonal back (common lines)
-                while (x > prev_x && y > prev_y) {
-                    diffResult.push({ type: 'common', line: text1[x - 1] });
-                    x--;
-                    y--;
-                }
-
-                // Record the difference (insertion or deletion)
-                if (d > 0) {
-                    if (prev_x < x) { // Moved right (deletion from text1)
-                         diffResult.push({ type: 'remove', line: text1[x - 1] });
-                         x--;
-                    } else { // Moved down (addition to text2)
-                        diffResult.push({ type: 'add', line: text2[y - 1] });
-                        y--;
-                    }
-                }
-            }
-             // Add any remaining common lines at the beginning
-            while(x > 0 && y > 0){
-                diffResult.push({ type: 'common', line: text1[x - 1] });
-                x--;
-                y--;
-            }
-            // Add remaining lines from text1 (deletions)
-             while(x > 0){
-                diffResult.push({ type: 'remove', line: text1[x - 1] });
-                x--;
-            }
-             // Add remaining lines from text2 (additions)
-            while(y > 0){
-                diffResult.push({ type: 'add', line: text2[y - 1] });
-                y--;
-            }
-
-
-            diffResult.reverse(); // Reverse to get correct order
-
-            // Render the diff
-            let hasDifferences = false;
-            diffResult.forEach(item => {
-                    const div = document.createElement('div');
-                if (item.type === 'add') {
-                    div.className = 'diff-add';
-                    div.textContent = `+ ${item.line}`;
-                    hasDifferences = true;
-                } else if (item.type === 'remove') {
-                    div.className = 'diff-remove';
-                    div.textContent = `- ${item.line}`;
-                     hasDifferences = true;
-                } else { // common
-                    div.textContent = `  ${item.line}`;
-                }
-                diffOutput.appendChild(div);
-            });
-
-             if (!hasDifferences && (diffOriginalInput.value || diffChangedInput.value)) {
-                 diffOutput.textContent = "No differences found.";
-            } else if (diffResult.length === 0 && (!diffOriginalInput.value && !diffChangedInput.value)) {
-                 diffOutput.textContent = "Differences will be highlighted here..."; // Reset placeholder if empty
-             }
-        }
-
-
-        // --- Image Tool Functions ---
-        const compressorFileInput = document.getElementById('compressor-file-input');
-        const compressorDropZone = document.getElementById('compressor-drop-zone');
-        const compressorFileName = document.getElementById('compressor-file-name');
-        const compressorOutput = document.getElementById('compressor-output');
-        const compressButton = document.getElementById('compress-button');
-        const qualitySlider = document.getElementById('quality-slider');
-        const qualityValue = document.getElementById('quality-value');
-
-        const converterFileInput = document.getElementById('converter-file-input');
-        const converterDropZone = document.getElementById('converter-drop-zone');
-        const converterFileName = document.getElementById('converter-file-name');
-        const converterOutput = document.getElementById('converter-output');
-        const convertButton = document.getElementById('convert-button');
-        const converterTargetFormatInput = document.getElementById('converter-target-format');
-
-         // Drag and Drop Setup
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            compressorDropZone?.addEventListener(eventName, preventDefaults, false);
-            converterDropZone?.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false); // Prevent opening file in browser
-        });
-        ['dragenter', 'dragover'].forEach(eventName => {
-            compressorDropZone?.addEventListener(eventName, () => compressorDropZone.classList.add('dragover'), false);
-            converterDropZone?.addEventListener(eventName, () => converterDropZone.classList.add('dragover'), false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            compressorDropZone?.addEventListener(eventName, () => compressorDropZone.classList.remove('dragover'), false);
-            converterDropZone?.addEventListener(eventName, () => converterDropZone.classList.remove('dragover'), false);
-        });
-
-        compressorDropZone?.addEventListener('drop', handleDropCompressor, false);
-        converterDropZone?.addEventListener('drop', handleDropConverter, false);
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        function handleDropCompressor(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
-            if (files.length > 0) {
-                handleFileSelect(files[0], 'compressor');
-            }
-        }
-         function handleDropConverter(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
-             if (files.length > 0) {
-                handleFileSelect(files[0], 'converter');
-            }
-        }
-
-         // Handle file selection (both input and drop)
-        compressorFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'compressor'));
-        converterFileInput?.addEventListener('change', (e) => handleFileSelect(e.target.files[0], 'converter'));
-
-        function handleFileSelect(file, type) {
-            if (!file) return;
-
-            if (type === 'compressor') {
-                if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-                    alert('Please select a JPG, PNG, or WEBP file for compression.');
-                    compressorFileInput.value = ''; // Reset input
-                    compressorFileName.textContent = '';
-                    compressButton.disabled = true;
-                    return;
-                }
-                imageCompressorFile = file;
-                compressorFileName.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-                compressButton.disabled = false;
-                compressorOutput.innerHTML = ''; // Clear previous output
-            } else if (type === 'converter') {
-                 if (!file.type.startsWith('image/')) {
-                    alert('Please select a valid image file.');
-                    converterFileInput.value = ''; // Reset input
-                     converterFileName.textContent = '';
-                     convertButton.disabled = true;
-                    return;
-                }
-                imageConverterFile = file;
-                converterFileName.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-                convertButton.disabled = false;
-                converterOutput.innerHTML = ''; // Clear previous output
-            }
-        }
-
-        qualitySlider?.addEventListener('input', function () {
-            qualityValue.textContent = this.value;
-            // Disable slider visually if output format is PNG
-            const format = document.querySelector('input[name="compressFormat"]:checked')?.value;
-            if (format === 'image/png') {
-                this.disabled = true;
-                this.classList.add('opacity-50');
-                qualityValue.parentElement.classList.add('opacity-50');
-
-            } else {
-                 this.disabled = false;
-                 this.classList.remove('opacity-50');
-                 qualityValue.parentElement.classList.remove('opacity-50');
-            }
-        });
-         // Add listener to format radio buttons to enable/disable quality slider
-        document.querySelectorAll('input[name="compressFormat"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                const slider = document.getElementById('quality-slider');
-                const qualityLabel = document.getElementById('quality-value').parentElement;
-                 if (radio.value === 'image/png') {
-                     slider.disabled = true;
-                     slider.classList.add('opacity-50');
-                     qualityLabel.classList.add('opacity-50');
-                 } else {
-                     slider.disabled = false;
-                     slider.classList.remove('opacity-50');
-                     qualityLabel.classList.remove('opacity-50');
-                 }
-            });
-        });
-
-        function processImage(file, options) {
-            return new Promise((resolve, reject) => {
-                if (!file) return reject('No file provided');
-
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        const ctx = canvas.getContext('2d');
-
-                        // Handle transparency: Fill with white for formats that don't support alpha (like JPEG, BMP)
-                        if (options.format === 'image/jpeg' || options.format === 'image/bmp') {
-                            ctx.fillStyle = '#FFFFFF';
-                            ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        }
-
-                        ctx.drawImage(img, 0, 0);
-
-                        try {
-                            // For PNG, quality is ignored by toDataURL.
-                            // For JPEG/WEBP, quality is a number between 0 and 1.
-                            // For GIF/BMP, canvas doesn't natively support quality/options well.
-                            let qualityParam = (options.format === 'image/jpeg' || options.format === 'image/webp') ? options.quality : undefined;
-
-                            const dataUrl = canvas.toDataURL(options.format, qualityParam);
-
-                            // Convert data URL to Blob for more accurate size info and download
-                            fetch(dataUrl)
-                                .then(res => res.blob())
-                                .then(blob => {
-                                    // Ensure the blob type matches the requested format, as canvas might fallback
-                                    if (blob.type !== options.format && !(options.format === 'image/jpeg' && blob.type === 'image/png')) { // Allow JPG fallback to PNG if needed
-                                        console.warn(`Canvas generated ${blob.type} instead of requested ${options.format}. Using original blob for unsupported formats.`);
-                                        // Handle cases like GIF where canvas loses animation, or BMP which might not be supported
-                                        if ((options.format === 'image/gif' && file.type === 'image/gif') || options.format === 'image/bmp') {
-                                             resolve({ dataUrl: event.target.result, blob: file, actualFormat: file.type }); // Return original
-                                             return;
-                                        }
-                                    }
-                                    resolve({ dataUrl, blob, actualFormat: blob.type })
-                                })
-                                .catch(reject);
-                        } catch (error) {
-                            console.error("Canvas toDataURL error:", error);
-                             // Fallback for formats canvas might not support directly
-                            if (options.format === 'image/gif' && file.type === 'image/gif') {
-                                console.warn("GIF conversion might lose animation. Returning original blob.");
-                                 resolve({ dataUrl: event.target.result, blob: file, actualFormat: file.type }); // return original if converting TO gif from gif
-                             } else if (options.format === 'image/bmp' ) {
-                                  console.warn("BMP conversion via canvas might not be supported. Returning original blob if input is BMP.");
-                                   if(file.type === 'image/bmp'){
-                                       resolve({ dataUrl: event.target.result, blob: file, actualFormat: file.type });
-                            } else {
-                                       reject(`Error converting image to ${options.format}: ${error.message}. Format may not be supported by browser canvas.`);
-                                   }
-                             }
-                             else {
-                                reject(`Error converting image: ${error.message}. Format may not be supported by browser.`);
-                            }
-                        }
-                    };
-                    img.onerror = (err) => reject('Failed to load image: ' + err);
-                    img.src = event.target.result;
-                };
-                reader.onerror = (err) => reject('Failed to read file: ' + err);
-                reader.readAsDataURL(file);
-            });
-        }
-
-
-        async function compressImage() {
-             if (!imageCompressorFile) {
-                 alert("Please select an image first.");
-                 return;
-             }
-             compressButton.disabled = true;
-            compressButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...';
-            compressorOutput.innerHTML = '';
-
-             const format = document.querySelector('input[name="compressFormat"]:checked').value;
-            // Quality only applies to JPEG/WEBP
-            const quality = (format === 'image/jpeg' || format === 'image/webp') ? parseInt(qualitySlider.value) / 100 : undefined;
-
-
-             try {
-                const { blob, actualFormat } = await processImage(imageCompressorFile, { format, quality });
-
-                 const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2);
-                 const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
-                const reduction = imageCompressorFile.size > 0 ? ((1 - blob.size / imageCompressorFile.size) * 100).toFixed(1) : 0;
-                 const downloadUrl = URL.createObjectURL(blob);
-                 // Determine extension based on the *actual* blob type returned
-                 let extension = actualFormat.split('/')[1];
-                 if (extension === 'jpeg') extension = 'jpg';
-
-
-                 compressorOutput.innerHTML = `
-                     Original Size: ${originalSizeMB} MB (${imageCompressorFile.type})<br>
-                     Compressed Size: ${compressedSizeMB} MB (${actualFormat})<br>
-                     ${reduction >= 0 ? `Reduction: ${reduction}%<br>` : `Increase: ${Math.abs(reduction)}%<br>`}
-                     <a href="${downloadUrl}" download="compressed_${Date.now()}.${extension}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                         <i class="fas fa-download mr-2"></i> Download Compressed Image
-                     </a>`;
-
-             } catch (error) {
-                  console.error("Compression error:", error);
-                  compressorOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-             } finally {
-                 compressButton.disabled = false;
-                compressButton.innerHTML = '<i class="fas fa-compress-alt mr-2"></i> Compress Image';
-             }
-        }
-
-        function setConversionFormat(format, buttonElement) {
-            imageConverterFormat = format;
-            converterTargetFormatInput.value = format; // Update hidden input if needed
-            // Update button styles
-             document.querySelectorAll('.convert-format-btn').forEach(btn => {
-                 btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
-                btn.classList.add('border-gray-300', 'hover:bg-gray-50'); // Ensure hover state is re-added
-            });
-             buttonElement.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active');
-            buttonElement.classList.remove('border-gray-300', 'hover:bg-gray-50');
-        }
-
-        async function convertImage() {
-            if (!imageConverterFile) {
-                 alert("Please select an image first.");
-                 return;
-             }
-             convertButton.disabled = true;
-            convertButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...';
-            converterOutput.innerHTML = '';
-
-             const targetFormat = imageConverterFormat;
-            // Quality setting is optional, use a high default for lossy formats if needed
-            const quality = (targetFormat === 'image/jpeg' || targetFormat === 'image/webp') ? 0.92 : undefined;
-
-             try {
-                const { blob, actualFormat } = await processImage(imageConverterFile, { format: targetFormat, quality });
-
-                 const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2);
-                 const downloadUrl = URL.createObjectURL(blob);
-                // Determine extension based on the *actual* blob type returned
-                let extension = actualFormat.split('/')[1];
-                if (extension === 'jpeg') extension = 'jpg';
-                if (extension === 'svg+xml') extension = 'svg';
-
-
-                 converterOutput.innerHTML = `
-                     Converted Size: ${convertedSizeMB} MB<br>
-                     Format: ${extension.toUpperCase()}<br>
-                     ${actualFormat !== targetFormat ? `<span class="text-orange-600 text-xs">Note: Browser converted to ${actualFormat} instead of requested ${targetFormat}.</span><br>` : ''}
-                     <a href="${downloadUrl}" download="converted_${Date.now()}.${extension}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                         <i class="fas fa-download mr-2"></i> Download Converted Image
-                     </a>`;
-
-             } catch (error) {
-                  console.error("Conversion error:", error);
-                  converterOutput.innerHTML = `<span class="text-red-600">Error: ${error}</span>`;
-             } finally {
-                 convertButton.disabled = false;
-                convertButton.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Convert Image';
-             }
-        }
-
-
-        // --- Data Tool Functions ---
-        const jsonInput = document.getElementById('json-input');
-        const csvOutput = document.getElementById('csv-output');
-        const jsonCsvError = document.getElementById('json-csv-error');
-
-        function loadSampleJson() {
-            jsonInput.value = JSON.stringify([
-                { "id": 1, "name": "Alice", "email": "alice@example.com", "city": "New York" },
-                { "id": 2, "name": "Bob", "email": "bob@sample.net", "city": "London" },
-                { "id": 3, "name": "Charlie", "email": "charlie@domain.org", "city": "Paris", "notes": "Has comma, needs quoting" }
-            ], null, 2);
-             jsonCsvError.textContent = '';
-             csvOutput.textContent = 'CSV output will appear here...';
-        }
-
-        function convertJsonToCsv() {
-             jsonCsvError.textContent = '';
-            csvOutput.textContent = ''; // Clear previous output
-            try {
-                const jsonString = jsonInput.value.trim();
-                if (!jsonString) {
-                     jsonCsvError.textContent = 'JSON input is empty.';
-                     csvOutput.textContent = 'CSV output will appear here...'; // Reset placeholder
-                     return;
-                }
-                const data = JSON.parse(jsonString);
-
-                if (!Array.isArray(data)) {
-                     jsonCsvError.textContent = 'Input must be a JSON array of objects.';
-                     csvOutput.textContent = 'Error generating CSV.';
-                     return;
-                }
-                if (data.length === 0) {
-                    csvOutput.textContent = 'JSON array is empty. No CSV generated.';
-                    return;
-                }
-
-                // Get all unique headers from all objects
-                const headerSet = new Set();
-                data.forEach(row => {
-                    if (typeof row === 'object' && row !== null) {
-                         Object.keys(row).forEach(key => headerSet.add(key));
-                    } else {
-                         throw new Error("Array contains non-object elements.");
-                    }
-                });
-                const headers = Array.from(headerSet);
-
-                if (headers.length === 0 && data.length > 0) {
-                     jsonCsvError.textContent = 'Cannot generate CSV from array of non-objects or empty objects.';
-                     csvOutput.textContent = 'Error generating CSV.';
-                     return;
-                }
-                 if (headers.length === 0) {
-                     csvOutput.textContent = 'JSON array objects have no properties. No CSV generated.';
-                     return;
-                 }
-
-
-                let csvContent = headers.map(header => `"${header.replace(/"/g, '""')}"`).join(',') + '\n'; // Always quote headers
-
-                // Add rows
-                data.forEach(row => {
-                    const values = headers.map(header => {
-                        let value = row.hasOwnProperty(header) ? row[header] : ''; // Handle missing properties
-                        // Handle null/undefined and potential commas/newlines/quotes in values
-                         if (value === null || value === undefined) {
-                            value = '';
-                        } else {
-                             value = String(value);
-                             // Quote the value if it contains comma, newline, or double quote
-                            if (value.includes(',') || value.includes('\n') || value.includes('"')) {
-                                value = `"${value.replace(/"/g, '""')}"`; // Escape double quotes
-                            }
-                        }
-                        return value;
-                    });
-                    csvContent += values.join(',') + '\n';
-                });
-
-                csvOutput.textContent = csvContent.trim();
-
-            } catch (error) {
-                console.error("JSON to CSV Error:", error);
-                jsonCsvError.textContent = `Invalid JSON or data structure: ${error.message}`;
-                csvOutput.textContent = 'Error generating CSV.';
-            }
-        }
-
-        const base64Input = document.getElementById('base64-input');
-        const base64Output = document.getElementById('base64-output');
-        const base64Error = document.getElementById('base64-error');
-
-        function base64Encode() {
-             base64Error.textContent = '';
-            try {
-                const text = base64Input.value;
-                // Correctly handle UTF-8 characters before encoding
-                const utf8Bytes = new TextEncoder().encode(text);
-                const binaryString = String.fromCharCode(...utf8Bytes);
-                base64Output.value = btoa(binaryString);
-            } catch (error) {
-                 console.error("Base64 Encode Error:", error);
-                 base64Error.textContent = `Encoding error: ${error.message}`;
-                 base64Output.value = '';
-            }
-        }
-
-        function base64Decode() {
-             base64Error.textContent = '';
-            try {
-                const base64 = base64Input.value.trim().replace(/\s/g, ''); // Remove whitespace
-                if (!base64) {
-                     base64Output.value = '';
-                     return;
-                 }
-                // Basic check for valid Base64 characters + padding check
-                 if (!/^[A-Za-z0-9+/]*=?=?$/.test(base64) || base64.length % 4 !== 0) {
-                    throw new Error("Input is not valid Base64 encoding.");
-                }
-
-                // Correctly handle UTF-8 characters after decoding
-                const binaryString = atob(base64);
-                const bytes = Uint8Array.from(binaryString, c => c.charCodeAt(0));
-                base64Output.value = new TextDecoder().decode(bytes);
-
-            } catch (error) {
-                 console.error("Base64 Decode Error:", error);
-                // Check for specific DOMException for invalid characters
-                 if (error instanceof DOMException && error.name === 'InvalidCharacterError') {
-                     base64Error.textContent = `Decoding error: Input contains invalid Base64 characters.`;
-                 } else {
-                 base64Error.textContent = `Decoding error: ${error.message}. Ensure input is valid Base64.`;
-                 }
-                 base64Output.value = '';
-            }
-        }
-
-        function swapBase64() {
-            const inputVal = base64Input.value;
-            const outputVal = base64Output.value;
-            base64Input.value = outputVal;
-            base64Output.value = inputVal;
-             base64Error.textContent = ''; // Clear error on swap
-        }
-
-
-        // --- Security Tool Functions ---
-        const generatedPasswordEl = document.getElementById('generated-password');
-        const lengthSliderEl = document.getElementById('length-slider');
-        const passwordLengthDisplayEl = document.getElementById('password-length-display');
-        const pwOptUpper = document.getElementById('pw-opt-upper');
-        const pwOptLower = document.getElementById('pw-opt-lower');
-        const pwOptNumbers = document.getElementById('pw-opt-numbers');
-        const pwOptSymbols = document.getElementById('pw-opt-symbols');
-        const passwordStrengthIndicatorEl = document.getElementById('password-strength-indicator');
-
-        const strengthCheckInput = document.getElementById('strength-check-input');
-        const strengthResultsEl = document.getElementById('strength-results');
-        const strengthInitialMessageEl = document.getElementById('strength-initial-message');
-        const strengthTextEl = document.getElementById('strength-text');
-        const strengthBarOverallEl = document.getElementById('strength-bar-overall');
-        const strengthFeedbackEl = document.getElementById('strength-feedback');
-
+        let imageConverterFormat = 'image/png'; // Default format
+        const AVG_WPM = 200;
+        const FAVICON_SIZE = 32; // Standard size for favicon generation (PNG)
         const charSets = {
             upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             lower: 'abcdefghijklmnopqrstuvwxyz',
@@ -1425,282 +806,388 @@
             symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
         };
 
-        function generatePassword(length, options) {
-             let charset = '';
-            const includedSets = [];
-            if (options.upper) { charset += charSets.upper; includedSets.push(charSets.upper); }
-            if (options.lower) { charset += charSets.lower; includedSets.push(charSets.lower); }
-            if (options.numbers) { charset += charSets.numbers; includedSets.push(charSets.numbers); }
-            if (options.symbols) { charset += charSets.symbols; includedSets.push(charSets.symbols); }
+        // --- Audio Trimmer State ---
+        let audioContext = null;
+        let audioBuffer = null;
+        let audioFile = null;
+        let audioSourceNode = null;
+        let trimStartTime = 0;
+        let trimEndTime = 0;
+        let isAudioPlaying = false;
 
-             if (charset === '') {
-                 return 'Select at least one character type!';
-             }
+        // --- Utility Function Definitions (OK here) ---
+        function copyToClipboard(text, buttonElement) {
+            if (!text || text === 'Click Generate...' || text === 'Generated text will appear here...' || text === 'CSV output will appear here...' || text === 'Differences will be highlighted here...' || text === 'Error generating CSV.') {
+                // Maybe show a small temporary message near the button instead of alert?
+                // Example: buttonElement.querySelector('.copy-feedback').textContent = 'Nothing to copy!';
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const feedback = buttonElement?.querySelector('.copy-feedback');
+                if (feedback) { feedback.classList.remove('hidden'); feedback.textContent = 'Copied!'; setTimeout(() => { feedback.classList.add('hidden'); }, 1500); }
+            }).catch(err => { console.error('Failed to copy: ', err); alert('Failed to copy text.'); });
+        }
 
-            let password = '';
-            // Ensure at least one char from each selected set if length allows
-            if (includedSets.length > 0 && length >= includedSets.length) {
-                 includedSets.forEach(set => {
-                     password += set[Math.floor(Math.random() * set.length)];
-                 });
-            } else if (includedSets.length > 0) {
-                 // If length is less than number of sets, just pick one char from the combined set
-                 password += charset[Math.floor(Math.random() * charset.length)];
+        function togglePasswordVisibility(inputId, buttonElement) {
+            const input = document.getElementById(inputId);
+            const icon = buttonElement?.querySelector('i');
+            if (!input || !icon) return;
+            if (input.type === "password") { input.type = "text"; icon.classList.replace("fa-eye", "fa-eye-slash"); }
+            else { input.type = "password"; icon.classList.replace("fa-eye-slash", "fa-eye"); }
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60); const ms = Math.floor((seconds - Math.floor(seconds)) * 1000);
+            return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+        }
+
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+        // --- Tool Switching ---
+        function switchTool(toolName) {
+            if (currentTool === toolName) return;
+            if (currentTool === 'audio') { stopTrimmedAudio(); }
+
+            const currentSection = document.getElementById(`${currentTool}-tool`);
+            if (currentSection) { currentSection.classList.add('hidden'); }
+
+            const newSection = document.getElementById(`${toolName}-tool`);
+            if (newSection) {
+                newSection.classList.remove('hidden');
+                // Add fade-in animation
+                newSection.classList.remove('fade-in');
+                void newSection.offsetWidth; // Trigger reflow
+                newSection.classList.add('fade-in');
             }
 
+            document.querySelectorAll('.tab-button').forEach(button => { button.classList.remove('tab-active', 'text-blue-600', 'font-semibold', 'active'); button.classList.add('text-gray-500'); });
+            const activeTabButton = document.getElementById(`tab-${toolName}`);
+            if (activeTabButton) { activeTabButton.classList.add('tab-active', 'text-blue-600', 'font-semibold', 'active'); activeTabButton.classList.remove('text-gray-500'); }
 
-             // Fill remaining length
-            const remainingLength = length - password.length;
-              for (let i = 0; i < remainingLength; i++) {
-                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            currentTool = toolName;
+            try { // Update hash without causing jump if possible
+                history.pushState(null, '', `#${toolName}`);
+            } catch (e) { // Fallback for older browsers or specific environments
+                window.location.hash = toolName;
             }
-
-            // Shuffle the resulting password array for better randomness
-            password = password.split('').sort(() => 0.5 - Math.random()).join('');
-
-            return password;
         }
 
-        function updatePasswordStrengthIndicator(password) {
-            const score = calculatePasswordScore(password); // Use the same scoring as checker
-            const bars = passwordStrengthIndicatorEl.querySelectorAll('.strength-bar');
-            let strengthClass = 'bg-gray-300'; // Default
-
-            if (score >= 80) { strengthClass = 'bg-green-500'; }
-            else if (score >= 60) { strengthClass = 'bg-emerald-500'; }
-            else if (score >= 40) { strengthClass = 'bg-yellow-500'; }
-            else if (score > 0) { strengthClass = 'bg-red-500'; }
-
-
-            // Update bars based on score thresholds (e.g., 1 bar <= 25, 2 bars <= 50, etc.)
-            bars.forEach((bar, index) => {
-                 bar.className = 'strength-bar w-3 h-1 mx-px rounded-full '; // Reset
-                 if (score >= (index + 1) * 25) {
-                     bar.classList.add(strengthClass); // Use the determined class
-                } else {
-                     bar.classList.add('bg-gray-300');
-                }
-             });
+        // --- Text Tool Function Definitions ---
+        function convertCase(type, inputElement) {
+            let text = inputElement.value; if (!text && type !== 'clear') return;
+            switch (type) {
+                case 'upper': text = text.toUpperCase(); break;
+                case 'lower': text = text.toLowerCase(); break;
+                case 'title': text = text.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase()); break;
+                case 'sentence': text = text.toLowerCase(); text = text.charAt(0).toUpperCase() + text.slice(1); text = text.replace(/([.!?]\s+)([a-z])/g, (match, p1, p2) => p1 + p2.toUpperCase()); break;
+                case 'camel': text = text.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase()); text = text.replace(/[^a-zA-Z0-9]/g, ''); text = text.charAt(0).toLowerCase() + text.slice(1); break;
+                case 'pascal': text = text.toLowerCase().split(/[^a-zA-Z0-9]/).map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '').join(''); break;
+                case 'clear': text = ''; break;
+            }
+            inputElement.value = text;
         }
+        function countWords(text) { if (!text?.trim()) return 0; const cjkRegex = /[\u4e00-\u9fff\u3400-\u4dbf\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g; const cjkMatches = text.match(cjkRegex) || []; const cjkWordCount = cjkMatches.length; const otherWords = text.replace(cjkRegex, '').trim().split(/\s+/).filter(word => word.length > 0); const otherWordCount = otherWords.length; return cjkWordCount + otherWordCount; }
+        function updateCounterDisplay(text, elements) { const wordCount = countWords(text); elements.charCountEl.textContent = text?.length ?? 0; elements.wordCountEl.textContent = wordCount; elements.lineCountEl.textContent = text === '' ? 0 : (text.match(/\n/g) || []).length + 1; if (wordCount === 0) { elements.readingTimeEl.textContent = "0m 0s"; } else { const totalMinutes = wordCount / AVG_WPM; const minutes = Math.floor(totalMinutes); const seconds = Math.round((totalMinutes - minutes) * 60); elements.readingTimeEl.textContent = `${minutes}m ${seconds}s`; } }
+        function generateSentence(loremBase) { const sentenceLength = Math.floor(Math.random() * 10) + 8; let sentence = ''; for (let i = 0; i < sentenceLength; i++) { sentence += loremBase[Math.floor(Math.random() * loremBase.length)] + " "; } sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '.'; return sentence; }
+        function generateLoremIpsum(elements, loremBase) { const numParagraphs = Math.max(1, parseInt(elements.paragraphsInput.value) || 3); const numSentences = Math.max(1, parseInt(elements.sentencesInput.value) || 5); const startWithLorem = elements.startCheckbox.checked; let result = ''; for (let p = 0; p < numParagraphs; p++) { let paragraph = ''; let sentenceCount = numSentences; if (p === 0 && startWithLorem) { paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "; sentenceCount -= 1; } for (let s = 0; s < sentenceCount; s++) { paragraph += generateSentence(loremBase) + " "; } result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); } elements.outputDiv.textContent = result; }
+        function findTextDifferences(elements) { const text1 = elements.originalInput.value.split('\n'); const text2 = elements.changedInput.value.split('\n'); elements.outputDiv.innerHTML = ''; if (!elements.originalInput.value && !elements.changedInput.value) { elements.outputDiv.textContent = "Please enter text in both fields."; return; } const n = text1.length; const m = text2.length; const max = n + m; const v = { 1: 0 }; const trace = []; outer: for (let d = 0; d <= max; d++) { trace.push({ ...v }); for (let k = -d; k <= d; k += 2) { let x; if (k === -d || (k !== d && v[k - 1] < v[k + 1])) { x = v[k + 1]; } else { x = v[k - 1] + 1; } let y = x - k; while (x < n && y < m && text1[x] === text2[y]) { x++; y++; } v[k] = x; if (x >= n && y >= m) { trace.push({ ...v }); break outer; } } } let x = n; let y = m; const diffResult = []; for (let d = trace.length - 1; d > 0 && (x > 0 || y > 0); d--) { const v_prev = trace[d - 1]; const k = x - y; let prev_k; if (k === -d + 1 || (k !== d - 1 && v_prev[k - 1] < v_prev[k + 1])) { prev_k = k + 1; } else { prev_k = k - 1; } const prev_x = v_prev[prev_k]; const prev_y = prev_x - prev_k; while (x > prev_x && y > prev_y) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } if (d > 0) { if (prev_x < x) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } else { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } } } while (x > 0 && y > 0) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } while (x > 0) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } while (y > 0) { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } diffResult.reverse(); let hasDifferences = false; diffResult.forEach(item => { const div = document.createElement('div'); if (item.type === 'add') { div.className = 'diff-add'; div.textContent = `+ ${item.line}`; hasDifferences = true; } else if (item.type === 'remove') { div.className = 'diff-remove'; div.textContent = `- ${item.line}`; hasDifferences = true; } else { div.textContent = `  ${item.line}`; } elements.outputDiv.appendChild(div); }); if (!hasDifferences && (elements.originalInput.value || elements.changedInput.value)) { elements.outputDiv.textContent = "No differences found."; } else if (diffResult.length === 0 && (!elements.originalInput.value && !elements.changedInput.value)) { elements.outputDiv.textContent = "Differences will be highlighted here..."; } }
+
+        // --- Image Tool Function Definitions ---
+        function handleImageFileSelect(file, type, elements) { if (!file) return; if (type === 'compressor') { if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { alert('Please select a JPG, PNG, or WEBP file.'); elements.fileInput.value = ''; elements.fileNameEl.textContent = ''; elements.actionButton.disabled = true; return; } imageCompressorFile = file; elements.fileNameEl.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`; elements.actionButton.disabled = false; elements.outputEl.innerHTML = ''; } else if (type === 'converter') { if (!file.type.startsWith('image/')) { alert('Please select a valid image file.'); elements.fileInput.value = ''; elements.fileNameEl.textContent = ''; elements.actionButton.disabled = true; return; } imageConverterFile = file; elements.fileNameEl.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`; elements.actionButton.disabled = false; elements.outputEl.innerHTML = ''; } }
+        function processImage(file, options) {
+            return new Promise((resolve, reject) => {
+                if (!file) return reject('No file provided');
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let targetWidth = img.width;
+                        let targetHeight = img.height;
+                        let outputFormat = options.format; // Default to requested format
+
+                        // --- FAVICON Handling ---
+                        if (options.format === 'image/png+favicon') {
+                            targetWidth = FAVICON_SIZE;
+                            targetHeight = FAVICON_SIZE;
+                            outputFormat = 'image/png'; // Actual output is PNG
+                            console.log(`Resizing for Favicon PNG to ${targetWidth}x${targetHeight}`);
+                        }
+                        // --- End FAVICON Handling ---
+
+                        canvas.width = targetWidth;
+                        canvas.height = targetHeight;
+                        const ctx = canvas.getContext('2d');
+
+                        if (!ctx) return reject('Canvas context not available');
+
+                        // Fill background for formats without transparency (like JPG)
+                        if (outputFormat === 'image/jpeg') {
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        }
+
+                        // Draw (potentially resized) image
+                        // For favicon, maintain aspect ratio and center
+                        if (options.format === 'image/png+favicon') {
+                            const aspectRatio = img.width / img.height;
+                            let drawWidth = targetWidth;
+                            let drawHeight = targetHeight;
+                            let offsetX = 0;
+                            let offsetY = 0;
+
+                            if (aspectRatio > 1) { // Wider than tall
+                                drawHeight = targetWidth / aspectRatio;
+                                offsetY = (targetHeight - drawHeight) / 2;
+                            } else { // Taller than wide or square
+                                drawWidth = targetHeight * aspectRatio;
+                                offsetX = (targetWidth - drawWidth) / 2;
+                            }
+                            ctx.drawImage(img, 0, 0, img.width, img.height, offsetX, offsetY, drawWidth, drawHeight);
+                        } else {
+                            // Standard draw for other formats
+                            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, targetWidth, targetHeight);
+                        }
 
 
-        function generateAndDisplayPassword() {
-            const length = parseInt(lengthSliderEl.value);
-            const options = {
-                upper: pwOptUpper.checked,
-                lower: pwOptLower.checked,
-                numbers: pwOptNumbers.checked,
-                symbols: pwOptSymbols.checked
-            };
+                        try {
+                            let qualityParam = (outputFormat === 'image/jpeg' || outputFormat === 'image/webp') ? options.quality : undefined;
+                            const dataUrl = canvas.toDataURL(outputFormat, qualityParam);
 
-             if (!options.upper && !options.lower && !options.numbers && !options.symbols) {
-                 generatedPasswordEl.textContent = 'Select options!';
-                  updatePasswordStrengthIndicator('');
-                 return;
-             }
-
-            const newPassword = generatePassword(length, options);
-            generatedPasswordEl.textContent = newPassword;
-            updatePasswordStrengthIndicator(newPassword); // Update strength indicator for generated password
-        }
-
-        if (lengthSliderEl) {
-            lengthSliderEl.addEventListener('input', function () {
-                passwordLengthDisplayEl.textContent = this.value;
-                 // Optionally regenerate on slider move, or wait for button click
-                 generateAndDisplayPassword(); // Regenerate on slide
+                            fetch(dataUrl).then(res => res.blob()).then(blob => {
+                                // Check if fallback happened (e.g., browser doesn't support WEBP output)
+                                if (blob.type !== outputFormat && !(outputFormat === 'image/jpeg' && blob.type === 'image/png')) {
+                                    console.warn(`Canvas generated ${blob.type} instead of requested ${outputFormat}.`);
+                                }
+                                // Pass back the original format request AND the actual blob format
+                                resolve({ dataUrl, blob, requestedFormat: options.format, actualFormat: blob.type })
+                            }).catch(reject);
+                        } catch (error) {
+                            console.error("Canvas toDataURL error:", error);
+                            reject(`Error converting image: ${error.message}. Format ${outputFormat} might not be supported.`);
+                        }
+                    };
+                    img.onerror = (err) => reject('Failed to load image.');
+                    img.src = event.target?.result ?? '';
+                };
+                reader.onerror = (err) => reject('Failed to read file.');
+                reader.readAsDataURL(file);
             });
-             // Add event listeners to checkboxes to regenerate password
-             [pwOptUpper, pwOptLower, pwOptNumbers, pwOptSymbols].forEach(el => {
-                 el?.addEventListener('change', generateAndDisplayPassword);
-             });
+        }
+        async function compressImage(elements) { if (!imageCompressorFile) { alert("Select image first."); return; } elements.actionButton.disabled = true; elements.actionButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Compressing...'; elements.outputEl.innerHTML = ''; const format = document.querySelector('input[name="compressFormat"]:checked')?.value ?? 'image/jpeg'; const quality = (format === 'image/jpeg' || format === 'image/webp') ? parseInt(elements.qualitySlider.value) / 100 : undefined; try { const { blob, actualFormat } = await processImage(imageCompressorFile, { format, quality }); const originalSizeMB = (imageCompressorFile.size / 1024 / 1024).toFixed(2); const compressedSizeMB = (blob.size / 1024 / 1024).toFixed(2); const reduction = imageCompressorFile.size > 0 ? ((1 - blob.size / imageCompressorFile.size) * 100).toFixed(1) : 0; const downloadUrl = URL.createObjectURL(blob); let extension = actualFormat.split('/')[1]; if (extension === 'jpeg') extension = 'jpg'; elements.outputEl.innerHTML = `Original Size: ${originalSizeMB} MB (${imageCompressorFile.type})<br> Compressed Size: ${compressedSizeMB} MB (${actualFormat})<br> ${reduction >= 0 ? `Reduction: ${reduction}%<br>` : `Increase: ${Math.abs(reduction)}%<br>`} <a href="${downloadUrl}" download="compressed_${Date.now()}.${extension}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"> <i class="fas fa-download mr-2"></i> Download Compressed</a>`; URL.revokeObjectURL(downloadUrl); } catch (error) { console.error("Compression error:", error); elements.outputEl.innerHTML = `<span class="text-red-600">Error: ${error}</span>`; } finally { elements.actionButton.disabled = false; elements.actionButton.innerHTML = '<i class="fas fa-compress-alt mr-2"></i> Compress Image'; } }
+        function setConversionFormat(format, buttonElement, elements) { imageConverterFormat = format; elements.formatButtons.forEach(btn => { btn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active'); btn.classList.add('border-gray-300', 'hover:bg-gray-50'); }); buttonElement?.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'active'); buttonElement?.classList.remove('border-gray-300', 'hover:bg-gray-50'); }
+        async function convertImage(elements) { if (!imageConverterFile) { alert("Select image first."); return; } elements.actionButton.disabled = true; elements.actionButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...'; elements.outputEl.innerHTML = ''; const targetFormat = imageConverterFormat; const quality = (targetFormat === 'image/jpeg' || targetFormat === 'image/webp') ? 0.92 : undefined; try { const { blob, requestedFormat, actualFormat } = await processImage(imageConverterFile, { format: targetFormat, quality }); const convertedSizeMB = (blob.size / 1024 / 1024).toFixed(2); const downloadUrl = URL.createObjectURL(blob); let extension = actualFormat.split('/')[1]; if (extension === 'jpeg') extension = 'jpg'; let downloadName = `converted_${Date.now()}.${extension}`; if (requestedFormat === 'image/png+favicon') { extension = 'png'; downloadName = `favicon_${FAVICON_SIZE}x${FAVICON_SIZE}.png`; } elements.outputEl.innerHTML = `Converted Size: ${convertedSizeMB} MB<br> Format: ${extension.toUpperCase()}<br> ${actualFormat !== (targetFormat === 'image/png+favicon' ? 'image/png' : targetFormat) ? `<span class="text-orange-600 text-xs">Note: Browser converted to ${actualFormat}.</span><br>` : ''} <a href="${downloadUrl}" download="${downloadName}" class="mt-2 inline-block px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"> <i class="fas fa-download mr-2"></i> Download Converted</a>`; URL.revokeObjectURL(downloadUrl); } catch (error) { console.error("Conversion error:", error); elements.outputEl.innerHTML = `<span class="text-red-600">Error: ${error}</span>`; } finally { elements.actionButton.disabled = false; elements.actionButton.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Convert Image'; } }
+
+        // --- Audio Tool Function Definitions ---
+        function getAudioContext() { if (!audioContext) { try { window.AudioContext = window.AudioContext || window.webkitAudioContext; audioContext = new AudioContext(); } catch (e) { console.error("Web Audio API not supported", e); const statusEl = document.getElementById('trimmer-status'); if (statusEl) { statusEl.textContent = 'Error: Web Audio API not supported!'; statusEl.classList.add('text-red-600'); } audioContext = null; } } return audioContext; }
+        function handleAudioFileSelect(file, elements) { if (!file) return; if (!file.type.startsWith('audio/')) { alert('Select valid audio file.'); resetAudioTrimmerUI(elements); return; } audioFile = file; elements.fileNameEl.textContent = `Selected: ${file.name}`; elements.statusEl.textContent = 'Loading...'; elements.statusEl.classList.remove('text-red-600'); stopTrimmedAudio(); audioBuffer = null; setTrimmerControlsDisabled(true, true, elements); const reader = new FileReader(); reader.onload = function (e) { const arrayBuffer = e.target?.result; if (!arrayBuffer) { console.error("Failed read buffer"); elements.statusEl.textContent = 'Error reading buffer.'; elements.statusEl.classList.add('text-red-600'); resetAudioTrimmerUI(elements, false); return; } const context = getAudioContext(); if (!context) return; elements.statusEl.textContent = 'Decoding...'; context.decodeAudioData(arrayBuffer, (decodedBuffer) => { audioBuffer = decodedBuffer; const duration = audioBuffer.duration; elements.statusEl.textContent = `Ready. Duration: ${formatTime(duration)}`; elements.startSlider.max = duration; elements.endSlider.max = duration; elements.startSlider.value = 0; elements.endSlider.value = duration; trimStartTime = 0; trimEndTime = duration; elements.startDisplay.textContent = formatTime(trimStartTime); elements.endDisplay.textContent = formatTime(trimEndTime); setTrimmerControlsDisabled(false, false, elements); }, (error) => { console.error('Decode error:', error); elements.statusEl.textContent = `Decode Error: ${error.message || '?'}`; elements.statusEl.classList.add('text-red-600'); resetAudioTrimmerUI(elements, false); }); }; reader.onerror = function (e) { console.error("Reader error:", e); elements.statusEl.textContent = 'Error reading file.'; elements.statusEl.classList.add('text-red-600'); resetAudioTrimmerUI(elements); }; reader.readAsArrayBuffer(file); }
+        function updateTrimTimes(sliderElement, elements) { if (!audioBuffer) return; let startVal = parseFloat(elements.startSlider.value); let endVal = parseFloat(elements.endSlider.value); if (startVal >= endVal) { if (sliderElement === elements.startSlider) { endVal = Math.min(startVal + 0.01, audioBuffer.duration); elements.endSlider.value = endVal; } else { startVal = Math.max(0, endVal - 0.01); elements.startSlider.value = startVal; } } trimStartTime = Math.max(0, startVal); trimEndTime = Math.min(audioBuffer.duration, endVal); elements.startDisplay.textContent = formatTime(trimStartTime); elements.endDisplay.textContent = formatTime(trimEndTime); if (isAudioPlaying) { stopTrimmedAudio(); } }
+        function toggleTrimPlayback(elements) { if (!audioBuffer) return; if (isAudioPlaying) { stopTrimmedAudio(); } else { playTrimmedAudio(elements); } }
+        function playTrimmedAudio(elements) { if (!audioBuffer || isAudioPlaying) return; const context = getAudioContext(); if (!context) return; stopTrimmedAudio(); audioSourceNode = context.createBufferSource(); audioSourceNode.buffer = audioBuffer; audioSourceNode.connect(context.destination); const offset = trimStartTime; const duration = Math.max(0, trimEndTime - trimStartTime); if (duration <= 0) return; if (context.state === 'suspended') { context.resume().catch(e => console.error("Resume failed", e)); } try { audioSourceNode.start(0, offset, duration); } catch (e) { console.error("Audio start failed:", e); return; } isAudioPlaying = true; elements.playIcon.classList.replace('fa-play', 'fa-pause'); elements.playText.textContent = 'Pause Segment'; audioSourceNode.onended = () => { if (isAudioPlaying) { stopTrimmedAudio(); } }; }
+        function stopTrimmedAudio() { if (audioSourceNode) { audioSourceNode.onended = null; try { audioSourceNode.stop(); } catch (e) { /* Ignore */ } try { audioSourceNode.disconnect(); } catch (e) { /* Ignore */ } audioSourceNode = null; } isAudioPlaying = false; const playIcon = document.getElementById('play-trim-icon'); const playText = document.getElementById('play-trim-text'); if (playIcon) playIcon.classList.replace('fa-pause', 'fa-play'); if (playText) playText.textContent = 'Play Segment'; }
+        function setTrimmerControlsDisabled(playDisabled, downloadDisabled, elements) { if (!elements) return; elements.startSlider.disabled = playDisabled; elements.endSlider.disabled = playDisabled; elements.playButton.disabled = playDisabled; elements.downloadButton.disabled = downloadDisabled; }
+        function resetAudioTrimmerUI(elements, clearFilename = true) { if (!elements) return; stopTrimmedAudio(); audioBuffer = null; audioFile = null; if (clearFilename) { elements.fileNameEl.textContent = ''; if (elements.fileInput) elements.fileInput.value = ''; } elements.statusEl.textContent = 'Select an audio file to begin.'; elements.statusEl.classList.remove('text-red-600'); elements.startSlider.value = 0; elements.endSlider.value = 100; elements.startSlider.max = 100; elements.endSlider.max = 100; elements.startDisplay.textContent = formatTime(0); elements.endDisplay.textContent = formatTime(0); setTrimmerControlsDisabled(true, true, elements); }
+        function bufferToWav(buffer, startSec, endSec) { const context = getAudioContext(); if (!context) throw new Error("AudioContext required."); const sampleRate = buffer.sampleRate; const numChannels = buffer.numberOfChannels; const startFrame = Math.floor(startSec * sampleRate); const endFrame = Math.floor(endSec * sampleRate); const frameCount = endFrame - startFrame; if (frameCount <= 0) throw new Error("Trim length must be positive."); const trimmedBuffer = context.createBuffer(numChannels, frameCount, sampleRate); for (let i = 0; i < numChannels; i++) { trimmedBuffer.getChannelData(i).set(buffer.getChannelData(i).subarray(startFrame, endFrame)); } const bytesPerSample = 2; const blockAlign = numChannels * bytesPerSample; const byteRate = sampleRate * blockAlign; const dataSize = frameCount * blockAlign; const bufferLength = 44 + dataSize; const wavBuffer = new ArrayBuffer(bufferLength); const view = new DataView(wavBuffer); function writeString(v, o, s) { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); } writeString(view, 0, 'RIFF'); view.setUint32(4, 36 + dataSize, true); writeString(view, 8, 'WAVE'); writeString(view, 12, 'fmt '); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, numChannels, true); view.setUint32(24, sampleRate, true); view.setUint32(28, byteRate, true); view.setUint16(32, blockAlign, true); view.setUint16(34, bytesPerSample * 8, true); writeString(view, 36, 'data'); view.setUint32(40, dataSize, true); let offset = 44; const pcmData = new Int16Array(frameCount * numChannels); let pcmIndex = 0; for (let i = 0; i < frameCount; i++) { for (let channel = 0; channel < numChannels; channel++) { const sample = trimmedBuffer.getChannelData(channel)[i]; const val = Math.max(-1, Math.min(1, sample)); pcmData[pcmIndex++] = val < 0 ? val * 0x8000 : val * 0x7FFF; } } for (let i = 0; i < pcmData.length; i++, offset += 2) { view.setInt16(offset, pcmData[i], true); } return new Blob([view], { type: 'audio/wav' }); }
+        async function downloadTrimmedAudio(elements) {
+            if (!audioBuffer || !audioFile) {
+                alert("No audio loaded.");
+                return;
+            }
+            if (trimEndTime <= trimStartTime) {
+                alert("End time must be > start time.");
+                return;
+            }
+
+            elements.downloadButton.disabled = true;
+            elements.downloadIcon.classList.replace('fa-download', 'fa-spinner');
+            elements.downloadIcon.classList.add('fa-spin');
+            elements.downloadText.textContent = 'Processing...';
+            elements.statusEl.textContent = 'Processing WAV...';
+
+            try {
+                const wavBlob = bufferToWav(audioBuffer, trimStartTime, trimEndTime);
+                const url = URL.createObjectURL(wavBlob);
+
+                // Create and trigger download
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                const baseName = audioFile.name.substring(0, audioFile.name.lastIndexOf('.')) || 'audio';
+                a.download = `${baseName}_trimmed_${trimStartTime.toFixed(1)}s-${trimEndTime.toFixed(1)}s.wav`;
+                document.body.appendChild(a);
+                a.click();
+
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                elements.statusEl.textContent = `Ready. Duration: ${formatTime(audioBuffer.duration)}`;
+            } catch (error) {
+                console.error("WAV Download Error:", error);
+                alert(`Download Error: ${error.message}`);
+                elements.statusEl.textContent = `Error: ${error.message}`;
+                elements.statusEl.classList.add('text-red-600');
+            } finally {
+                elements.downloadButton.disabled = false;
+                elements.downloadIcon.classList.remove('fa-spin');
+                elements.downloadIcon.classList.replace('fa-spinner', 'fa-download');
+                elements.downloadText.textContent = 'Download WAV';
+            }
         }
 
-        // Simple Password Strength Scoring Heuristic
-        function calculatePasswordScore(password) {
-            let score = 0;
-            if (!password) return 0;
-            const length = password.length;
+        // --- Data Tool Function Definitions ---
+        function loadSampleJson(elements) { elements.jsonInput.value = '[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}]'; elements.errorEl.textContent = ''; elements.csvOutput.textContent = 'CSV output...'; }
+        function convertJsonToCsv(elements) { elements.errorEl.textContent = ''; elements.csvOutput.textContent = ''; try { const jsonString = elements.jsonInput.value.trim(); if (!jsonString) { elements.errorEl.textContent = 'Input empty.'; elements.csvOutput.textContent = 'CSV output...'; return; } const data = JSON.parse(jsonString); if (!Array.isArray(data)) { elements.errorEl.textContent = 'Input must be JSON array.'; elements.csvOutput.textContent = 'Error.'; return; } if (data.length === 0) { elements.csvOutput.textContent = 'Empty array.'; return; } const headerSet = new Set(); data.forEach(row => { if (typeof row === 'object' && row !== null) { Object.keys(row).forEach(key => headerSet.add(key)); } else { throw new Error("Array has non-objects."); } }); const headers = Array.from(headerSet); if (headers.length === 0 && data.length > 0) { elements.errorEl.textContent = 'Objects have no keys.'; elements.csvOutput.textContent = 'Error.'; return; } if (headers.length === 0) { elements.csvOutput.textContent = 'Empty objects.'; return; } let csvContent = headers.map(header => `"${header.replace(/"/g, '""')}"`).join(',') + '\n'; data.forEach(row => { const values = headers.map(header => { let value = row.hasOwnProperty(header) ? row[header] : ''; if (value === null || value === undefined) { value = ''; } else { value = String(value); if (value.includes(',') || value.includes('\n') || value.includes('"')) { value = `"${value.replace(/"/g, '""')}"`; } } return value; }); csvContent += values.join(',') + '\n'; }); elements.csvOutput.textContent = csvContent.trim(); } catch (error) { console.error("JSON->CSV Error:", error); elements.errorEl.textContent = `Error: ${error.message}`; elements.csvOutput.textContent = 'Error.'; } }
+        function base64Encode(elements) { elements.errorEl.textContent = ''; try { const text = elements.inputEl.value; const utf8Bytes = new TextEncoder().encode(text); const binaryString = String.fromCharCode(...utf8Bytes); elements.outputEl.value = btoa(binaryString); } catch (error) { console.error("B64 Encode Error:", error); elements.errorEl.textContent = `Encode Error: ${error.message}`; elements.outputEl.value = ''; } }
+        function base64Decode(elements) { elements.errorEl.textContent = ''; try { const base64 = elements.inputEl.value.trim().replace(/\s/g, ''); if (!base64) { elements.outputEl.value = ''; return; } if (!/^[A-Za-z0-9+/]*=?=?$/.test(base64) || base64.length % 4 !== 0) { throw new Error("Invalid Base64."); } const binaryString = atob(base64); const bytes = Uint8Array.from(binaryString, c => c.charCodeAt(0)); elements.outputEl.value = new TextDecoder().decode(bytes); } catch (error) { console.error("B64 Decode Error:", error); if (error instanceof DOMException && error.name === 'InvalidCharacterError') { elements.errorEl.textContent = `Decode Error: Invalid chars.`; } else { elements.errorEl.textContent = `Decode Error: ${error.message}`; } elements.outputEl.value = ''; } }
+        function swapBase64(elements) { const inputVal = elements.inputEl.value; const outputVal = elements.outputEl.value; elements.inputEl.value = outputVal; elements.outputEl.value = inputVal; elements.errorEl.textContent = ''; }
 
-             // Base score based on length
-            if (length < 8) return Math.max(0, length * 2); // Very low score for short passwords
-             if (length < 12) score += 20;
-             else if (length < 16) score += 40;
-             else score += 50;
-
-
-             // Bonus for character types
-            let types = 0;
-            if (/[A-Z]/.test(password)) { types++; score += 10; }
-             if (/[a-z]/.test(password)) { types++; score += 5; } // slightly less bonus
-            if (/[0-9]/.test(password)) { types++; score += 10; }
-             if (/[^A-Za-z0-9]/.test(password)) { types++; score += 15; } // symbols highest bonus
+        // --- Security Tool Function Definitions ---
+        function generatePassword(length, options) { let charset = ''; const includedSets = []; if (options.upper) { charset += charSets.upper; includedSets.push(charSets.upper); } if (options.lower) { charset += charSets.lower; includedSets.push(charSets.lower); } if (options.numbers) { charset += charSets.numbers; includedSets.push(charSets.numbers); } if (options.symbols) { charset += charSets.symbols; includedSets.push(charSets.symbols); } if (charset === '') { return 'Select options!'; } let password = ''; if (includedSets.length > 0 && length >= includedSets.length) { includedSets.forEach(set => { password += set[Math.floor(Math.random() * set.length)]; }); } else if (includedSets.length > 0) { password += charset[Math.floor(Math.random() * charset.length)]; } const remainingLength = Math.max(0, length - password.length); const randomValues = new Uint32Array(remainingLength); if (window.crypto && window.crypto.getRandomValues) { window.crypto.getRandomValues(randomValues); for (let i = 0; i < remainingLength; i++) { password += charset.charAt(randomValues[i] % charset.length); } } else { console.warn("Using Math.random."); for (let i = 0; i < remainingLength; i++) { password += charset.charAt(Math.floor(Math.random() * charset.length)); } } password = password.split('').sort(() => 0.5 - Math.random()).join(''); return password; }
+        function calculatePasswordScore(password) { let score = 0; if (!password) return 0; const length = password.length; if (length < 8) return Math.max(0, length * 2); if (length < 12) score += 20; else if (length < 16) score += 40; else score += 50; let types = 0; if (/[A-Z]/.test(password)) { types++; score += 10; } if (/[a-z]/.test(password)) { types++; score += 5; } if (/[0-9]/.test(password)) { types++; score += 10; } if (/[^A-Za-z0-9]/.test(password)) { types++; score += 15; } if (types === 3) score += 10; else if (types === 4) score += 20; if (/(.)\1{2,}/.test(password)) score -= 10; if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/i.test(password)) score -= 5; if (/zyx|yxw|xwv|wvu|vut|uts|tsr|srq|rqp|qpo|pon|onm|nml|mlk|lkj|kji|jih|ihg|hgf|gfe|fed|edc|dcb|cba/i.test(password)) score -= 5; if (/123|234|345|456|567|678|789|890/.test(password)) score -= 5; if (/098|987|876|765|654|543|432|321|210/.test(password)) score -= 5; return Math.max(0, Math.min(100, Math.round(score))); }
+        function updatePasswordStrengthIndicator(password, indicatorEl) { const score = calculatePasswordScore(password); const bars = indicatorEl?.querySelectorAll('.strength-bar'); if (!bars || bars.length === 0) return; let strengthClass = 'bg-gray-300'; if (score >= 80) { strengthClass = 'bg-green-500'; } else if (score >= 60) { strengthClass = 'bg-emerald-500'; } else if (score >= 40) { strengthClass = 'bg-yellow-500'; } else if (score > 0) { strengthClass = 'bg-red-500'; } bars.forEach((bar, index) => { bar.className = 'strength-bar w-3 h-1 mx-px rounded-full '; if (score >= (index + 1) * 25) { bar.classList.add(strengthClass); } else { bar.classList.add('bg-gray-300'); } }); }
+        function generateAndDisplayPassword(elements) { if (!elements.lengthSlider) return; const length = parseInt(elements.lengthSlider.value); const options = { upper: elements.optUpper.checked, lower: elements.optLower.checked, numbers: elements.optNumbers.checked, symbols: elements.optSymbols.checked }; const newPassword = generatePassword(length, options); elements.outputEl.textContent = newPassword; updatePasswordStrengthIndicator(newPassword, elements.strengthIndicator); }
+        function getPasswordFeedback(password, score) { const feedback = []; const length = password.length; if (length < 8) feedback.push({ text: "❌ Very short. Increase length.", type: 'bad' }); else if (length < 12) feedback.push({ text: "⚠️ Short. Aim for 12+ chars.", type: 'warn' }); else feedback.push({ text: "✅ Good length.", type: 'good' }); let types = 0; let hasUpper = /[A-Z]/.test(password); let hasLower = /[a-z]/.test(password); let hasNumbers = /[0-9]/.test(password); let hasSymbols = /[^A-Za-z0-9]/.test(password); if (hasUpper) types++; else feedback.push({ text: "⚠️ Add uppercase.", type: 'warn' }); if (hasLower) types++; else feedback.push({ text: "⚠️ Add lowercase.", type: 'warn' }); if (hasNumbers) types++; else feedback.push({ text: "⚠️ Add numbers.", type: 'warn' }); if (hasSymbols) types++; else feedback.push({ text: "⚠️ Add symbols.", type: 'warn' }); if (types < 3 && length >= 8) feedback.push({ text: "⚠️ Mix more types.", type: 'warn' }); else if (types >= 3) feedback.push({ text: "✅ Good mix of types.", type: 'good' }); if (/(.)\1{2,}/.test(password)) feedback.push({ text: "❌ Avoid repeating chars.", type: 'bad' }); if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz|012|123|234|345|456|567|678|789|890/i.test(password)) feedback.push({ text: "❌ Avoid sequences.", type: 'bad' }); if (/zyx|yxw|xwv|wvu|vut|uts|tsr|srq|rqp|qpo|pon|onm|nml|mlk|lkj|kji|jih|ihg|hgf|gfe|fed|edc|dcb|cba|098|987|876|765|654|543|432|321|210/i.test(password)) feedback.push({ text: "❌ Avoid reverse sequences.", type: 'bad' }); if (score < 40 && length >= 8) feedback.push({ text: "❌ Weak password.", type: 'bad' }); else if (score < 60 && length >= 10) feedback.push({ text: "⚠️ Could be stronger.", type: 'warn' }); return feedback; }
+        function checkPasswordStrength(elements) { const password = elements.inputEl.value; elements.resultsEl.classList.add('hidden'); elements.initialMsgEl.classList.add('hidden'); if (!password) { elements.initialMsgEl.textContent = "Enter password to check."; elements.initialMsgEl.classList.remove('hidden'); elements.barOverallEl.style.width = `0%`; elements.barOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out bg-gray-200`; elements.strengthTextEl.textContent = ''; return; } const score = calculatePasswordScore(password); const feedbackItems = getPasswordFeedback(password, score); let strengthClass = 'bg-red-500'; let strengthText = 'Very Weak'; if (score >= 80) { strengthClass = 'bg-green-500'; strengthText = 'Very Strong'; } else if (score >= 60) { strengthClass = 'bg-emerald-500'; strengthText = 'Strong'; } else if (score >= 40) { strengthClass = 'bg-yellow-500'; strengthText = 'Medium'; } else if (score > 0) { strengthClass = 'bg-red-500'; strengthText = 'Weak'; } elements.barOverallEl.style.width = `${score}%`; elements.barOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; elements.strengthTextEl.textContent = strengthText; const textColorClass = strengthClass.replace('bg-', 'text-').replace('500', '600'); elements.strengthTextEl.className = `text-sm font-semibold ${textColorClass}`; elements.feedbackEl.innerHTML = ''; const feedbackTypeOrder = { 'bad': 1, 'warn': 2, 'good': 3 }; feedbackItems.sort((a, b) => (feedbackTypeOrder[a.type] || 99) - (feedbackTypeOrder[b.type] || 99)); feedbackItems.forEach(item => { const p = document.createElement('p'); p.textContent = item.text; if (item.type === 'bad') p.classList.add('text-red-600'); else if (item.type === 'warn') p.classList.add('text-amber-600'); else if (item.type === 'good') p.classList.add('text-green-600'); else p.classList.add('text-gray-600'); elements.feedbackEl.appendChild(p); }); elements.resultsEl.classList.remove('hidden'); }
 
 
-             // Bonus for using multiple types
-             if (types === 3) score += 10;
-             else if (types === 4) score += 20;
-
-
-             // Deductions (simple checks)
-             // Repeating characters (aaa, 111)
-             if (/(.)\1{2,}/.test(password)) score -= 10;
-             // Sequential letters (abc, cba)
-             if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/i.test(password)) score -= 5;
-              if (/zyx|yxw|xwv|wvu|vut|uts|tsr|srq|rqp|qpo|pon|onm|nml|mlk|lkj|kji|jih|ihg|hgf|gfe|fed|edc|dcb|cba/i.test(password)) score -= 5;
-             // Sequential numbers (123, 987)
-             if (/123|234|345|456|567|678|789|890/.test(password)) score -= 5;
-             if (/098|987|876|765|654|543|432|321|210/.test(password)) score -= 5;
-
-
-            return Math.max(0, Math.min(100, Math.round(score))); // Clamp score between 0 and 100
-        }
-
-         function getPasswordFeedback(password, score) {
-            const feedback = [];
-            const length = password.length;
-
-            if (length < 8) feedback.push({ text: "❌ Very short. Significantly increase length.", type: 'bad' });
-            else if (length < 12) feedback.push({ text: "⚠️ Too short. Aim for 12+ characters.", type: 'warn' });
-            else feedback.push({ text: "✅ Good length (12+ characters).", type: 'good' });
-
-            let types = 0;
-            let hasUpper = /[A-Z]/.test(password);
-            let hasLower = /[a-z]/.test(password);
-            let hasNumbers = /[0-9]/.test(password);
-            let hasSymbols = /[^A-Za-z0-9]/.test(password);
-
-            if (hasUpper) types++; else feedback.push({ text: "⚠️ Add uppercase letters (A-Z).", type: 'warn' });
-            if (hasLower) types++; else feedback.push({ text: "⚠️ Add lowercase letters (a-z).", type: 'warn' });
-            if (hasNumbers) types++; else feedback.push({ text: "⚠️ Add numbers (0-9).", type: 'warn' });
-            if (hasSymbols) types++; else feedback.push({ text: "⚠️ Add symbols (!@#$%).", type: 'warn' });
-
-            if (types < 3 && length >= 8) feedback.push({ text: "⚠️ Mix more character types (letters, numbers, symbols).", type: 'warn' });
-            else if (types >= 3) feedback.push({ text: "✅ Good mix of character types.", type: 'good' });
-
-            // Basic check for repeating chars (e.g., 'aaaa', '1111') - very simple
-            if (/(.)\1{2,}/.test(password)) feedback.push({ text: "❌ Avoid repeating characters (like 'aaa').", type: 'bad' });
-
-            // Simple sequential check (e.g., 'abc', '123') - very simple
-             if (/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz|012|123|234|345|456|567|678|789|890/i.test(password)) feedback.push({ text: "❌ Avoid sequential letters or numbers (like 'abc' or '123').", type: 'bad' });
-              if (/zyx|yxw|xwv|wvu|vut|uts|tsr|srq|rqp|qpo|pon|onm|nml|mlk|lkj|kji|jih|ihg|hgf|gfe|fed|edc|dcb|cba|098|987|876|765|654|543|432|321|210/i.test(password)) feedback.push({ text: "❌ Avoid reverse sequential letters or numbers (like 'cba' or '321').", type: 'bad' });
-
-
-             // Overall encouragement/warning based on score
-             if(score < 40 && length >= 8) feedback.push({ text: "❌ Password is weak and potentially easy to guess.", type: 'bad' });
-             else if(score < 60 && length >= 10) feedback.push({ text: "⚠️ Password could be stronger. Consider adding more complexity or length.", type: 'warn' });
-
-
-            return feedback;
-        }
-
-        function checkPasswordStrength() {
-            const password = strengthCheckInput.value;
-            strengthResultsEl.classList.add('hidden'); // Hide results initially
-            strengthInitialMessageEl.classList.add('hidden');
-
-            if (!password) {
-                strengthInitialMessageEl.textContent = "Enter a password to see its strength analysis.";
-                 strengthInitialMessageEl.classList.remove('hidden');
-                // Reset strength bar and text if input is cleared
-                 strengthBarOverallEl.style.width = `0%`;
-                 strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out bg-gray-200`;
-                 strengthTextEl.textContent = '';
-                 return;
-             }
-
-             const score = calculatePasswordScore(password);
-             const feedbackItems = getPasswordFeedback(password, score);
-
-             // Update Bar
-             let strengthClass = 'bg-red-500'; // Default weak
-             let strengthText = 'Very Weak';
-             if (score >= 80) { strengthClass = 'bg-green-500'; strengthText = 'Very Strong'; }
-             else if (score >= 60) { strengthClass = 'bg-emerald-500'; strengthText = 'Strong'; }
-             else if (score >= 40) { strengthClass = 'bg-yellow-500'; strengthText = 'Medium'; }
-             else if (score > 0) { strengthClass = 'bg-red-500'; strengthText = 'Weak'; }
-             else { strengthClass = 'bg-red-500'; } // Score of 0 is still very weak
-
-
-             strengthBarOverallEl.style.width = `${score}%`;
-             strengthBarOverallEl.className = `h-2 rounded-full transition-all duration-300 ease-out ${strengthClass}`; // Apply color class
-             strengthTextEl.textContent = strengthText;
-            // Match text color roughly - ensure fallback if class structure changes
-            const textColorClass = strengthClass.replace('bg-', 'text-') + (strengthClass.includes('500') ? '-600' : ''); //e.g. bg-red-500 -> text-red-600
-            strengthTextEl.className = `text-sm font-semibold ${textColorClass}`;
-
-
-             // Update Feedback List
-             strengthFeedbackEl.innerHTML = ''; // Clear previous feedback
-            const feedbackTypeOrder = { 'bad': 1, 'warn': 2, 'good': 3 }; // Sort feedback: bad first
-            feedbackItems.sort((a, b) => (feedbackTypeOrder[a.type] || 99) - (feedbackTypeOrder[b.type] || 99));
-
-             feedbackItems.forEach(item => {
-                 const p = document.createElement('p');
-                 p.textContent = item.text;
-                 if (item.type === 'bad') p.classList.add('text-red-600');
-                 else if (item.type === 'warn') p.classList.add('text-amber-600');
-                 else if (item.type === 'good') p.classList.add('text-green-600');
-                 else p.classList.add('text-gray-600');
-                 strengthFeedbackEl.appendChild(p);
-             });
-
-             strengthResultsEl.classList.remove('hidden'); // Show the results section
-        }
-
-        // --- Initial Setup ---
+        // --- Initial Setup (Waits for DOM) ---
         document.addEventListener('DOMContentLoaded', function () {
-             const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf']; // Added 'audio'
-                 const toolFromHash = window.location.hash.substring(1);
 
-            // Set initial tool based on hash or default to 'text'
-                 if (validTools.includes(toolFromHash)) {
-                     switchTool(toolFromHash);
-                 } else {
-                switchTool('text'); // Ensure text is default visually and functionally
-                window.location.hash = 'text'; // Set hash to default if invalid or missing
-             }
+            // --- DOM Element References ---
+            // Text Tools
+            const caseConverterInput = document.getElementById('case-converter-input');
+            const counterInput = document.getElementById('counter-input');
+            const counterElements = { charCountEl: document.getElementById('char-count'), wordCountEl: document.getElementById('word-count'), lineCountEl: document.getElementById('line-count'), readingTimeEl: document.getElementById('reading-time') };
+            const loremElements = { paragraphsInput: document.getElementById('lorem-paragraphs'), sentencesInput: document.getElementById('lorem-sentences'), startCheckbox: document.getElementById('lorem-start'), outputDiv: document.getElementById('lorem-output'), generateButton: document.getElementById('generate-lorem-button') };
+            const loremIpsumBase = "Lorem ipsum dolor sit amet...".split(' '); // Keep short for brevity
+            const diffElements = { originalInput: document.getElementById('diff-original'), changedInput: document.getElementById('diff-changed'), outputDiv: document.getElementById('diff-output'), findButton: document.getElementById('find-diff-button') };
+
+            // Image Tools
+            const compressorElements = { fileInput: document.getElementById('compressor-file-input'), dropZone: document.getElementById('compressor-drop-zone'), fileNameEl: document.getElementById('compressor-file-name'), outputEl: document.getElementById('compressor-output'), actionButton: document.getElementById('compress-button'), qualitySlider: document.getElementById('quality-slider'), qualityValueEl: document.getElementById('quality-value'), formatRadios: document.querySelectorAll('input[name="compressFormat"]') };
+            const converterElements = { fileInput: document.getElementById('converter-file-input'), dropZone: document.getElementById('converter-drop-zone'), fileNameEl: document.getElementById('converter-file-name'), outputEl: document.getElementById('converter-output'), actionButton: document.getElementById('convert-button'), formatButtons: document.querySelectorAll('.convert-format-btn') };
+
+            // Audio Tools
+            const audioTrimmerElements = { dropZone: document.getElementById('trimmer-drop-zone'), fileInput: document.getElementById('audio-trimmer-file-input'), fileNameEl: document.getElementById('audio-trimmer-file-name'), statusEl: document.getElementById('trimmer-status'), startSlider: document.getElementById('trim-start-slider'), endSlider: document.getElementById('trim-end-slider'), startDisplay: document.getElementById('trim-start-display'), endDisplay: document.getElementById('trim-end-display'), playButton: document.getElementById('play-trim-button'), playIcon: document.getElementById('play-trim-icon'), playText: document.getElementById('play-trim-text'), downloadButton: document.getElementById('download-trimmed-button'), downloadIcon: document.getElementById('download-trim-icon'), downloadText: document.getElementById('download-trim-text') };
+
+            // Data Tools
+            const jsonCsvElements = { jsonInput: document.getElementById('json-input'), csvOutput: document.getElementById('csv-output'), errorEl: document.getElementById('json-csv-error'), sampleButton: document.getElementById('load-sample-json'), convertButton: document.getElementById('convert-json-csv') };
+            const base64Elements = { inputEl: document.getElementById('base64-input'), outputEl: document.getElementById('base64-output'), errorEl: document.getElementById('base64-error'), swapButton: document.getElementById('swap-base64'), encodeButton: document.getElementById('base64-encode'), decodeButton: document.getElementById('base64-decode') };
+
+            // Security Tools
+            const pwGenElements = { outputEl: document.getElementById('generated-password'), lengthSlider: document.getElementById('length-slider'), lengthDisplay: document.getElementById('password-length-display'), optUpper: document.getElementById('pw-opt-upper'), optLower: document.getElementById('pw-opt-lower'), optNumbers: document.getElementById('pw-opt-numbers'), optSymbols: document.getElementById('pw-opt-symbols'), strengthIndicator: document.getElementById('password-strength-indicator'), generateButton: document.getElementById('generate-password-button'), optionsCheckboxes: document.querySelectorAll('.pw-gen-option') };
+            const pwStrengthElements = { inputEl: document.getElementById('strength-check-input'), resultsEl: document.getElementById('strength-results'), initialMsgEl: document.getElementById('strength-initial-message'), strengthTextEl: document.getElementById('strength-text'), barOverallEl: document.getElementById('strength-bar-overall'), feedbackEl: document.getElementById('strength-feedback'), checkButton: document.getElementById('check-strength-button'), toggleVisibilityButton: document.getElementById('toggle-pw-visibility') };
+
+            // Tool Tabs
+            const toolTabs = document.querySelectorAll('.tab-button');
 
 
-            // Initialize counter if text is already present (e.g., from browser cache)
-            if (counterInput && counterInput.value) {
-                counterInput.dispatchEvent(new Event('input'));
+            // --- Event Listener Attachments ---
+
+            // Tool Tabs
+            toolTabs.forEach(tab => {
+                tab.addEventListener('click', () => switchTool(tab.dataset.tool));
+            });
+
+            // Text Tools
+            document.querySelectorAll('#text-tool button[data-case-type]')?.forEach(button => {
+                button.addEventListener('click', () => convertCase(button.dataset.caseType, caseConverterInput));
+            });
+            counterInput?.addEventListener('input', function () { updateCounterDisplay(this.value, counterElements); });
+            loremElements.generateButton?.addEventListener('click', () => generateLoremIpsum(loremElements, loremIpsumBase));
+            diffElements.findButton?.addEventListener('click', () => findTextDifferences(diffElements));
+            document.querySelectorAll('.copy-button')?.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    const elementToCopy = document.getElementById(targetId);
+                    copyToClipboard(elementToCopy?.value ?? elementToCopy?.textContent ?? '', e.currentTarget);
+                });
+            });
+
+            // Image Tools
+            compressorElements.fileInput?.addEventListener('change', (e) => handleImageFileSelect(e.target.files[0], 'compressor', compressorElements));
+            compressorElements.actionButton?.addEventListener('click', () => compressImage(compressorElements));
+            compressorElements.qualitySlider?.addEventListener('input', function () { if (compressorElements.qualityValueEl) compressorElements.qualityValueEl.textContent = this.value; const format = document.querySelector('input[name="compressFormat"]:checked')?.value; const isDisabled = format === 'image/png'; this.disabled = isDisabled; this.classList.toggle('opacity-50', isDisabled); compressorElements.qualityValueEl?.parentElement?.classList.toggle('opacity-50', isDisabled); });
+            compressorElements.formatRadios?.forEach(radio => { radio.addEventListener('change', () => { const isDisabled = radio.value === 'image/png'; if (compressorElements.qualitySlider) compressorElements.qualitySlider.disabled = isDisabled; compressorElements.qualitySlider?.classList.toggle('opacity-50', isDisabled); compressorElements.qualityValueEl?.parentElement?.classList.toggle('opacity-50', isDisabled); }); });
+            converterElements.fileInput?.addEventListener('change', (e) => handleImageFileSelect(e.target.files[0], 'converter', converterElements));
+            converterElements.actionButton?.addEventListener('click', () => convertImage(converterElements));
+            converterElements.formatButtons?.forEach(button => { button.addEventListener('click', (e) => setConversionFormat(button.dataset.format, e.currentTarget, converterElements)); });
+
+            // Audio Tools
+            audioTrimmerElements.fileInput?.addEventListener('change', (e) => handleAudioFileSelect(e.target.files[0], audioTrimmerElements));
+            audioTrimmerElements.startSlider?.addEventListener('input', (e) => updateTrimTimes(e.currentTarget, audioTrimmerElements));
+            audioTrimmerElements.endSlider?.addEventListener('input', (e) => updateTrimTimes(e.currentTarget, audioTrimmerElements));
+            audioTrimmerElements.playButton?.addEventListener('click', () => toggleTrimPlayback(audioTrimmerElements));
+            audioTrimmerElements.downloadButton?.addEventListener('click', () => downloadTrimmedAudio(audioTrimmerElements));
+
+            // Data Tools
+            jsonCsvElements.sampleButton?.addEventListener('click', () => loadSampleJson(jsonCsvElements));
+            jsonCsvElements.convertButton?.addEventListener('click', () => convertJsonToCsv(jsonCsvElements));
+            base64Elements.swapButton?.addEventListener('click', () => swapBase64(base64Elements));
+            base64Elements.encodeButton?.addEventListener('click', () => base64Encode(base64Elements));
+            base64Elements.decodeButton?.addEventListener('click', () => base64Decode(base64Elements));
+
+            // Security Tools
+            pwGenElements.lengthSlider?.addEventListener('input', () => { if (pwGenElements.lengthDisplay) pwGenElements.lengthDisplay.textContent = pwGenElements.lengthSlider.value; generateAndDisplayPassword(pwGenElements); });
+            pwGenElements.optionsCheckboxes?.forEach(el => { el.addEventListener('change', () => generateAndDisplayPassword(pwGenElements)); });
+            pwGenElements.generateButton?.addEventListener('click', () => generateAndDisplayPassword(pwGenElements));
+            pwStrengthElements.inputEl?.addEventListener('input', () => checkPasswordStrength(pwStrengthElements));
+            pwStrengthElements.checkButton?.addEventListener('click', () => checkPasswordStrength(pwStrengthElements));
+            pwStrengthElements.toggleVisibilityButton?.addEventListener('click', (e) => { togglePasswordVisibility('strength-check-input', e.currentTarget); });
+
+            // Drag and Drop Setup
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => { document.body.addEventListener(eventName, preventDefaults, false); });
+            [compressorElements.dropZone, converterElements.dropZone, audioTrimmerElements.dropZone].forEach(zone => {
+                if (!zone) return;
+                zone.addEventListener('dragenter', preventDefaults, false);
+                zone.addEventListener('dragover', (e) => { preventDefaults(e); zone.classList.add('dragover'); }, false);
+                zone.addEventListener('dragleave', (e) => { preventDefaults(e); zone.classList.remove('dragover'); }, false);
+                zone.addEventListener('drop', (e) => {
+                    preventDefaults(e); zone.classList.remove('dragover'); const dt = e.dataTransfer; const files = dt?.files;
+                    if (files && files.length > 0) {
+                        if (zone === compressorElements.dropZone) handleImageFileSelect(files[0], 'compressor', compressorElements);
+                        else if (zone === converterElements.dropZone) handleImageFileSelect(files[0], 'converter', converterElements);
+                        else if (zone === audioTrimmerElements.dropZone) handleAudioFileSelect(files[0], audioTrimmerElements);
+                    }
+                }, false);
+            });
+
+
+            // --- Initial UI Setup Calls ---
+            if (counterInput && counterInput.value) { updateCounterDisplay(counterInput.value, counterElements); }
+            if (pwGenElements.lengthSlider) { generateAndDisplayPassword(pwGenElements); }
+            const activeFormatButton = document.querySelector('.convert-format-btn.active') || converterElements.formatButtons?.[0];
+            if (activeFormatButton && converterElements.formatButtons?.length > 0) { setConversionFormat(activeFormatButton.dataset.format, activeFormatButton, converterElements); }
+            if (pwStrengthElements.inputEl && pwStrengthElements.inputEl.value) { checkPasswordStrength(pwStrengthElements); }
+            if (audioTrimmerElements.statusEl) { resetAudioTrimmerUI(audioTrimmerElements); }
+
+
+            // --- Initial Tool Selection Logic ---
+            const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf'];
+            // Read hash only once at the start
+            const initialHash = window.location.hash.substring(1);
+            const initialTool = validTools.includes(initialHash) ? initialHash : 'text';
+            switchTool(initialTool);
+            // Ensure URL hash matches the active tool if it was invalid/missing
+            if (initialTool !== initialHash) {
+                try { history.replaceState(null, '', `#${initialTool}`); }
+                catch (e) { window.location.hash = initialTool; }
             }
 
-            // Initialize password generator display
-             if (lengthSliderEl) {
-                 passwordLengthDisplayEl.textContent = lengthSliderEl.value;
-                 generateAndDisplayPassword(); // Generate initial password
-             }
-             // Set initial active button style for image converter
-             const activeFormatButton = document.querySelector('.convert-format-btn.active') || document.querySelector('.convert-format-btn'); // Fallback to first button
-            if(activeFormatButton) {
-                setConversionFormat(activeFormatButton.getAttribute('onclick').match(/'([^']+)'/)[1], activeFormatButton);
-            }
+        }); // End of DOMContentLoaded
 
 
-            // Add listener to password strength input for real-time feedback
-             strengthCheckInput?.addEventListener('input', checkPasswordStrength);
-             // Trigger check once on load if there's existing input (e.g. browser autofill)
-             if (strengthCheckInput && strengthCheckInput.value) {
-                  checkPasswordStrength();
-              }
-
-
-        });
-
-        // Update tool based on hash changes (e.g., back/forward buttons)
-         window.addEventListener('hashchange', () => {
-             const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf']; // Added 'audio'
+        // --- Hash Change Listener ---
+        window.addEventListener('hashchange', () => {
+            const validTools = ['text', 'image', 'audio', 'data', 'security', 'pdf'];
             const toolFromHash = window.location.hash.substring(1);
+            // Only switch if the hash is valid and different from the current tool
             if (validTools.includes(toolFromHash) && toolFromHash !== currentTool) {
-                 switchTool(toolFromHash);
-            } else if (!validTools.includes(toolFromHash)){
-                 // If hash is invalid, switch to default and update hash
-                switchTool('text');
-                window.location.hash = 'text';
-             }
-         });
+                switchTool(toolFromHash);
+            }
+        });
 
     </script>
 </body>
