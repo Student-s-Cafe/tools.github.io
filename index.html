@@ -731,34 +731,43 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">Author(s)</label><input
                                     id="cite-author" type="text"
                                     class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Doe, J."></div>
+                                    placeholder="Doe, J. or Doe, J., & Smith, A."></div>
                             <div><label for="cite-year"
                                     class="block text-sm font-medium text-gray-700 mb-1">Year</label><input
                                     id="cite-year" type="number"
                                     class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="2024"></div>
+                            <div>
+                                <label for="cite-type" class="block text-sm font-medium text-gray-700 mb-1">Source Type</label>
+                                <select id="cite-type" class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                    <option value="journal">Journal Article</option>
+                                    <option value="book">Book</option>
+                                    <option value="website">Website / Webpage</option>
+                                    <!-- Add more types later if needed -->
+                                </select>
+                            </div>
                             <div><label for="cite-title"
                                     class="block text-sm font-medium text-gray-700 mb-1">Title</label><input
                                     id="cite-title" type="text"
                                     class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Article or Book Title"></div>
                             <div><label for="cite-source"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Source/Publisher</label><input
+                                    class="block text-sm font-medium text-gray-700 mb-1">Source Title / Publisher / Website Name</label><input
                                     id="cite-source" type="text"
                                     class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Journal Name or Publisher"></div>
+                                    placeholder="Journal Name, Publisher, or Website"></div>
                             <div><label for="cite-url"
-                                    class="block text-sm font-medium text-gray-700 mb-1">URL/DOI</label><input
+                                    class="block text-sm font-medium text-gray-700 mb-1">URL / DOI</label><input
                                     id="cite-url" type="text"
                                     class="cite-input w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="https:// or doi:..."></div>
+                                    placeholder="https://example.com or doi:10.xxxx/xxxx"></div>
                             <div><label for="cite-style"
                                     class="block text-sm font-medium text-gray-700 mb-1">Style</label>
                                 <select id="cite-style"
-                                    class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                    class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white">
                                     <option value="apa">APA 7th</option>
                                     <option value="mla">MLA 9th</option>
-                                    <option value="chicago">Chicago (Author-Date)</option>
+                                    <option value="chicago">Chicago 17th (Author-Date)</option>
                                 </select>
                             </div>
                         </div>
@@ -812,7 +821,11 @@
                                 <!-- Initial card pair will be added by JS -->
                             </div>
                             <button id="add-flashcard-button" class="w-full py-2 mb-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition"><i class="fas fa-plus mr-2"></i> Add Card</button>
-                            <button id="export-flashcards-csv-button" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50" disabled><i class="fas fa-download mr-2"></i> Export Cards as CSV</button>
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <button id="import-flashcards-csv-button" class="w-full py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"><i class="fas fa-upload mr-2"></i> Import CSV</button>
+                                <button id="export-flashcards-csv-button" class="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50" disabled><i class="fas fa-download mr-2"></i> Export CSV</button>
+                            </div>
+                            <input type="file" id="flashcard-csv-import-input" accept=".csv" class="hidden">
                             <div id="flashcard-export-status" class="text-xs text-center text-gray-500 mt-2">Add cards to enable export or study.</div>
                         </div>
 
@@ -1092,7 +1105,14 @@
             if (currentTool === toolName) return;
             // Exit study mode if switching away from generators tool
             if (currentTool === 'generators' && isStudyModeActive) {
-                exitStudyMode(getFlashcardElements()); // Need to pass elements
+                const elements = getFlashcardElements(); // Get elements *before* calling exit
+                if (elements.creationArea && elements.studyArea) { // Check if elements exist
+                   exitStudyMode(elements);
+                    } else {
+                    console.warn("Could not exit study mode properly during tool switch: elements not found.");
+                     // Force state reset even if UI elements aren't found
+             isStudyModeActive = false;
+                }
             }
             // Stop audio if switching away from audio tool
             if (currentTool === 'audio') { stopTrimmedAudio(); }
@@ -1171,54 +1191,129 @@
         function base64Decode(elements) { elements.errorEl.textContent = ''; try { const base64 = elements.inputEl.value.trim().replace(/\s/g, ''); if (!base64) { elements.outputEl.value = ''; return; } if (!/^[A-Za-z0-9+/]*=?=?$/.test(base64) || base64.length % 4 !== 0) { throw new Error("Invalid Base64."); } const binaryString = atob(base64); const bytes = Uint8Array.from(binaryString, c => c.charCodeAt(0)); elements.outputEl.value = new TextDecoder().decode(bytes); } catch (error) { console.error("B64 Decode Error:", error); if (error instanceof DOMException && error.name === 'InvalidCharacterError') { elements.errorEl.textContent = `Decode Error: Invalid chars.`; } else { elements.errorEl.textContent = `Decode Error: ${error.message}`; } elements.outputEl.value = ''; } }
         function swapBase64(elements) { const inputVal = elements.inputEl.value; const outputVal = elements.outputEl.value; elements.inputEl.value = outputVal; elements.outputEl.value = inputVal; elements.errorEl.textContent = ''; }
 
-        // --- Generators Tool Function Definitions (NEW) ---
+        // --- Generators Tool Function Definitions (NEW/UPDATED) ---
         function generateCitation(elements) {
             const author = elements.authorInput.value.trim();
             const year = elements.yearInput.value.trim();
             const title = elements.titleInput.value.trim();
-            const source = elements.sourceInput.value.trim(); // Journal or Publisher
+            const sourceType = elements.typeSelect.value; // Get the selected source type
+            const source = elements.sourceInput.value.trim(); // Journal Name, Publisher, or Website Name
             const url = elements.urlInput.value.trim();
             const style = elements.styleSelect.value;
             let citation = '';
 
-            if (!author && !year && !title) {
-                elements.outputDiv.textContent = 'Please provide at least Author, Year, and Title.';
+            // --- Helper Functions ---
+            const toTitleCase = (str) => str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
+             const toSentenceCase = (str) => {
+                 if (!str) return '';
+                 let lower = str.toLowerCase();
+                 // Capitalize first letter and letters after .:!?
+                 lower = lower.replace(/^(\s*\w)|([.!?]\s*\w)/g, (match) => match.toUpperCase());
+                 return lower;
+            };
+            const formatAuthors = (authors, style = 'apa') => {
+                if (!authors) return '[No Author]';
+                const authorList = authors.split(/[,;&]| and /).map(a => a.trim()).filter(Boolean);
+                if (authorList.length === 0) return '[No Author]';
+                if (style === 'apa' || style === 'chicago') {
+                    if (authorList.length === 1) return authorList[0];
+                    if (authorList.length <= 20) { // APA rule for >20 authors is different, simplify for now
+                        const lastAuthor = authorList.pop();
+                        return authorList.join(', ') + ' & ' + lastAuthor;
+                    } else {
+                        // Simplified handling for >20 authors
+                        return authorList.slice(0, 19).join(', ') + ' ... ' + authorList[authorList.length - 1];
+                    }
+                } else if (style === 'mla') {
+                    if (authorList.length === 1) return authorList[0];
+                    if (authorList.length === 2) return authorList.join(' and ');
+                    return authorList[0] + ', et al.'; // MLA uses et al. for 3+
+                }
+                return authors; // Fallback
+            };
+            const formatUrl = (urlStr, style = 'apa') => {
+                 if (!urlStr) return '';
+                 if (urlStr.toLowerCase().startsWith('doi:')) {
+                     const doi = urlStr.substring(4).trim();
+                     // Prefer https://doi.org/ format
+                     if (doi.startsWith('http')) return doi; // Already a full URL
+                     return `https://doi.org/${doi}`;
+                 }
+                 // For regular URLs, APA/Chicago just list it. MLA often omits http(s) but let's include it for consistency here.
+                 return urlStr;
+             };
+
+            // --- Input Validation ---
+            if (!title && !author) {
+                elements.outputDiv.textContent = 'Please provide at least a Title or Author.';
                 return;
             }
 
+            // --- Style-Specific Logic ---
             try {
                 switch (style) {
-                    case 'apa': // Basic APA 7th Style (Book/Article)
-                        citation = `${author || '[No Author]'}. (${year || 'n.d.'}). `;
-                        // Basic italicization for title (needs improvement for articles vs books)
-                        citation += `*${title || '[No Title]'}*. `;
-                        if (source) citation += `${source}. `;
-                        if (url) citation += `${url}`;
+                    case 'apa': // APA 7th Style
+                        citation += formatAuthors(author, 'apa') + '. ';
+                        citation += `(${year || 'n.d.'}). `;
+                        if (sourceType === 'journal') {
+                            citation += toSentenceCase(title) + '. '; // Article title in sentence case
+                            citation += `*${source || '[No Journal Name]'}*. `; // Journal Name in italics
+                        } else if (sourceType === 'book') {
+                            citation += `*${toTitleCase(title) || '[No Title]'}*. `; // Book title in italics and title case
+                            if (source) citation += source + '. '; // Publisher
+                        } else { // Website / Default
+                            citation += `*${toSentenceCase(title) || '[No Title]'}*. `; // Webpage title often italics, sentence case
+                             if (source) citation += source + '. '; // Website Name (not italicized)
+                        }
+                         const formattedUrlApa = formatUrl(url, 'apa');
+                         if (formattedUrlApa) citation += formattedUrlApa;
                         break;
-                    case 'mla': // Basic MLA 9th Style (Book/Article)
-                        citation = `${author || '[No Author]'}. `;
-                        // Basic quoting for articles, italics for books (needs refinement)
-                        citation += `"${title || '[No Title]'}" `;
-                        if (source) citation += `*${source}*, `;
-                        if (year) citation += `${year}, `;
-                        if (url) citation += `${url}.`;
-                        citation = citation.replace(/,\s*$/, '.').trim(); // Clean trailing comma
+
+                    case 'mla': // MLA 9th Style
+                        citation += formatAuthors(author, 'mla') + '. ';
+                         if (sourceType === 'journal') {
+                             citation += `"${toTitleCase(title) || '[No Title]'}" `; // Article title in quotes, title case
+                             citation += `*${source || '[No Journal Name]'}*, `; // Journal name italics
+                         } else if (sourceType === 'book') {
+                             citation += `*${toTitleCase(title) || '[No Title]'}*. `; // Book title italics, title case
+                             if (source) citation += source + ', '; // Publisher
+                         } else { // Website
+                             citation += `"${toTitleCase(title) || '[No Title]'}" `; // Webpage title in quotes
+                             citation += `*${source || '[No Website Name]'}*, `; // Website name italics
+                         }
+                         if (year) citation += `${year}, `;
+                         const formattedUrlMla = formatUrl(url, 'mla');
+                         if (formattedUrlMla) citation += `${formattedUrlMla}.`;
+                         citation = citation.replace(/,\s*$/, '.').trim(); // Clean trailing comma/space
                         break;
-                    case 'chicago': // Basic Chicago Author-Date (Book/Article)
-                        citation = `${author || '[No Author]'}. ${year || 'n.d.'}. `;
-                        // Basic quoting for articles, italics for books (needs refinement)
-                        citation += `"${title || '[No Title]'}" `;
-                        if (source) citation += `*${source}*. `;
-                        if (url) citation += `${url}.`;
-                        citation = citation.replace(/\.\s*$/, '.').trim(); // Clean trailing period
+
+                    case 'chicago': // Chicago 17th Author-Date Style
+                        citation += formatAuthors(author, 'chicago') + '. ';
+                        citation += (year || 'n.d.') + '. ';
+                         if (sourceType === 'journal') {
+                             citation += `"${toTitleCase(title) || '[No Title]'}" `; // Article title quotes, title case
+                             citation += `*${source || '[No Journal Name]'}*. `; // Journal name italics
+                         } else if (sourceType === 'book') {
+                             citation += `*${toTitleCase(title) || '[No Title]'}*. `; // Book title italics, title case
+                              if (source) citation += source + '. '; // Publisher
+                         } else { // Website
+                             citation += `"${toTitleCase(title) || '[No Title]'}" `; // Webpage title quotes
+                             if (source) citation += source + '. '; // Website name (not italicized)
+                             // Optionally add access date for websites, but keeping it simple for now
+                         }
+                        const formattedUrlChicago = formatUrl(url, 'chicago');
+                        if (formattedUrlChicago) citation += `${formattedUrlChicago}.`;
+                         citation = citation.replace(/\.\s*\./g, '.'); // Clean double periods
                         break;
+
                     default:
                         citation = 'Selected style not implemented yet.';
                 }
-                elements.outputDiv.textContent = citation.trim();
+                // General cleanup
+                elements.outputDiv.textContent = citation.replace(/\s{2,}/g, ' ').trim(); // Remove excess whitespace
             } catch (e) {
                 console.error("Citation generation error:", e);
-                elements.outputDiv.textContent = "Error generating citation.";
+                elements.outputDiv.textContent = "Error generating citation. Check console for details.";
             }
         }
 
@@ -1243,6 +1338,8 @@
                 studyFlipButton: document.getElementById('study-flip-card'),     // New
                 studyNextButton: document.getElementById('study-next-card'),     // New
                 studyShuffleButton: document.getElementById('study-shuffle-cards'), // New
+                importButton: document.getElementById('import-flashcards-csv-button'), // Added
+                importInput: document.getElementById('flashcard-csv-import-input'),    // Added
             };
         }
 
@@ -1279,10 +1376,11 @@
              }
         }
 
-        function exportFlashcardsToCsv(container) {
+        function exportFlashcardsToCsv(container, statusEl) {
             const cards = container.querySelectorAll('.flashcard-pair');
             if (cards.length === 0) {
-                alert("No flashcards to export.");
+                if (statusEl) statusEl.textContent = "⚠️ No cards to export.";
+                setTimeout(() => { if(statusEl) updateFlashcardActionButtons(getFlashcardElements()); }, 2000); // Reset status
                 return;
             }
 
@@ -1304,24 +1402,124 @@
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const filename = `flashcards_${Date.now()}.csv`;
                 triggerDownload(blob, filename);
+                 if (statusEl) statusEl.textContent = `✅ Exported ${cards.length} cards.`;
+                 setTimeout(() => { if(statusEl) updateFlashcardActionButtons(getFlashcardElements()); }, 2000); // Reset status
             } catch (error) {
                 console.error("CSV Export error:", error);
-                alert("Failed to initiate CSV download.");
+                 if (statusEl) statusEl.textContent = "❌ Export failed.";
+                 setTimeout(() => { if(statusEl) updateFlashcardActionButtons(getFlashcardElements()); }, 2000); // Reset status
             }
         }
 
-        function gatherFlashcardData(elements) {
-            if (!elements || !elements.inputArea) return [];
-            const cards = elements.inputArea.querySelectorAll('.flashcard-pair');
-            const data = [];
-            cards.forEach(card => {
-                const front = card.querySelector('.flashcard-front')?.value.trim() || '';
-                const back = card.querySelector('.flashcard-back')?.value.trim() || '';
-                if (front || back) { // Only add if at least one side has text
-                    data.push({ front: front || '[Empty Front]', back: back || '[Empty Back]' });
+        // Basic CSV parser (handles quotes and commas within quotes)
+        function parseCsvLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        current += '"'; // Escaped quote
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
                 }
-            });
-            return data;
+            }
+            result.push(current.trim()); // Add the last field
+            return result;
+        }
+
+        function importFlashcardsFromCsv(csvString, elements) {
+            const lines = csvString.trim().split('\n');
+            if (lines.length < 1) {
+                 elements.exportStatus.textContent = '❌ Error: CSV file is empty.';
+                 return false; // Indicate failure
+            }
+
+            const headerLine = lines[0].trim().toLowerCase();
+            // Basic header check (allow different casing and quotes)
+             const headers = parseCsvLine(headerLine).map(h => h.replace(/^"|"$/g, '').toLowerCase());
+             const frontIndex = headers.indexOf('front');
+             const backIndex = headers.indexOf('back');
+
+
+             if (frontIndex === -1 || backIndex === -1) {
+                  elements.exportStatus.textContent = '❌ Error: CSV must have "Front" and "Back" columns.';
+                  return false; // Indicate failure
+            }
+
+            // Clear existing cards before importing
+            elements.inputArea.innerHTML = '';
+            let importedCount = 0;
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue; // Skip empty lines
+
+                const values = parseCsvLine(line);
+                 const frontValue = values[frontIndex]?.replace(/^"|"$/g, '') || ''; // Remove surrounding quotes if any
+                 const backValue = values[backIndex]?.replace(/^"|"$/g, '') || '';   // Remove surrounding quotes if any
+
+                if (frontValue || backValue) { // Only add if there's content
+                    addFlashcardPair(elements.pairTemplate, elements.inputArea, () => updateFlashcardActionButtons(elements));
+                    // Find the newly added card elements (it's always the last one)
+                    const newCard = elements.inputArea.lastElementChild;
+                    if (newCard) {
+                        const frontTextarea = newCard.querySelector('.flashcard-front');
+                        const backTextarea = newCard.querySelector('.flashcard-back');
+                        if (frontTextarea) frontTextarea.value = frontValue;
+                        if (backTextarea) backTextarea.value = backValue;
+                        importedCount++;
+                    }
+                }
+            }
+
+            if (importedCount > 0) {
+                elements.exportStatus.textContent = `✅ Imported ${importedCount} card(s).`;
+            } else if (lines.length <= 1) {
+                elements.exportStatus.textContent = '⚠️ CSV has header but no data rows.';
+            } else {
+                 elements.exportStatus.textContent = '⚠️ No valid card data found in CSV rows.';
+             }
+            updateFlashcardActionButtons(elements); // Update button states after import
+             return true; // Indicate success
+        }
+
+        function handleCsvImport(file, elements) {
+            if (!file) {
+                 elements.exportStatus.textContent = '❌ No file selected.';
+                 return;
+            }
+            if (file.type !== 'text/csv' && !file.name.toLowerCase().endsWith('.csv')) {
+                 elements.exportStatus.textContent = '❌ Please select a .csv file.';
+                 return;
+             }
+
+             const reader = new FileReader();
+             reader.onload = function(event) {
+                 const csvContent = event.target?.result;
+                 if (typeof csvContent === 'string') {
+                      importFlashcardsFromCsv(csvContent, elements);
+                 } else {
+                     elements.exportStatus.textContent = '❌ Error reading file content.';
+                 }
+                  // Reset file input to allow importing the same file again if needed
+                  if (elements.importInput) elements.importInput.value = '';
+             };
+             reader.onerror = function() {
+                 elements.exportStatus.textContent = '❌ Error reading the file.';
+                 if (elements.importInput) elements.importInput.value = '';
+             };
+
+             elements.exportStatus.textContent = '⏳ Importing...';
+             reader.readAsText(file);
         }
 
         function shuffleFlashcards() {
@@ -1338,6 +1536,15 @@
             if (!elements || !elements.studyCardDisplay || flashcardsData.length === 0) return;
 
             const card = flashcardsData[currentCardIndex];
+            // Ensure card exists before accessing properties
+            if (!card) {
+                console.error("Error: Card data not found for index", currentCardIndex);
+                // Maybe exit study mode or show an error?
+                exitStudyMode(elements); // Exit if data is inconsistent
+                alert("An error occurred retrieving card data. Exiting study mode.");
+                return;
+            }
+
             elements.studyCardDisplay.textContent = isFrontShowing ? card.front : card.back;
             elements.studyCardSide.textContent = isFrontShowing ? 'Front' : 'Back';
             elements.studyCardCounter.textContent = `Card ${currentCardIndex + 1} / ${flashcardsData.length}`;
@@ -1381,14 +1588,20 @@
 
 
         function startStudyMode(elements) {
-             if (!elements || !elements.creationArea || !elements.studyArea) return;
+             console.log("Attempting to start study mode..."); // Logging
+             if (!elements || !elements.creationArea || !elements.studyArea) {
+                 console.error("Start Study Mode: Missing critical elements."); // Logging
+                 return;
+             }
              flashcardsData = gatherFlashcardData(elements);
 
              if (flashcardsData.length === 0) {
                  alert("Please add some flashcards first!");
+                 console.log("Start Study Mode: No flashcards found."); // Logging
                  return;
              }
 
+             console.log(`Starting study mode with ${flashcardsData.length} cards.`); // Logging
              shuffleFlashcards(); // Shuffle deck on start
 
              currentCardIndex = 0;
@@ -1402,11 +1615,18 @@
         }
 
          function exitStudyMode(elements) {
-             if (!elements || !elements.creationArea || !elements.studyArea) return;
+             console.log("Attempting to exit study mode..."); // Logging
+             if (!elements || !elements.creationArea || !elements.studyArea) {
+                 console.error("Exit Study Mode: Missing critical elements."); // Logging
+                  // Attempt state reset anyway
+                  isStudyModeActive = false;
+                 return;
+             }
 
              isStudyModeActive = false;
              elements.studyArea.classList.add('hidden');
              elements.creationArea.classList.remove('hidden');
+             console.log("Exited study mode."); // Logging
              // No need to clear flashcardsData, it will be refetched on next start
          }
 
@@ -1422,6 +1642,20 @@
         // --- PDF Tool Function Definitions (Placeholders) ---
         // No actual PDF merging logic here due to limitations
 
+        function gatherFlashcardData(elements) {
+            if (!elements || !elements.inputArea) return [];
+            const cards = elements.inputArea.querySelectorAll('.flashcard-pair');
+            const data = [];
+            cards.forEach(card => {
+                const front = card.querySelector('.flashcard-front')?.value.trim() || '';
+                const back = card.querySelector('.flashcard-back')?.value.trim() || '';
+                if (front || back) { // Only add if at least one side has text
+                    data.push({ front: front || '[Empty Front]', back: back || '[Empty Back]' });
+                }
+            });
+             console.log("Gathered Flashcard Data:", data); // Add logging
+            return data;
+        }
 
         // --- Initial Setup (Waits for DOM) ---
         document.addEventListener('DOMContentLoaded', function () {
@@ -1447,7 +1681,7 @@
             const base64Elements = { inputEl: document.getElementById('base64-input'), outputEl: document.getElementById('base64-output'), errorEl: document.getElementById('base64-error'), swapButton: document.getElementById('swap-base64'), encodeButton: document.getElementById('base64-encode'), decodeButton: document.getElementById('base64-decode') };
 
             // Generators Tools (NEW)
-            const citationElements = { authorInput: document.getElementById('cite-author'), yearInput: document.getElementById('cite-year'), titleInput: document.getElementById('cite-title'), sourceInput: document.getElementById('cite-source'), urlInput: document.getElementById('cite-url'), styleSelect: document.getElementById('cite-style'), generateButton: document.getElementById('generate-citation-button'), outputDiv: document.getElementById('citation-output') };
+            const citationElements = { authorInput: document.getElementById('cite-author'), yearInput: document.getElementById('cite-year'), titleInput: document.getElementById('cite-title'), sourceInput: document.getElementById('cite-source'), urlInput: document.getElementById('cite-url'), styleSelect: document.getElementById('cite-style'), generateButton: document.getElementById('generate-citation-button'), outputDiv: document.getElementById('citation-output'), typeSelect: document.getElementById('cite-type') }; // Added typeSelect
             const flashcardElements = getFlashcardElements(); // Use helper
 
             // Security Tools
@@ -1509,22 +1743,33 @@
 
             // Generators Tools (NEW)
             citationElements.generateButton?.addEventListener('click', () => generateCitation(citationElements));
+            // Automatically regenerate citation when any input changes (optional but nice UX)
+            document.querySelectorAll('.cite-input, #cite-style, #cite-type').forEach(el => {
+                 el.addEventListener('input', () => generateCitation(citationElements));
+                 el.addEventListener('change', () => generateCitation(citationElements)); // For select dropdowns
+            });
             // Setup function for Flashcard action buttons update
             const updateFBCardBtns = () => updateFlashcardActionButtons(flashcardElements);
             flashcardElements.addButton?.addEventListener('click', () => addFlashcardPair(flashcardElements.pairTemplate, flashcardElements.inputArea, updateFBCardBtns));
-            flashcardElements.exportButton?.addEventListener('click', () => exportFlashcardsToCsv(flashcardElements.inputArea));
-            flashcardElements.startStudyButton?.addEventListener('click', () => startStudyMode(flashcardElements)); // New
-            flashcardElements.exitStudyButton?.addEventListener('click', () => exitStudyMode(flashcardElements));   // New
-            flashcardElements.studyFlipButton?.addEventListener('click', () => flipStudyCard(flashcardElements));     // New
+            flashcardElements.exportButton?.addEventListener('click', () => exportFlashcardsToCsv(flashcardElements.inputArea, flashcardElements.exportStatus)); // Pass statusEl
+            flashcardElements.importButton?.addEventListener('click', () => flashcardElements.importInput?.click()); // Trigger hidden input
+            flashcardElements.importInput?.addEventListener('change', (e) => handleCsvImport(e.target.files?.[0], flashcardElements)); // Handle file selection
+            flashcardElements.startStudyButton?.addEventListener('click', () => startStudyMode(flashcardElements));
+            flashcardElements.exitStudyButton?.addEventListener('click', () => exitStudyMode(flashcardElements));
+            flashcardElements.studyFlipButton?.addEventListener('click', () => flipStudyCard(flashcardElements));
             flashcardElements.studyCardContainer?.addEventListener('click', () => flipStudyCard(flashcardElements)); // Click card to flip
-            flashcardElements.studyNextButton?.addEventListener('click', () => nextStudyCard(flashcardElements));     // New
-            flashcardElements.studyPrevButton?.addEventListener('click', () => prevStudyCard(flashcardElements));     // New
-            flashcardElements.studyShuffleButton?.addEventListener('click', () => { // New
+            flashcardElements.studyNextButton?.addEventListener('click', () => nextStudyCard(flashcardElements));
+            flashcardElements.studyPrevButton?.addEventListener('click', () => prevStudyCard(flashcardElements));
+            flashcardElements.studyShuffleButton?.addEventListener('click', () => {
                 shuffleFlashcards();
                 displayCurrentStudyCard(flashcardElements);
             });
             // Add the first card pair initially & update buttons
-            addFlashcardPair(flashcardElements.pairTemplate, flashcardElements.inputArea, updateFBCardBtns);
+            if (flashcardElements.inputArea && !flashcardElements.inputArea.querySelector('.flashcard-pair')) { // Only add if empty
+                 addFlashcardPair(flashcardElements.pairTemplate, flashcardElements.inputArea, updateFBCardBtns);
+            } else {
+                 updateFBCardBtns(); // Ensure buttons are correct on load even if cards exist
+            }
 
 
             // Security Tools
