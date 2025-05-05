@@ -436,8 +436,11 @@
                                 <div class="text-sm text-gray-500">Reading Time</div>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2 text-center">Reading time based on an average of 200 WPM.
-                        </p>
+                        <div class="mt-3 text-center">
+                             <label for="reading-wpm" class="text-xs text-gray-600 mr-1">WPM:</label>
+                             <input type="number" id="reading-wpm" value="200" min="50" max="500" step="10" class="w-16 p-1 text-xs border border-gray-300 rounded-md text-center focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                             <p class="text-xs text-gray-500 mt-1">Adjust WPM for reading time estimate.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1017,7 +1020,6 @@
         let imageConverterFile = null;
         let imageCompressorFile = null;
         let imageConverterFormat = 'image/png'; // Default format
-        const AVG_WPM = 200;
         const FAVICON_SIZE = 32; // Standard size for favicon generation (PNG)
         const charSets = {
             upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -1159,7 +1161,21 @@
         // --- Text Tool Function Definitions ---
         function convertCase(type, inputElement) { let text = inputElement.value; if (!text && type !== 'clear') return; switch (type) { case 'upper': text = text.toUpperCase(); break; case 'lower': text = text.toLowerCase(); break; case 'title': text = text.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase()); break; case 'sentence': text = text.toLowerCase(); text = text.charAt(0).toUpperCase() + text.slice(1); text = text.replace(/([.!?]\s+)([a-z])/g, (match, p1, p2) => p1 + p2.toUpperCase()); break; case 'camel': text = text.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase()); text = text.replace(/[^a-zA-Z0-9]/g, ''); text = text.charAt(0).toLowerCase() + text.slice(1); break; case 'pascal': text = text.toLowerCase().split(/[^a-zA-Z0-9]/).map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '').join(''); break; case 'clear': text = ''; break; } inputElement.value = text; }
         function countWords(text) { if (!text?.trim()) return 0; const cjkRegex = /[\u4e00-\u9fff\u3400-\u4dbf\u3040-\u309f\u30a0-\u30ff\uac00-\ud7af]/g; const cjkMatches = text.match(cjkRegex) || []; const cjkWordCount = cjkMatches.length; const otherWords = text.replace(cjkRegex, '').trim().split(/\s+/).filter(word => word.length > 0); const otherWordCount = otherWords.length; return cjkWordCount + otherWordCount; }
-        function updateCounterDisplay(text, elements) { const wordCount = countWords(text); elements.charCountEl.textContent = text?.length ?? 0; elements.wordCountEl.textContent = wordCount; elements.lineCountEl.textContent = text === '' ? 0 : (text.match(/\n/g) || []).length + 1; if (wordCount === 0) { elements.readingTimeEl.textContent = "0m 0s"; } else { const totalMinutes = wordCount / AVG_WPM; const minutes = Math.floor(totalMinutes); const seconds = Math.round((totalMinutes - minutes) * 60); elements.readingTimeEl.textContent = `${minutes}m ${seconds}s`; } }
+        function updateCounterDisplay(text, elements) {
+             const wordCount = countWords(text);
+             const wpm = parseInt(elements.wpmInput?.value) || 200; // Read WPM from input, default 200
+             elements.charCountEl.textContent = text?.length ?? 0;
+             elements.wordCountEl.textContent = wordCount;
+             elements.lineCountEl.textContent = text === '' ? 0 : (text.match(/\n/g) || []).length + 1;
+             if (wordCount === 0 || wpm <= 0) {
+                 elements.readingTimeEl.textContent = "0m 0s";
+             } else {
+                 const totalMinutes = wordCount / wpm; // Use dynamic WPM
+                 const minutes = Math.floor(totalMinutes);
+                 const seconds = Math.round((totalMinutes - minutes) * 60);
+                 elements.readingTimeEl.textContent = `${minutes}m ${seconds}s`;
+             }
+         }
         function generateSentence(loremBase) { const sentenceLength = Math.floor(Math.random() * 10) + 8; let sentence = ''; for (let i = 0; i < sentenceLength; i++) { sentence += loremBase[Math.floor(Math.random() * loremBase.length)] + " "; } sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '.'; return sentence; }
         function generateLoremIpsum(elements, loremBase) { const numParagraphs = Math.max(1, parseInt(elements.paragraphsInput.value) || 3); const numSentences = Math.max(1, parseInt(elements.sentencesInput.value) || 5); const startWithLorem = elements.startCheckbox.checked; let result = ''; for (let p = 0; p < numParagraphs; p++) { let paragraph = ''; let sentenceCount = numSentences; if (p === 0 && startWithLorem) { paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "; sentenceCount -= 1; } for (let s = 0; s < sentenceCount; s++) { paragraph += generateSentence(loremBase) + " "; } result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); } elements.outputDiv.textContent = result; }
         function findTextDifferences(elements) { const text1 = elements.originalInput.value.split('\n'); const text2 = elements.changedInput.value.split('\n'); elements.outputDiv.innerHTML = ''; if (!elements.originalInput.value && !elements.changedInput.value) { elements.outputDiv.textContent = "Please enter text in both fields."; return; } const n = text1.length; const m = text2.length; const max = n + m; const v = { 1: 0 }; const trace = []; outer: for (let d = 0; d <= max; d++) { trace.push({ ...v }); for (let k = -d; k <= d; k += 2) { let x; if (k === -d || (k !== d && v[k - 1] < v[k + 1])) { x = v[k + 1]; } else { x = v[k - 1] + 1; } let y = x - k; while (x < n && y < m && text1[x] === text2[y]) { x++; y++; } v[k] = x; if (x >= n && y >= m) { trace.push({ ...v }); break outer; } } } let x = n; let y = m; const diffResult = []; for (let d = trace.length - 1; d > 0 && (x > 0 || y > 0); d--) { const v_prev = trace[d - 1]; const k = x - y; let prev_k; if (k === -d + 1 || (k !== d - 1 && v_prev[k - 1] < v_prev[k + 1])) { prev_k = k + 1; } else { prev_k = k - 1; } const prev_x = v_prev[prev_k]; const prev_y = prev_x - prev_k; while (x > prev_x && y > prev_y) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } if (d > 0) { if (prev_x < x) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } else { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } } } while (x > 0 && y > 0) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } while (x > 0) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } while (y > 0) { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } diffResult.reverse(); let hasDifferences = false; diffResult.forEach(item => { const div = document.createElement('div'); if (item.type === 'add') { div.className = 'diff-add'; div.textContent = `+ ${item.line}`; hasDifferences = true; } else if (item.type === 'remove') { div.className = 'diff-remove'; div.textContent = `- ${item.line}`; hasDifferences = true; } else { div.textContent = `  ${item.line}`; } elements.outputDiv.appendChild(div); }); if (!hasDifferences && (elements.originalInput.value || elements.changedInput.value)) { elements.outputDiv.textContent = "No differences found."; } else if (diffResult.length === 0 && (!elements.originalInput.value && !elements.changedInput.value)) { elements.outputDiv.textContent = "Differences will be highlighted here..."; } }
@@ -1340,6 +1356,7 @@
                 studyShuffleButton: document.getElementById('study-shuffle-cards'), // New
                 importButton: document.getElementById('import-flashcards-csv-button'), // Added
                 importInput: document.getElementById('flashcard-csv-import-input'),    // Added
+                wpmInput: document.getElementById('reading-wpm') // Added WPM input reference
             };
         }
 
@@ -1664,7 +1681,13 @@
             // Text Tools
             const caseConverterInput = document.getElementById('case-converter-input');
             const counterInput = document.getElementById('counter-input');
-            const counterElements = { charCountEl: document.getElementById('char-count'), wordCountEl: document.getElementById('word-count'), lineCountEl: document.getElementById('line-count'), readingTimeEl: document.getElementById('reading-time') };
+            const counterElements = {
+                 charCountEl: document.getElementById('char-count'),
+                 wordCountEl: document.getElementById('word-count'),
+                 lineCountEl: document.getElementById('line-count'),
+                 readingTimeEl: document.getElementById('reading-time'),
+                 wpmInput: document.getElementById('reading-wpm') // Added WPM input reference
+            };
             const loremElements = { paragraphsInput: document.getElementById('lorem-paragraphs'), sentencesInput: document.getElementById('lorem-sentences'), startCheckbox: document.getElementById('lorem-start'), outputDiv: document.getElementById('lorem-output'), generateButton: document.getElementById('generate-lorem-button') };
             const loremIpsumBase = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".toLowerCase().replace(/[.,]/g, '').split(' ');
             const diffElements = { originalInput: document.getElementById('diff-original'), changedInput: document.getElementById('diff-changed'), outputDiv: document.getElementById('diff-output'), findButton: document.getElementById('find-diff-button') };
@@ -1714,6 +1737,7 @@
             // Text Tools
             document.querySelectorAll('#text-tool button[data-case-type]')?.forEach(button => { button.addEventListener('click', () => convertCase(button.dataset.caseType, caseConverterInput)); });
             counterInput?.addEventListener('input', function () { updateCounterDisplay(this.value, counterElements); });
+            counterElements.wpmInput?.addEventListener('input', () => { updateCounterDisplay(counterInput?.value ?? '', counterElements); }); // Update on WPM change
             loremElements.generateButton?.addEventListener('click', () => generateLoremIpsum(loremElements, loremIpsumBase));
             diffElements.findButton?.addEventListener('click', () => findTextDifferences(diffElements));
 
