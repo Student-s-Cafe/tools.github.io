@@ -443,7 +443,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"> <!-- Added mb-6 for spacing before next tool -->
                     <!-- Lorem Ipsum Generator -->
                     <div class="tool-card bg-white rounded-xl shadow-sm p-6">
                         <div class="flex items-center justify-between mb-4">
@@ -496,7 +496,50 @@
                             here...</div>
                     </div>
                 </div>
+
+                <!-- NEW: Citation Hider Tool -->
+                <div class="grid grid-cols-1 gap-6"> <!-- New row for the full-width tool -->
+                    <div class="tool-card bg-white rounded-xl shadow-sm p-6 md:col-span-1"> <!-- md:col-span-1 is fine if grid-cols-1 -->
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Citation Hider / Focus Mode</h3>
+                             <button class="text-blue-500 hover:text-blue-700 copy-button"
+                                data-target="citation-hider-input" title="Copy processed text">
+                                <i class="far fa-copy"></i> <span class="copy-feedback hidden text-xs ml-1">Copied!</span>
+                            </button>
+                        </div>
+                        <textarea id="citation-hider-input"
+                            class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Paste your essay or text with citations here..." rows="8"></textarea>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button id="citation-hider-hide-btn" class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition">
+                                <i class="fas fa-eye-slash mr-1"></i> Hide Citations
+                            </button>
+                            <button id="citation-hider-show-btn" class="px-3 py-1 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition" disabled>
+                                <i class="fas fa-eye mr-1"></i> Show Citations
+                            </button>
+                            <button id="citation-hider-clear-btn" class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200 transition">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear Text
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-50 p-3 rounded-md text-center">
+                                <div class="text-2xl font-bold text-blue-600" id="citation-hider-wc-with">0</div>
+                                <div class="text-sm text-gray-500">Words (with citations)</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-md text-center">
+                                <div class="text-2xl font-bold text-emerald-600" id="citation-hider-wc-without">0</div>
+                                <div class="text-sm text-gray-500">Words (without citations)</div>
+                            </div>
+                        </div>
+                        <div id="citation-hider-status" class="text-sm text-gray-600 mb-2 h-5"></div>
+                        <p class="text-xs text-gray-500">
+                            This tool attempts to identify common citation patterns (e.g., (Author, Year), [1], Author (Year)) and temporarily hides them by replacing them with placeholders like [[1]].
+                            The text area above will show the modified text. Word counts are updated accordingly. This tool may not be perfect for all citation styles.
+                        </p>
+                    </div>
+                </div>
             </div>
+
 
             <!-- Image Tools (Existing) -->
             <div id="image-tool" class="tool-section hidden">
@@ -1043,6 +1086,10 @@
         let isFrontShowing = true;
         let isStudyModeActive = false;
 
+        // --- Citation Hider State (NEW) ---
+        let citationHider_originalText = '';
+        let citationHider_citationStore = []; // To store { original: '...', placeholder: '...' }
+
         // --- Utility Function Definitions ---
         function copyToClipboard(text, buttonElement) {
             const placeholderTexts = [
@@ -1179,6 +1226,99 @@
         function generateSentence(loremBase) { const sentenceLength = Math.floor(Math.random() * 10) + 8; let sentence = ''; for (let i = 0; i < sentenceLength; i++) { sentence += loremBase[Math.floor(Math.random() * loremBase.length)] + " "; } sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '.'; return sentence; }
         function generateLoremIpsum(elements, loremBase) { const numParagraphs = Math.max(1, parseInt(elements.paragraphsInput.value) || 3); const numSentences = Math.max(1, parseInt(elements.sentencesInput.value) || 5); const startWithLorem = elements.startCheckbox.checked; let result = ''; for (let p = 0; p < numParagraphs; p++) { let paragraph = ''; let sentenceCount = numSentences; if (p === 0 && startWithLorem) { paragraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "; sentenceCount -= 1; } for (let s = 0; s < sentenceCount; s++) { paragraph += generateSentence(loremBase) + " "; } result += paragraph.trim() + (p < numParagraphs - 1 ? '\n\n' : ''); } elements.outputDiv.textContent = result; }
         function findTextDifferences(elements) { const text1 = elements.originalInput.value.split('\n'); const text2 = elements.changedInput.value.split('\n'); elements.outputDiv.innerHTML = ''; if (!elements.originalInput.value && !elements.changedInput.value) { elements.outputDiv.textContent = "Please enter text in both fields."; return; } const n = text1.length; const m = text2.length; const max = n + m; const v = { 1: 0 }; const trace = []; outer: for (let d = 0; d <= max; d++) { trace.push({ ...v }); for (let k = -d; k <= d; k += 2) { let x; if (k === -d || (k !== d && v[k - 1] < v[k + 1])) { x = v[k + 1]; } else { x = v[k - 1] + 1; } let y = x - k; while (x < n && y < m && text1[x] === text2[y]) { x++; y++; } v[k] = x; if (x >= n && y >= m) { trace.push({ ...v }); break outer; } } } let x = n; let y = m; const diffResult = []; for (let d = trace.length - 1; d > 0 && (x > 0 || y > 0); d--) { const v_prev = trace[d - 1]; const k = x - y; let prev_k; if (k === -d + 1 || (k !== d - 1 && v_prev[k - 1] < v_prev[k + 1])) { prev_k = k + 1; } else { prev_k = k - 1; } const prev_x = v_prev[prev_k]; const prev_y = prev_x - prev_k; while (x > prev_x && y > prev_y) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } if (d > 0) { if (prev_x < x) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } else { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } } } while (x > 0 && y > 0) { diffResult.push({ type: 'common', line: text1[x - 1] }); x--; y--; } while (x > 0) { diffResult.push({ type: 'remove', line: text1[x - 1] }); x--; } while (y > 0) { diffResult.push({ type: 'add', line: text2[y - 1] }); y--; } diffResult.reverse(); let hasDifferences = false; diffResult.forEach(item => { const div = document.createElement('div'); if (item.type === 'add') { div.className = 'diff-add'; div.textContent = `+ ${item.line}`; hasDifferences = true; } else if (item.type === 'remove') { div.className = 'diff-remove'; div.textContent = `- ${item.line}`; hasDifferences = true; } else { div.textContent = `  ${item.line}`; } elements.outputDiv.appendChild(div); }); if (!hasDifferences && (elements.originalInput.value || elements.changedInput.value)) { elements.outputDiv.textContent = "No differences found."; } else if (diffResult.length === 0 && (!elements.originalInput.value && !elements.changedInput.value)) { elements.outputDiv.textContent = "Differences will be highlighted here..."; } }
+
+        // --- Citation Hider Tool Functions (NEW & CORRECTED) ---
+        const citationRegexes = [
+            // Narrative styles (Author (Year) or Author (Year, p. X))
+            /\b[A-Z][\w'&;.’"-]*(?:\s(?:et al\.|and [A-Z][\w'&;.’"-]*))?\s*\((?:[12]\d{3}|n\.d\.)(?:,\s*p(?:p)?\.\s*\d+(?:-\d+)?)?\)/g,
+            /\b[A-Z][\w'&;.’"-]*(?:\s(?:et al\.|and [A-Z][\w'&;.’"-]*))?\s*\[(?:[12]\d{3}|n\.d\.)(?:,\s*p(?:p)?\.\s*\d+(?:-\d+)?)?\]/g,
+            // Parenthetical styles ((Author, Year) or (Author et al., Year, pp. X-Y))
+            /\([\w\s.,&;'’"-]+?\s*(?:[12]\d{3}|n\.d\.)(?:,\s*p(?:p)?\.\s*\d+(?:-\d+)?)?\)/g,
+            /\[[\w\s.,&;'’"-]+?\s*(?:[12]\d{3}|n\.d\.)(?:,\s*p(?:p)?\.\s*\d+(?:-\d+)?)?\]/g,
+            // Numeric styles ([1], (2), [1, 3-5], (1, 3-5)) - ensure it doesn't grab simple numbers in parentheses like (1) item.
+            // This numeric regex is a bit broad, might need refinement if it catches unintended numbers.
+            // For now, keeping it to catch common numeric citation patterns.
+            /(?:\[\d+(?:(?:,\s*|-)\d+)*\]|\(\d+(?:(?:,\s*|-)\d+)*\))(?!\s*\w)/g // Negative lookahead to avoid simple (1) item.
+        ];
+
+        function hideCitationsAndUpdateUI(elements) {
+            const inputText = elements.inputEl.value;
+            if (!inputText.trim()) {
+                elements.statusEl.textContent = "Nothing to process.";
+                elements.wcWithoutEl.textContent = '0';
+                elements.wcWithEl.textContent = '0';
+                elements.showBtn.disabled = true;
+                return;
+            }
+
+            citationHider_originalText = inputText;
+            citationHider_citationStore = [];
+            let processedTextForDisplay = citationHider_originalText;
+            let textForWordCount = citationHider_originalText;
+            let citationInstanceCounter = 0;
+
+            citationRegexes.forEach(regex => {
+                // Process for textForWordCount (replace with a single space)
+                // Important: Use a new RegExp object for each replacement to reset lastIndex for global regexes
+                textForWordCount = textForWordCount.replace(new RegExp(regex.source, regex.flags), " ");
+
+                // Process for processedTextForDisplay (replace with placeholder)
+                // This needs to be done carefully if matches can overlap or if replacement changes string length affecting subsequent matches.
+                // A common strategy is to find all matches first, then replace from end to start.
+                // However, since we iterate regexes, we'll apply current regex to the *current state* of processedTextForDisplay.
+                processedTextForDisplay = processedTextForDisplay.replace(new RegExp(regex.source, regex.flags), (match) => {
+                    citationInstanceCounter++;
+                    const placeholder = `[${citationInstanceCounter}]`;
+                    // Only add to store if it's not already a placeholder from a previous regex pass
+                    // This check is imperfect if a broader regex later matches a placeholder.
+                    // The order of regexes (more specific to more general) helps mitigate this.
+                    if (!/^\[\d+\]$/.test(match)) {
+                         citationHider_citationStore.push({ original: match, placeholder: placeholder });
+                    }
+                    return placeholder;
+                });
+            });
+
+            // Clean up multiple spaces in textForWordCount
+            textForWordCount = textForWordCount.replace(/\s\s+/g, ' ').trim();
+
+            elements.inputEl.value = processedTextForDisplay;
+            elements.wcWithEl.textContent = countWords(citationHider_originalText);
+            elements.wcWithoutEl.textContent = countWords(textForWordCount);
+
+            if (citationHider_citationStore.length > 0) {
+                elements.statusEl.textContent = `${citationHider_citationStore.length} citation(s) hidden.`;
+                elements.showBtn.disabled = false;
+            } else {
+                elements.statusEl.textContent = "No citations found to hide with current patterns.";
+                elements.showBtn.disabled = true;
+            }
+        }
+
+
+        function showCitationsAndUpdateUI(elements) {
+            if (!citationHider_originalText) {
+                elements.statusEl.textContent = "No original text to restore.";
+                return;
+            }
+            elements.inputEl.value = citationHider_originalText;
+            elements.wcWithEl.textContent = countWords(citationHider_originalText);
+            elements.wcWithoutEl.textContent = '0';
+            elements.statusEl.textContent = "Citations restored.";
+            elements.showBtn.disabled = true;
+            citationHider_citationStore = []; // Clear the store as text is restored
+        }
+
+        function clearCitationHiderUI(elements) {
+            elements.inputEl.value = '';
+            citationHider_originalText = '';
+            citationHider_citationStore = [];
+            elements.wcWithEl.textContent = '0';
+            elements.wcWithoutEl.textContent = '0';
+            elements.statusEl.textContent = '';
+            elements.showBtn.disabled = true;
+        }
+
 
         // --- Image Tool Function Definitions ---
         function handleImageFileSelect(file, type, elements) { if (!file) return; if (type === 'compressor') { if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { alert('Please select a JPG, PNG, or WEBP file.'); elements.fileInput.value = ''; elements.fileNameEl.textContent = ''; elements.actionButton.disabled = true; return; } imageCompressorFile = file; elements.fileNameEl.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`; elements.actionButton.disabled = false; elements.outputEl.innerHTML = ''; } else if (type === 'converter') { if (!file.type.startsWith('image/')) { alert('Please select a valid image file.'); elements.fileInput.value = ''; elements.fileNameEl.textContent = ''; elements.actionButton.disabled = true; return; } imageConverterFile = file; elements.fileNameEl.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`; elements.actionButton.disabled = false; elements.outputEl.innerHTML = ''; } }
@@ -1691,6 +1831,17 @@
             const loremElements = { paragraphsInput: document.getElementById('lorem-paragraphs'), sentencesInput: document.getElementById('lorem-sentences'), startCheckbox: document.getElementById('lorem-start'), outputDiv: document.getElementById('lorem-output'), generateButton: document.getElementById('generate-lorem-button') };
             const loremIpsumBase = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".toLowerCase().replace(/[.,]/g, '').split(' ');
             const diffElements = { originalInput: document.getElementById('diff-original'), changedInput: document.getElementById('diff-changed'), outputDiv: document.getElementById('diff-output'), findButton: document.getElementById('find-diff-button') };
+            // NEW: Citation Hider Elements
+            const citationHiderElements = {
+                inputEl: document.getElementById('citation-hider-input'),
+                hideBtn: document.getElementById('citation-hider-hide-btn'),
+                showBtn: document.getElementById('citation-hider-show-btn'),
+                clearBtn: document.getElementById('citation-hider-clear-btn'),
+                wcWithEl: document.getElementById('citation-hider-wc-with'),
+                wcWithoutEl: document.getElementById('citation-hider-wc-without'),
+                statusEl: document.getElementById('citation-hider-status')
+            };
+
 
             // Image Tools
             const compressorElements = { fileInput: document.getElementById('compressor-file-input'), dropZone: document.getElementById('compressor-drop-zone'), fileNameEl: document.getElementById('compressor-file-name'), outputEl: document.getElementById('compressor-output'), actionButton: document.getElementById('compress-button'), qualitySlider: document.getElementById('quality-slider'), qualityValueEl: document.getElementById('quality-value'), formatRadios: document.querySelectorAll('input[name="compressFormat"]') };
@@ -1740,6 +1891,23 @@
             counterElements.wpmInput?.addEventListener('input', () => { updateCounterDisplay(counterInput?.value ?? '', counterElements); }); // Update on WPM change
             loremElements.generateButton?.addEventListener('click', () => generateLoremIpsum(loremElements, loremIpsumBase));
             diffElements.findButton?.addEventListener('click', () => findTextDifferences(diffElements));
+
+            // NEW: Citation Hider Event Listeners
+            citationHiderElements.inputEl?.addEventListener('input', () => {
+                const currentText = citationHiderElements.inputEl.value;
+                citationHider_originalText = currentText; // Always update original text on input
+                citationHiderElements.wcWithEl.textContent = countWords(currentText);
+                citationHiderElements.wcWithoutEl.textContent = '0';
+                citationHiderElements.showBtn.disabled = true; // Disable show if text is modified
+                if (citationHider_citationStore.length > 0) { // If citations were previously hidden, clear the store
+                    citationHider_citationStore = [];
+                }
+                citationHiderElements.statusEl.textContent = '';
+            });
+            citationHiderElements.hideBtn?.addEventListener('click', () => hideCitationsAndUpdateUI(citationHiderElements));
+            citationHiderElements.showBtn?.addEventListener('click', () => showCitationsAndUpdateUI(citationHiderElements));
+            citationHiderElements.clearBtn?.addEventListener('click', () => clearCitationHiderUI(citationHiderElements));
+
 
             // Image Tools
             compressorElements.fileInput?.addEventListener('change', (e) => handleImageFileSelect(e.target.files[0], 'compressor', compressorElements));
@@ -1837,6 +2005,7 @@
             if (audioTrimmerElements.statusEl) { resetAudioTrimmerUI(audioTrimmerElements); }
             if (jsonCsvElements.csvOutput) { jsonCsvElements.downloadButton.disabled = true; } // Ensure CSV download is disabled initially
             updateFlashcardActionButtons(flashcardElements); // Update flashcard buttons initially
+            clearCitationHiderUI(citationHiderElements); // Initial state for citation hider
 
 
             // --- Initial Tool Selection Logic ---
